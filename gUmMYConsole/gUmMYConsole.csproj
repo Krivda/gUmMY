@@ -51,7 +51,7 @@
     <Compile Include="Console.Designer.cs">
       <DependentUpon>Console.cs</DependentUpon>
     </Compile>
-    <Compile Include="FakeStream.cs" />
+    <Compile Include="MainCommandInterfaceStream.cs" />
     <Compile Include="NetDisplayConsole.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -95,6 +95,10 @@
     <ProjectReference Include="..\ConsoleControl\ConsoleControl.csproj">
       <Project>{737cc7f2-ec7c-4800-b7eb-72637e892c42}</Project>
       <Name>ConsoleControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ConsoleStream\ConsoleStream.csproj">
+      <Project>{E0BD5B0D-8D7D-47D8-83EC-53CA5F0A96B4}</Project>
+      <Name>ConsoleStream</Name>
     </ProjectReference>
     <ProjectReference Include="..\DexNetwork\DexNetwork.csproj">
       <Project>{1BF10C84-5AD5-41DB-BC5D-A9191175B441}</Project>

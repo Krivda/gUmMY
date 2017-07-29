@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ConsoleControl
+﻿namespace ConsoleStream
 {
     /// <summary>
     /// A ProcessEventHandler is a delegate for process input/output events.

@@ -1,4 +1,4 @@
-﻿using ConsoleControl;
+﻿using ConsoleStream;
 using DexNetwork.Structure;
 
 namespace gUmMYConsole

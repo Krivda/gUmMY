@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization.Formatters;
 using System.Xml.Serialization;
 
 namespace DexNetwork.Structure
@@ -48,6 +47,7 @@ namespace DexNetwork.Structure
         [XmlIgnore]
         public List<List<NodeInstance>> NodeInstByLevel {get; private set; }
         [XmlIgnore]
+        //Todo alex: pure nodes (w/o duplicates)
         public Dictionary<string, Node> Nodes { get; private set; }
 
 

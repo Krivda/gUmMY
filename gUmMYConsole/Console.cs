@@ -3,24 +3,26 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using ConsoleControl;
+using ConsoleStream;
 using DexNetwork;
+using DexNetwork.DexInterpreter;
 using DexNetwork.Structure;
 
 namespace gUmMYConsole
 {
     public partial class ConsoleForm : Form
     {
-        private FakeStream _consoleStream;
+        private DexCommandProccessor _consoleStream;
 
 
         public ConsoleForm()
         {
             InitializeComponent();
 
-            _consoleStream = new FakeStream(this);
+            _consoleStream = new DexCommandProccessor(this);
 
             _consoleStream.OnCommandExecute += ConsoleStreamOnOnProcessInput;
-            consConsole.ConsoleStream = new FakeStream(this);
+            consConsole.ConsoleStream = new MainCommandInterfaceStream(this);
         }
 
         private void ConsoleStreamOnOnProcessInput(object sender, ConsoleStreamEventArgs args)
@@ -29,16 +31,16 @@ namespace gUmMYConsole
 
         }
 
-        private void cmdSendFromApp_Click(object sender, EventArgs e)
+        private void CmdSendFromApp_Click(object sender, EventArgs e)
         {
-            _consoleStream.FeedOutput(txtStreamOutput.Text);
+            //_consoleStream.FeedOutput(txtStreamOutput.Text);
         }
 
         private void ConsoleForm_Load(object sender, EventArgs e)
         {
             //consConsole.Prompt = "GoldenGate";
             consConsole.ConsoleStream = _consoleStream;
-            _consoleStream.StartFeed();
+            //_consoleStream.StartFeed();
             consConsole.IsInputEnabled = true;
         }
 
@@ -262,11 +264,11 @@ namespace gUmMYConsole
 
             string netName = "BlackMirror11";
             string path = $@"Networks/{netName}.xml";
-            _consoleStream.FeedOutput(Serializer.SerializeAndDump(net, path));
-            _consoleStream.FeedOutput($"\n Dumpted to {Path.GetFullPath(path)} ");
+            //_consoleStream.FeedOutput(Serializer.SerializeNetAndDump(net, path));
+            //_consoleStream.FeedOutput($"\n Dumpted to {Path.GetFullPath(path)} ");
 
 
-            net = Serializer.Deserialize(path);
+            net = Serializer.DeserializeNet(path);
         }
 
         

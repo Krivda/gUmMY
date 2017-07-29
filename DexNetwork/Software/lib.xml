@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SoftwareLib xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Exploits>
     <software type='exploit' code='258' effect='get_admins' nodeType='[Administrative interface]'/>
     <software type='exploit' code='51425' effect='disable' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
     <software type='exploit' code='20825' effect='get_data' nodeType='[Data,Bank account,Finance,Administrative interface,Corporate HQ]'/>
@@ -90,4 +91,24 @@
     <software type='exploit' code='147' effect='' nodeType=''/>
     <software type='exploit' code='425' effect='' nodeType=''/>
     <software type='exploit' code='117' effect='d' nodeType=''/>
+  </Exploits>
+  <Defence>
+    <software type='defence' code='7684425' effect=''  InvevitableEffect='' nodeType=''/>
+    <software type='defence' code='834372' effect=''  InvevitableEffect='' nodeType=''/>
+    <software type='defence' code='7993700' effect=''  InvevitableEffect='' nodeType=''/>
+    <software type='defence' code='2209900' effect=''  InvevitableEffect='' nodeType=''/>
+    <software type='defence' code='1208700' effect=''  InvevitableEffect='' nodeType=''/>
+    <software type='defence' code='2739100' effect=''  InvevitableEffect='' nodeType=''/>
+    <software type='defence' code='16354975' effect=''  InvevitableEffect='' nodeType=''/>
+    <software type='defence' code='405900' effect=''  InvevitableEffect='' nodeType=''/>
+    <software type='defence' code='1559025' effect=''  InvevitableEffect='' nodeType=''/>
+    <software type='defence' code='2294523' effect=''  InvevitableEffect='' nodeType=''/>
+    <software type='defence' code='114300' effect=''  InvevitableEffect='' nodeType=''/>
+    <software type='defence' code='75852' effect=''  InvevitableEffect='' nodeType=''/>
+    <software type='defence' code='432225' effect=''  InvevitableEffect='' nodeType=''/>
+    <software type='defence' code='2150775' effect=''  InvevitableEffect='' nodeType=''/>
+    <software type='defence' code='151335275' effect=''  InvevitableEffect='' nodeType=''/>
+    <software type='defence' code='1019788' effect=''  InvevitableEffect='' nodeType=''/>
+    <software type='defence' code='481425' effect=''  InvevitableEffect='' nodeType=''/>
+  </Defence>
 </SoftwareLib>

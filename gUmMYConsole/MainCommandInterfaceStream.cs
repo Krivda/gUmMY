@@ -1,18 +1,18 @@
 ﻿using System.Windows.Forms;
-using ConsoleControl;
+using ConsoleStream;
 using DexNetwork;
 using DexNetwork.Structure;
 
 namespace gUmMYConsole
 {
-    class FakeStream : ConsoleStreamBase
+    class MainCommandInterfaceStream : ConsoleStreamBase
     {
         private readonly Form _form;
         public Network Network { get; private set; }
         public NetTextMap NetworkTextMap { get; private set; }
 
 
-        public FakeStream(Form form)
+        public MainCommandInterfaceStream(Form form)
         {
             _form = form;
         }
@@ -59,7 +59,7 @@ namespace gUmMYConsole
 
                     string fileName = $"Networks\\{netName}.xml";
 
-                    Network = Serializer.Deserialize(fileName);
+                    Network = Serializer.DeserializeNet(fileName);
                     NetworkTextMap = new NetTextMap(Network);
 
                     FireProcessOutputEvent($"Uplinking network {split[1]}.");
@@ -79,7 +79,7 @@ namespace gUmMYConsole
 
                     string fileName = $"Networks\\{netName}.xml";
 
-                    Network = Serializer.Deserialize(fileName);
+                    Network = Serializer.DeserializeNet(fileName);
                     NetworkTextMap = new NetTextMap(Network);
 
                     FireProcessOutputEvent($"Uplinking network {netName}.");
@@ -91,9 +91,8 @@ namespace gUmMYConsole
                     FireProcessOutputEvent(textMap);
                 }
             }
-
         }
-
-
     }
+
+
 }

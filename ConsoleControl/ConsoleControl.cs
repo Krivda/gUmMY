@@ -5,6 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using ConsoleStream;
 
 
 /**
@@ -226,8 +227,20 @@ namespace ConsoleControl
                 }
             }
 
+
+            if(e.KeyCode == Keys.Return && e.Shift)
+            {
+                if (richTextBoxConsole.SelectionStart > inputStart)
+                {
+                    richTextBoxConsole.Text += "\n";
+                    richTextBoxConsole.SelectionStart = richTextBoxConsole.Text.Length;
+                }
+
+                e.Handled = true;
+            }
+            else
             //  Is it the return key?
-            if (e.KeyCode == Keys.Return)
+            if (e.KeyCode == Keys.Return && !e.Shift)
             {
                 int inputLen = richTextBoxConsole.TextLength- inputStart;
                 inputLen = inputLen < 0 ? 0 : inputLen;

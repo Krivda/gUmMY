@@ -7,7 +7,7 @@ namespace DexNetwork
 {
     public class Serializer
     {
-        public static Network Deserialize(string path)
+        public static Network DeserializeNet(string path)
         {
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(Network));
             // To write to a file, create a StreamWriter object.  
@@ -20,7 +20,7 @@ namespace DexNetwork
             return result;
         }
 
-        public static string Serialize(Network network)
+        public static string SerializeNet(Network network)
         {
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(Network));
             // To write to a file, create a StreamWriter object.  
@@ -32,14 +32,37 @@ namespace DexNetwork
             return strXml;
         }
 
-        public static string SerializeAndDump(Network network, string fileName)
+        public static string SerializeNetAndDump(Network network, string fileName)
         {
-            string xmlString = Serialize(network);
+            string xmlString = SerializeNet(network);
             Directory.CreateDirectory(Path.GetDirectoryName(fileName));
             
             File.WriteAllBytes(fileName, Encoding.UTF8.GetBytes(xmlString));
 
             return xmlString;
+        }
+
+        public static SoftwareLib DeserializeSoft(string path)
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(SoftwareLib));
+            // To write to a file, create a StreamWriter object.  
+            TextReader reader = new StreamReader(path);
+            var result = (SoftwareLib)xmlSerializer.Deserialize(reader);
+            reader.Close();
+
+            return result;
+        }
+
+        public static string SerializeSoft(SoftwareLib softwareLib)
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(SoftwareLib));
+            // To write to a file, create a StreamWriter object.  
+            TextWriter textWriter = new StringWriter();
+            xmlSerializer.Serialize(textWriter, softwareLib);
+            string strXml = textWriter.ToString();
+            textWriter.Close();
+
+            return strXml;
         }
 
     }

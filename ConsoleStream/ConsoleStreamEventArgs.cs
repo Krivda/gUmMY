@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ConsoleControl
+namespace ConsoleStream
 {
   /// <summary>
   /// The ConsoleStreamEventArgs are arguments for a console event.
@@ -8,14 +8,14 @@ namespace ConsoleControl
   public class ConsoleStreamEventArgs : EventArgs
   {
     /// <summary>
-    /// Initializes a new instance of the <see cref="ConsoleEventArgs"/> class.
+    /// Initializes a new instance of the <see cref="ConsoleStreamEventArgs"/> class.
     /// </summary>
     public ConsoleStreamEventArgs()
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ConsoleEventArgs"/> class.
+    /// Initializes a new instance of the <see cref="ConsoleStreamEventArgs"/> class.
     /// </summary>
     /// <param name="content">The content.</param>
     public ConsoleStreamEventArgs(string content)
@@ -25,7 +25,7 @@ namespace ConsoleControl
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ConsoleEventArgs"/> class.
+    /// Initializes a new instance of the <see cref="ConsoleStreamEventArgs"/> class.
     /// </summary>
     /// <param name="code">The code.</param>
     public ConsoleStreamEventArgs(int code)
@@ -35,7 +35,7 @@ namespace ConsoleControl
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ConsoleEventArgs"/> class.
+    /// Initializes a new instance of the <see cref="ConsoleStreamEventArgs"/> class.
     /// </summary>
     /// <param name="content">The content.</param>
     /// <param name="code">The code.</param>

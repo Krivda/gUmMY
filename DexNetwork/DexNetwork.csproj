@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,8 +41,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DexInterpreter\Commands\CommandBase.cs" />
+    <Compile Include="DexInterpreter\CommandResult.cs" />
+    <Compile Include="DexInterpreter\Commands\CompositeCommand.cs" />
+    <Compile Include="DexInterpreter\Commands\InitCommand.cs" />
+    <Compile Include="DexInterpreter\Commands\LoginCommand.cs" />
+    <Compile Include="DexInterpreter\Commands\WellcomeCommand.cs" />
+    <Compile Include="DexInterpreter\Commands\DexStatusCommand.cs" />
+    <Compile Include="DexInterpreter\Commands\TextOutBase.cs" />
+    <Compile Include="DexInterpreter\DexCommandProccessor.cs" />
+    <Compile Include="DexInterpreter\Response\InfoInstruction.cs" />
+    <Compile Include="DexInterpreter\Commands\DexTargetCommand.cs" />
+    <Compile Include="DexInterpreter\Response\StatusInstruction.cs" />
+    <Compile Include="DexInterpreter\TextOutput.cs" />
+    <Compile Include="DexInterpreter\LoggedUser.cs" />
+    <Compile Include="Multithreading\PeriodicTaskFactory.cs" />
     <Compile Include="Serializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server\XMPPLocal.cs" />
+    <Compile Include="Server\IXMPPClient.cs" />
+    <Compile Include="Server\OnMessageRecievedArgs.cs" />
+    <Compile Include="Software\NodeTypes.cs" />
+    <Compile Include="Structure\SoftwareLib.cs" />
     <Compile Include="Structure\Structure.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -53,7 +74,17 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Software\lib.xml" />
+    <Content Include="Software\lib.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\ConsoleStream\ConsoleStream.csproj">
+      <Project>{E0BD5B0D-8D7D-47D8-83EC-53CA5F0A96B4}</Project>
+      <Name>ConsoleStream</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

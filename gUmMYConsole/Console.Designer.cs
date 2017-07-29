@@ -146,7 +146,7 @@
             this.cmdSendFromApp.TabIndex = 4;
             this.cmdSendFromApp.Text = "send";
             this.cmdSendFromApp.UseVisualStyleBackColor = true;
-            this.cmdSendFromApp.Click += new System.EventHandler(this.cmdSendFromApp_Click);
+            this.cmdSendFromApp.Click += new System.EventHandler(this.CmdSendFromApp_Click);
             // 
             // txtStreamOutput
             // 
