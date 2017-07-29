@@ -1,0 +1,151 @@
+recent 'ManInBlack' administative log:
+2067-07-14 23:36:43: 'get_admins' effect worked on ManInBlack/administrative_interface
+2067-07-14 23:35:48: Trace effect worked:
+2067-07-14 23:35:48: WARNING! Attack attempt detected from address user3999@bigapple, on ManInBlack/VPN1
+2067-07-14 23:35:48: VPN1 node disabled!
+2067-07-14 23:34:45: 'get_data' effect worked:
+2067-07-14 23:34:45: WARNING! Unautorized access to ManInBlack/administrative_interface. Information was copied by unknown user!
+2067-07-14 23:34:31: antivirus1 node disabled!
+2067-07-14 23:33:33: Suspicious action against an inaccessible node 'Administrative' from the address violet333@cyberspace <Address verified>
+2067-07-14 23:32:43: Analyze effect worked:
+2067-07-14 23:32:43: WARNING! Attack attempt detected on ManInBlack/traffic_monitor1. Hostile program code '#180'
+2067-07-14 23:32:43: traffic_monitor1 node disabled!
+2067-07-14 23:32:42: Suspicious action against an inaccessible node 'administrative_interface' from the address farang9408@bangkok
+2067-07-14 23:32:17: Suspicious action against an inaccessible node '15368850' from the address farang9408@bangkok
+2067-07-14 23:31:49: antivirus2 node disabled!
+2067-07-14 23:31:25: Suspicious action against an inaccessible node 'cryptocore1' from the address citizen3218@california
+2067-07-14 23:30:56: Trace effect worked:
+2067-07-14 23:30:56: WARNING! Attack attempt detected from address citizen7314@california, on ManInBlack/VPN4
+2067-07-14 23:30:56: Trace effect worked:
+2067-07-14 23:30:56: WARNING! Attack attempt detected from address violet333@cyberspace <Address verified>, on ManInBlack/VPN4
+2067-07-14 23:30:24: Trace effect worked:
+2067-07-14 23:30:24: WARNING! Attack attempt detected from address coder1778@mumbai, on ManInBlack/VPN2
+2067-07-14 23:30:24: VPN2 node disabled!
+2067-07-14 23:29:40: 'get_data' effect worked:
+2067-07-14 23:29:40: WARNING! Unautorized access to ManInBlack/administrative_interface. Information was copied by unknown user!
+2067-07-14 23:29:02: antivirus7 node disabled!
+2067-07-14 23:28:34: 'get_data' effect worked:
+2067-07-14 23:28:34: WARNING! Unautorized access to ManInBlack/system_information. Information was copied by unknown user!
+2067-07-14 23:28:26: Analyze effect worked:
+2067-07-14 23:28:26: WARNING! Attack attempt detected on ManInBlack/cryptocore1. Hostile program code '#605'
+2067-07-14 23:28:26: cryptocore1 node disabled!
+2067-07-14 23:27:48: Logname effect worked:
+2067-07-14 23:27:48: WARNING! Attack attempt detected from address user8223@bigapple, on ManInBlack/firewall
+2067-07-14 23:27:48: firewall node disabled!
+2067-07-14 23:25:34: Analyze effect worked:
+2067-07-14 23:25:34: WARNING! Attack attempt detected on ManInBlack/cryptocore1. Hostile program code '#51425'
+2067-07-14 23:25:34: Trace effect worked:
+2067-07-14 23:25:34: WARNING! Attack attempt detected from address yoric759@cyberspace <Address verified>, on ManInBlack/cryptocore1
+2067-07-14 23:25:23: 'get_data' effect worked:
+2067-07-14 23:25:23: WARNING! Unautorized access to ManInBlack/system_information. Information was copied by unknown user!
+2067-07-14 23:24:20: Trace effect worked:
+2067-07-14 23:24:20: WARNING! Attack attempt detected from address yoric759@cyberspace <Address verified>, on ManInBlack/VPN3
+2067-07-14 23:24:20: VPN3 node disabled!
+2067-07-14 23:23:34: Analyze effect worked:
+2067-07-14 23:23:34: WARNING! Attack attempt detected on ManInBlack/traffic_monitor2. Hostile program code '#3042'
+2067-07-14 23:23:34: Trace effect worked:
+2067-07-14 23:23:34: WARNING! Attack attempt detected from address yoric759@cyberspace <Address verified>, on ManInBlack/traffic_monitor2
+2067-07-14 23:23:34: traffic_monitor2 node disabled!
+2067-07-14 23:22:17: Analyze effect worked:
+2067-07-14 23:22:17: WARNING! Attack attempt detected on ManInBlack/traffic_monitor1. Hostile program code '#180'
+2067-07-14 23:22:17: traffic_monitor1 node disabled!
+2067-07-14 23:22:13: Trace effect worked:
+2067-07-14 23:22:13: WARNING! Attack attempt detected from address citizen5827@california, on ManInBlack/VPN1
+2067-07-14 23:22:13: VPN1 node disabled!
+2067-07-14 23:21:15: antivirus2 node disabled!
+2067-07-14 23:20:27: Trace effect worked:
+2067-07-14 23:20:27: WARNING! Attack attempt detected from address yoric759@cyberspace <Address verified>, on ManInBlack/antivirus2
+2067-07-14 23:18:35: 'get_data' effect worked:
+2067-07-14 23:18:35: WARNING! Unautorized access to ManInBlack/system_information. Information was copied by unknown user!
+2067-07-14 23:18:07: antivirus1 node disabled!
+2067-07-14 23:17:55: Suspicious action against an inaccessible node 'antivirus' from the address coder7026@mumbai
+2067-07-14 23:17:45: Suspicious action against an inaccessible node 'system_information' from the address citizen3561@california
+2067-07-14 23:16:32: Logname effect worked:
+2067-07-14 23:16:32: WARNING! Attack attempt detected from address coder7026@mumbai, on ManInBlack/firewall
+2067-07-14 23:16:32: firewall node disabled!
+2067-07-14 23:15:45: Suspicious action against an inaccessible node 'antivirus' from the address kenguru6642@sydney
+2067-07-14 23:15:09: Suspicious action against an inaccessible node 'antivirus' from the address kenguru6642@sydney
+2067-07-14 23:12:16: 'get_data' effect worked:
+2067-07-14 23:12:16: WARNING! Unautorized access to ManInBlack/system_information. Information was copied by unknown user!
+2067-07-14 23:10:14: Trace effect worked:
+2067-07-14 23:10:14: WARNING! Attack attempt detected from address coder7026@mumbai, on ManInBlack/VPN1
+2067-07-14 23:10:14: VPN1 node disabled!
+2067-07-14 23:07:29: antivirus1 node disabled!
+2067-07-14 23:07:02: Trace effect worked:
+2067-07-14 23:07:02: WARNING! Attack attempt detected from address drunkmen7724@dublin, on ManInBlack/antivirus1
+2067-07-14 23:05:44: Logname effect worked:
+2067-07-14 23:05:44: WARNING! Attack attempt detected from address drunkmen4703@dublin, on ManInBlack/firewall
+2067-07-14 23:05:44: firewall node disabled!
+2067-07-14 23:04:39: Trace effect worked:
+2067-07-14 23:04:39: WARNING! Attack attempt detected from address sam592@cyberspace <Address verified>, on ManInBlack/antivirus2
+2067-07-14 23:04:13: Trace effect worked:
+2067-07-14 23:04:13: WARNING! Attack attempt detected from address sam592@cyberspace <Address verified>, on ManInBlack/antivirus1
+2067-07-14 23:03:55: Trace effect worked:
+2067-07-14 23:03:55: WARNING! Attack attempt detected from address citizen9134@california, on ManInBlack/antivirus1
+2067-07-14 23:01:52: wallet node disabled!
+2067-07-14 23:01:52: Minor fraud on ManInBlack/wallet
+2067-07-14 23:00:01: 'get_data' effect worked:
+2067-07-14 23:00:01: WARNING! Unautorized access to ManInBlack/system_information. Information was copied by unknown user!
+2067-07-14 22:58:10: 'get_data' effect worked:
+2067-07-14 22:58:10: WARNING! Unautorized access to ManInBlack/system_information. Information was copied by unknown user!
+2067-07-14 22:57:34: Trace effect worked:
+2067-07-14 22:57:34: WARNING! Attack attempt detected from address citizen4695@california, on ManInBlack/VPN3
+2067-07-14 22:57:34: VPN3 node disabled!
+2067-07-14 22:56:37: 'get_data' effect worked:
+2067-07-14 22:56:37: WARNING! Unautorized access to ManInBlack/system_information. Information was copied by unknown user!
+2067-07-14 22:55:48: Analyze effect worked:
+2067-07-14 22:55:48: WARNING! Attack attempt detected on ManInBlack/cryptocore1. Hostile program code '#396'
+2067-07-14 22:55:48: Trace effect worked:
+2067-07-14 22:55:48: WARNING! Attack attempt detected from address citizen5984@california, on ManInBlack/cryptocore1
+2067-07-14 22:55:48: Analyze effect worked:
+2067-07-14 22:55:48: WARNING! Attack attempt detected on ManInBlack/traffic_monitor2. Hostile program code '#468'
+2067-07-14 22:55:48: Trace effect worked:
+2067-07-14 22:55:48: WARNING! Attack attempt detected from address xinn625@cyberspace <Address verified>, on ManInBlack/traffic_monitor2
+2067-07-14 22:55:48: traffic_monitor2 node disabled!
+2067-07-14 22:55:18: Analyze effect worked:
+2067-07-14 22:55:18: WARNING! Attack attempt detected on ManInBlack/traffic_monitor1. Hostile program code '#180'
+2067-07-14 22:55:18: traffic_monitor1 node disabled!
+2067-07-14 22:54:41: Logname effect worked:
+2067-07-14 22:54:41: WARNING! Attack attempt detected from address coder5446@mumbai, on ManInBlack/firewall
+2067-07-14 22:54:41: firewall node disabled!
+2067-07-14 22:54:39: Suspicious action against an inaccessible node 'traffic_monitor1' from the address xinn625@cyberspace <Address verified>
+2067-07-14 22:54:06: Suspicious action against an inaccessible node 'cryptocore1' from the address coder5446@mumbai
+2067-07-14 22:53:54: antivirus2 node disabled!
+2067-07-14 22:53:21: Trace effect worked:
+2067-07-14 22:53:21: WARNING! Attack attempt detected from address xinn625@cyberspace <Address verified>, on ManInBlack/VPN1
+2067-07-14 22:53:21: VPN1 node disabled!
+2067-07-14 22:52:58: antivirus1 node disabled!
+2067-07-14 22:51:57: Suspicious action against an inaccessible node 'system_information' from the address citizen8046@california
+2067-07-14 22:51:18: 'get_data' effect worked:
+2067-07-14 22:51:18: WARNING! Unautorized access to ManInBlack/system_information. Information was copied by unknown user!
+2067-07-14 22:50:20: Analyze effect worked:
+2067-07-14 22:50:20: WARNING! Attack attempt detected on ManInBlack/cryptocore1. Hostile program code '#180'
+2067-07-14 22:50:20: Trace effect worked:
+2067-07-14 22:50:20: WARNING! Attack attempt detected from address citizen8046@california, on ManInBlack/cryptocore1
+2067-07-14 22:49:31: brandmauer2 node disabled!
+2067-07-14 22:47:48: cryptocore2 node disabled!
+2067-07-14 22:45:33: Trace effect worked:
+2067-07-14 22:45:33: WARNING! Attack attempt detected from address frank388@cyberspace <Address verified>, on ManInBlack/VPN3
+2067-07-14 22:45:33: VPN3 node disabled!
+2067-07-14 22:44:57: Analyze effect worked:
+2067-07-14 22:44:57: WARNING! Attack attempt detected on ManInBlack/traffic_monitor2. Hostile program code '#3042'
+2067-07-14 22:44:57: Trace effect worked:
+2067-07-14 22:44:57: WARNING! Attack attempt detected from address frank388@cyberspace <Address verified>, on ManInBlack/traffic_monitor2
+2067-07-14 22:44:57: traffic_monitor2 node disabled!
+2067-07-14 22:44:04: Logname effect worked:
+2067-07-14 22:44:04: WARNING! Attack attempt detected from address frank388@cyberspace <Address verified>, on ManInBlack/firewall
+2067-07-14 22:44:04: firewall node disabled!
+2067-07-14 22:43:39: Analyze effect worked:
+2067-07-14 22:43:39: WARNING! Attack attempt detected on ManInBlack/traffic_monitor1. Hostile program code '#1100'
+2067-07-14 22:43:39: traffic_monitor1 node disabled!
+2067-07-14 22:42:49: antivirus2 node disabled!
+2067-07-14 22:42:05: 'get_data' effect worked:
+2067-07-14 22:42:05: WARNING! Unautorized access to ManInBlack/system_information. Information was copied by unknown user!
+2067-07-14 22:41:39: Trace effect worked:
+2067-07-14 22:41:39: WARNING! Attack attempt detected from address frank388@cyberspace <Address verified>, on ManInBlack/VPN1
+2067-07-14 22:41:39: VPN1 node disabled!
+2067-07-14 22:40:23: antivirus1 node disabled!
+2067-07-14 22:33:46: Logname effect worked:
+2067-07-14 22:33:46: WARNING! Attack attempt detected from address citizen6883@california, on ManInBlack/firewall
+2067-07-14 22:33:46: firewall node disabled!
+2067-07-14 22:28:28: Trace effect worked:

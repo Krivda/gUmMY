@@ -1,0 +1,2168 @@
+*** 2017-07-15
+[00:16:20] *** darknet@cyberspace is Online
+[00:16:24] <calvin276> status
+[00:16:24] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: LadyInRed66
+Current administrating system: none
+Proxy level: 6
+Current proxy address: kenguru2157@sydney
+END ----------------
+[00:16:36] <calvin276> look firewall
+[00:16:36] <darknet@cyberspace> 
+--------------------
+Node "LadyInRed66/firewall" properties:
+Installed program: #2321748
+Type: Firewall
+END ----------------
+[00:21:04] <calvin276> scan GoldenGate
+[00:21:08] <darknet@cyberspace> scaning cluster GoldenGate
+
+network scan started: 
+...
+Systems found:
+--------------------
+--------------------
+END ----------------
+[00:21:13] <calvin276> scan
+[00:21:14] <darknet@cyberspace> Incorrect arguments. Usage: scan <cluster>
+[00:23:33] <calvin276> info
+[00:23:33] <darknet@cyberspace> Incorrect arguments. Usage: info #<program>
+[00:24:25] <calvin276> status
+[00:24:25] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: LadyInRed66
+Current administrating system: none
+Proxy level: 6
+Current proxy address: kenguru2157@sydney
+END ----------------
+[00:24:56] <calvin276> target BlackMirror11
+[00:24:56] <darknet@cyberspace> ok
+[00:25:01] <calvin276> info
+[00:25:01] <darknet@cyberspace> Incorrect arguments. Usage: info #<program>
+[00:25:11] <calvin276> status
+[00:25:11] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: BlackMirror11
+Current administrating system: none
+Proxy level: 6
+Current proxy address: kenguru2157@sydney
+END ----------------
+[00:25:27] <calvin276> look firewall
+[00:25:27] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/firewall" properties:
+Installed program: #6449300
+Type: Firewall
+DISABLED for: 792 sec
+Child nodes:
+0: antivirus1 (Antivirus): #1208700 DISABLED 
+1: antivirus2 (Antivirus): #2739100  
+
+END ----------------
+[00:30:08] <calvin276> target #2739100  
+[00:30:09] <darknet@cyberspace> ok
+[00:30:11] <calvin276> info
+[00:30:11] <darknet@cyberspace> Incorrect arguments. Usage: info #<program>
+[00:30:17] <calvin276> info 2739100  
+[00:30:17] <darknet@cyberspace> 
+--------------------
+#2739100 programm info:
+Effect: trace
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+END ----------------
+[00:31:03] <calvin276> #2450
+[00:31:03] <darknet@cyberspace> 404 target system:#2739100 not found
+[00:31:21] <calvin276> info
+[00:31:21] <darknet@cyberspace> Incorrect arguments. Usage: info #<program>
+[00:31:28] <calvin276> status
+[00:31:28] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: #2739100
+Current administrating system: none
+Proxy level: 6
+Current proxy address: kenguru5739@sydney
+END ----------------
+[00:31:44] <calvin276> target 2739100
+[00:31:44] <darknet@cyberspace> ok
+[00:31:47] <calvin276> info
+[00:31:47] <darknet@cyberspace> Incorrect arguments. Usage: info #<program>
+[00:31:50] <calvin276> status
+[00:31:50] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: 2739100
+Current administrating system: none
+Proxy level: 6
+Current proxy address: kenguru5739@sydney
+END ----------------
+[00:32:02] <calvin276> #2450
+[00:32:02] <darknet@cyberspace> 404 target system:2739100 not found
+[00:32:38] <calvin276> look  2739100
+[00:32:38] <darknet@cyberspace> 
+--------------------
+404 target system:2739100 not found
+END ----------------
+[00:32:52] <calvin276> look  2739100
+[00:32:52] <darknet@cyberspace> 
+--------------------
+404 target system:2739100 not found
+END ----------------
+[00:33:05] <calvin276> info 2739100
+[00:33:05] <darknet@cyberspace> 
+--------------------
+#2739100 programm info:
+Effect: trace
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+END ----------------
+[00:33:10] <calvin276> status
+[00:33:10] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: 2739100
+Current administrating system: none
+Proxy level: 6
+Current proxy address: kenguru5739@sydney
+END ----------------
+[00:33:30] <calvin276> look 2739100
+[00:33:30] <darknet@cyberspace> 
+--------------------
+404 target system:2739100 not found
+END ----------------
+[00:33:47] <calvin276> look 1
+[00:33:47] <darknet@cyberspace> 
+--------------------
+404 target system:2739100 not found
+END ----------------
+[00:34:01] <calvin276> look firewall
+[00:34:01] <darknet@cyberspace> 
+--------------------
+404 target system:2739100 not found
+END ----------------
+[00:34:15] <calvin276> status
+[00:34:15] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: 2739100
+Current administrating system: none
+Proxy level: 6
+Current proxy address: kenguru5739@sydney
+END ----------------
+[00:35:23] <calvin276> staus
+[00:35:26] <calvin276> status
+[00:35:32] <calvin276> status
+[00:35:32] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: 2739100
+Current administrating system: none
+Proxy level: 6
+Current proxy address: kenguru5739@sydney
+END ----------------
+[00:35:32] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: 2739100
+Current administrating system: none
+Proxy level: 6
+Current proxy address: kenguru5739@sydney
+END ----------------
+[00:36:05] <calvin276> target 2739100
+[00:36:05] <darknet@cyberspace> ok
+[00:36:10] <calvin276> info 2739100
+[00:36:10] <darknet@cyberspace> 
+--------------------
+#2739100 programm info:
+Effect: trace
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+END ----------------
+[00:36:35] <calvin276> #2450
+[00:36:35] <darknet@cyberspace> 404 target system:2739100 not found
+[00:36:52] <calvin276> status
+[00:36:52] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: 2739100
+Current administrating system: none
+Proxy level: 6
+Current proxy address: kenguru5739@sydney
+END ----------------
+[00:37:17] <calvin276> info 2739100
+[00:37:17] <darknet@cyberspace> 
+--------------------
+#2739100 programm info:
+Effect: trace
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+END ----------------
+[00:37:27] <calvin276> target 2739100
+[00:37:27] <darknet@cyberspace> ok
+[00:37:42] <calvin276> #980
+[00:37:42] <darknet@cyberspace> 404 target system:2739100 not found
+[00:42:04] <calvin276> look 2739100
+[00:42:04] <darknet@cyberspace> 
+--------------------
+404 target system:2739100 not found
+END ----------------
+[00:42:26] <calvin276> look firewall
+[00:42:26] <darknet@cyberspace> 
+--------------------
+404 target system:2739100 not found
+END ----------------
+[00:43:35] <calvin276> target BlackMirror11
+[00:43:35] <darknet@cyberspace> ok
+[00:43:40] <calvin276> scan
+[00:43:40] <darknet@cyberspace> Incorrect arguments. Usage: scan <cluster>
+[00:43:50] <calvin276> scan BlackMirror11
+[00:43:50] <darknet@cyberspace> 404 Cluster BlackMirror11 not found on the Net
+[00:44:43] <calvin276> scan BlackMirror11
+[00:44:43] <darknet@cyberspace> 404 Cluster BlackMirror11 not found on the Net
+[00:44:54] <calvin276> target BlackMirror11
+[00:44:54] <darknet@cyberspace> ok
+[00:44:59] <calvin276> status
+[00:44:59] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: BlackMirror11
+Current administrating system: none
+Proxy level: 6
+Current proxy address: kenguru2009@sydney
+END ----------------
+[00:45:02] <calvin276> look BlackMirror11
+[00:45:02] <darknet@cyberspace> 
+--------------------
+BlackMirror11/BlackMirror11 not available 
+
+END ----------------
+[00:45:17] <calvin276> look firewall
+[00:45:17] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/firewall" properties:
+Installed program: #6449300
+Type: Firewall
+DISABLED for: 799 sec
+Child nodes:
+0: antivirus1 (Antivirus): #1208700 DISABLED 
+1: antivirus2 (Antivirus): #2739100  
+
+END ----------------
+[00:45:45] <calvin276> look 0:
+[00:45:45] <darknet@cyberspace> 
+--------------------
+BlackMirror11/0: not available 
+
+END ----------------
+[00:45:55] <calvin276> look 0
+[00:45:55] <darknet@cyberspace> 
+--------------------
+BlackMirror11/0 not available 
+
+END ----------------
+[00:47:03] <calvin276> look antivirus1
+[00:47:03] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/antivirus1" properties:
+Installed program: #1208700
+Type: Antivirus
+DISABLED for: 421 sec
+Child nodes:
+0: brandmauer2 (Brandmauer): #1559025 DISABLED 
+1: VPN3 (VPN): #7993700  
+
+END ----------------
+[00:48:12] <calvin276> target VPN3
+[00:48:13] <darknet@cyberspace> ok
+[00:48:21] <calvin276> #1100
+[00:48:22] <darknet@cyberspace> 404 target system:VPN3 not found
+[00:48:43] <calvin276> look VPN3
+[00:48:43] <darknet@cyberspace> 
+--------------------
+404 target system:VPN3 not found
+END ----------------
+[00:48:59] <calvin276> status
+[00:48:59] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: VPN3
+Current administrating system: none
+Proxy level: 6
+Current proxy address: kenguru2009@sydney
+END ----------------
+[00:49:20] <calvin276> look VPN3
+[00:49:22] <darknet@cyberspace> 
+--------------------
+404 target system:VPN3 not found
+END ----------------
+[00:49:30] <calvin276> info VPN3
+[00:49:30] <darknet@cyberspace> 
+--------------------
+incorrect program VPN3
+END ----------------
+[00:50:15] <calvin276> target 7993700
+[00:50:20] <darknet@cyberspace> ok
+[00:50:24] <calvin276> status
+[00:50:24] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: 7993700
+Current administrating system: none
+Proxy level: 6
+Current proxy address: kenguru2009@sydney
+END ----------------
+[00:50:58] <calvin276> look antivirus1
+[00:50:59] <darknet@cyberspace> 
+--------------------
+404 target system:7993700 not found
+END ----------------
+[00:51:24] <calvin276> status
+[00:51:24] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: 7993700
+Current administrating system: none
+Proxy level: 6
+Current proxy address: kenguru2009@sydney
+END ----------------
+[00:52:13] <calvin276> look antivirus1
+[00:52:14] <darknet@cyberspace> 
+--------------------
+404 target system:7993700 not found
+END ----------------
+[00:52:31] <calvin276> target 7993700
+[00:52:31] <darknet@cyberspace> ok
+[00:52:37] <calvin276> look antivirus1
+[00:52:37] <darknet@cyberspace> 
+--------------------
+404 target system:7993700 not found
+END ----------------
+[00:53:32] <calvin276> target BlackMirror11
+[00:53:32] <darknet@cyberspace> ok
+[00:53:35] <calvin276> status
+[00:53:35] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: BlackMirror11
+Current administrating system: none
+Proxy level: 6
+Current proxy address: kenguru2009@sydney
+END ----------------
+[00:53:53] <calvin276> look BlackMirror11
+[00:53:53] <darknet@cyberspace> 
+--------------------
+BlackMirror11/BlackMirror11 not available 
+
+END ----------------
+[00:54:01] <calvin276> target BlackMirror11
+[00:54:02] <darknet@cyberspace> ok
+[00:54:16] <calvin276> look firewall
+[00:54:16] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/firewall" properties:
+Installed program: #6449300
+Type: Firewall
+DISABLED for: 260 sec
+Child nodes:
+0: antivirus1 (Antivirus): #1208700  
+1: antivirus2 (Antivirus): #2739100  
+
+END ----------------
+[00:54:32] <calvin276> target 1208700
+[00:54:32] <darknet@cyberspace> ok
+[00:54:52] <calvin276> #3825
+[00:54:52] <darknet@cyberspace> 404 target system:1208700 not found
+[00:55:06] <calvin276> status
+[00:55:06] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: 1208700
+Current administrating system: none
+Proxy level: 6
+Current proxy address: kenguru2009@sydney
+END ----------------
+[00:55:17] <calvin276> #3825
+[00:55:17] <darknet@cyberspace> 404 target system:1208700 not found
+[00:55:35] <calvin276> info 1208700
+[00:55:35] <darknet@cyberspace> 
+--------------------
+#1208700 programm info:
+Effect: trace
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+END ----------------
+[00:55:58] <calvin276> status
+[00:55:58] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: 1208700
+Current administrating system: none
+Proxy level: 6
+Current proxy address: kenguru2009@sydney
+END ----------------
+[00:56:19] <calvin276> target 1208700
+[00:56:19] <darknet@cyberspace> ok
+[00:56:32] <calvin276> #3825
+[00:56:32] <darknet@cyberspace> 404 target system:1208700 not found
+[00:56:52] <calvin276> #target antivirus1
+[00:56:52] <darknet@cyberspace> 400 incorrect program #target
+[00:57:00] <calvin276> target antivirus1
+[00:57:00] <darknet@cyberspace> ok
+[00:57:16] <calvin276> #3825
+[00:57:16] <darknet@cyberspace> 404 target system:antivirus1 not found
+[00:57:33] <calvin276> status
+[00:57:33] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: antivirus1
+Current administrating system: none
+Proxy level: 6
+Current proxy address: kenguru2009@sydney
+END ----------------
+[00:57:51] <calvin276> target antivirus1
+[00:57:51] <darknet@cyberspace> ok
+[00:57:57] <calvin276> look firewall
+[00:57:57] <darknet@cyberspace> 
+--------------------
+404 target system:antivirus1 not found
+END ----------------
+[00:58:11] <calvin276> look firewall
+[00:58:11] <darknet@cyberspace> 
+--------------------
+404 target system:antivirus1 not found
+END ----------------
+[00:59:28] <calvin276> target BlackMirror11
+[00:59:28] <darknet@cyberspace> ok
+[00:59:37] <calvin276> look BlackMirror11
+[00:59:37] <darknet@cyberspace> 
+--------------------
+BlackMirror11/BlackMirror11 not available 
+
+END ----------------
+[00:59:44] <calvin276> look firewall
+[00:59:44] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/firewall" properties:
+Installed program: #6449300
+Type: Firewall
+END ----------------
+[01:00:31] <calvin276> target firewall
+[01:00:31] <darknet@cyberspace> ok
+[01:00:35] <calvin276> #6050
+[01:00:35] <darknet@cyberspace> 404 target system:firewall not found
+[01:00:40] <calvin276> status
+[01:00:40] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: firewall
+Current administrating system: none
+Proxy level: 6
+Current proxy address: kenguru7867@sydney
+END ----------------
+[01:00:50] <calvin276> look firewall
+[01:00:50] <darknet@cyberspace> 
+--------------------
+404 target system:firewall not found
+END ----------------
+[01:00:57] <calvin276> target
+[01:00:57] <darknet@cyberspace> Incorrect arguments. Usage: target <target_name>
+[01:01:08] <calvin276> scan firewall
+[01:01:10] <darknet@cyberspace> 404 Cluster firewall not found on the Net
+[01:01:22] <calvin276> target BlackMirror11
+[01:01:22] <darknet@cyberspace> ok
+[01:01:28] <calvin276> look firewall
+[01:01:28] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/firewall" properties:
+Installed program: #6449300
+Type: Firewall
+END ----------------
+[01:01:37] <calvin276> info 6449300
+[01:01:37] <darknet@cyberspace> 
+--------------------
+#6449300 programm info:
+Effect: trace
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+END ----------------
+[01:01:44] <calvin276> status
+[01:01:44] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: BlackMirror11
+Current administrating system: none
+Proxy level: 6
+Current proxy address: kenguru7867@sydney
+END ----------------
+[01:01:53] <calvin276> target firewall
+[01:01:53] <darknet@cyberspace> ok
+[01:01:55] <calvin276> status
+[01:01:55] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: firewall
+Current administrating system: none
+Proxy level: 6
+Current proxy address: kenguru7867@sydney
+END ----------------
+[01:02:29] <calvin276> #1100
+[01:02:29] <darknet@cyberspace> 404 target system:firewall not found
+[01:03:55] <calvin276> #1100 firewall
+[01:03:55] <darknet@cyberspace> 404 target system:firewall not found
+[01:04:10] <calvin276> target firewall
+[01:04:10] <darknet@cyberspace> ok
+[01:04:13] <calvin276> status
+[01:04:13] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: firewall
+Current administrating system: none
+Proxy level: 6
+Current proxy address: kenguru7867@sydney
+END ----------------
+[01:05:39] <calvin276> target BlackMirror11
+[01:05:39] <darknet@cyberspace> ok
+[01:05:48] <calvin276> look firewall
+[01:05:48] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/firewall" properties:
+Installed program: #6449300
+Type: Firewall
+END ----------------
+[01:06:19] <calvin276> #6050 firewall
+[01:06:19] <darknet@cyberspace> executing program #6050 from calvin276 target:BlackMirror11 
+Node defence: #6449300
+attack successfull
+Node 'firewall' disabled for 900 seconds.
+[01:06:43] <calvin276> look firewall
+[01:06:43] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/firewall" properties:
+Installed program: #6449300
+Type: Firewall
+DISABLED for: 875 sec
+Child nodes:
+0: antivirus1 (Antivirus): #1208700  
+1: antivirus2 (Antivirus): #2739100  
+
+END ----------------
+[01:07:38] <calvin276> #3825 antivirus1
+[01:07:38] <darknet@cyberspace> executing program #3825 from calvin276 target:BlackMirror11 
+Node defence: #1208700
+attack successfull
+Node 'antivirus1' disabled for 600 seconds.
+[01:07:47] <calvin276> look antivirus1
+[01:07:47] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/antivirus1" properties:
+Installed program: #1208700
+Type: Antivirus
+DISABLED for: 591 sec
+Child nodes:
+0: brandmauer2 (Brandmauer): #1559025  
+1: VPN3 (VPN): #7993700  
+
+END ----------------
+[01:09:20] <calvin276> look brandmauer2
+[01:09:20] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/brandmauer2" properties:
+Installed program: #1559025
+Type: Brandmauer
+END ----------------
+[01:09:24] <calvin276> info brandmauer2
+[01:09:24] <darknet@cyberspace> 
+--------------------
+incorrect program brandmauer2
+END ----------------
+[01:09:31] <calvin276> status
+[01:09:31] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: BlackMirror11
+Current administrating system: none
+Proxy level: 6
+Current proxy address: kenguru7867@sydney
+END ----------------
+[01:09:41] <calvin276> info 1559025
+[01:09:41] <darknet@cyberspace> 
+--------------------
+#1559025 programm info:
+Effect: trace
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+END ----------------
+[01:11:38] <calvin276> #1100 VPN3
+[01:11:38] <darknet@cyberspace> executing program #1100 from calvin276 target:BlackMirror11 
+Trace:
+Proxy level decreased by 1. 
+BlackMirror11 security log updated
+Node defence: #7993700
+attack successfull
+Node 'VPN3' disabled for 600 seconds.
+[01:11:57] <calvin276> look VPN3
+[01:11:57] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/VPN3" properties:
+Installed program: #7993700
+Type: VPN
+DISABLED for: 581 sec
+Node effect: trace
+Child nodes:
+0: traffic_monitor1 (Traffic monitor): #1019788  
+1: brandmauer3 (Brandmauer): #2294523  
+
+END ----------------
+[01:13:07] <calvin276> look traffic_monitor1
+[01:13:07] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/traffic_monitor1" properties:
+Installed program: #1019788
+Type: Traffic monitor
+Node effect: analyze
+END ----------------
+[01:14:13] <calvin276> look brandmauer3
+[01:14:13] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/brandmauer3" properties:
+Installed program: #2294523
+Type: Brandmauer
+END ----------------
+[01:14:21] <calvin276> info brandmauer3
+[01:14:21] <darknet@cyberspace> 
+--------------------
+incorrect program brandmauer3
+END ----------------
+[01:14:29] <calvin276> info 2294523
+[01:14:29] <darknet@cyberspace> 
+--------------------
+#2294523 programm info:
+Effect: trace
+Inevitable effect: logname
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+END ----------------
+[01:15:47] <calvin276> #4851 brandmauer3
+[01:15:47] <darknet@cyberspace> executing program #4851 from calvin276 target:BlackMirror11 
+Error 406: node disabled
+
+[01:15:56] <calvin276> status
+[01:15:56] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: BlackMirror11
+Current administrating system: none
+Proxy level: 6
+Current proxy address: kenguru9753@sydney
+END ----------------
+[01:16:02] <calvin276> look brandmauer3
+[01:16:02] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/brandmauer3" properties:
+Installed program: #2294523
+Type: Brandmauer
+DISABLED for: 568 sec
+Child nodes:
+0: cryptocore3 (Cyptographic system): *encrypted*  
+1: VPN4 (VPN): #2209900  
+
+END ----------------
+[01:17:23] <calvin276> look cryptocore3
+[01:17:23] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/cryptocore3" properties:
+Installed program: *encrypted*
+Type: Cyptographic system
+END ----------------
+[01:18:27] <calvin276> look VPN4
+[01:18:27] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/VPN4" properties:
+Installed program: #2209900
+Type: VPN
+DISABLED for: 494 sec
+Node effect: trace
+Child nodes:
+0: antivirus4 (Antivirus): #405900 DISABLED 
+1: router2 (Router): #2150775  
+
+END ----------------
+[01:19:57] <calvin276> look brandmauer3
+[01:19:57] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/brandmauer3" properties:
+Installed program: #2294523
+Type: Brandmauer
+DISABLED for: 333 sec
+Child nodes:
+0: cryptocore3 (Cyptographic system): *encrypted*  
+1: VPN4 (VPN): #2209900 DISABLED 
+
+END ----------------
+[01:20:06] <calvin276> look VPN4
+[01:20:06] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/VPN4" properties:
+Installed program: #2209900
+Type: VPN
+DISABLED for: 395 sec
+Node effect: trace
+Child nodes:
+0: antivirus4 (Antivirus): #405900 DISABLED 
+1: router2 (Router): #2150775  
+
+END ----------------
+[01:21:10] <calvin276> look antivirus4
+[01:21:10] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/antivirus4" properties:
+Installed program: #405900
+Type: Antivirus
+DISABLED for: 417 sec
+Child nodes:
+0: datastorage3 (Data): #75852  
+1: traffic_monitor2 (Traffic monitor): #481425 DISABLED 
+
+END ----------------
+[01:22:26] <calvin276> look datastorage3
+[01:22:26] <darknet@cyberspace> 
+--------------------
+BlackMirror11/datastorage3 not available 
+
+END ----------------
+[01:22:33] <calvin276> look datastorage3
+[01:22:33] <darknet@cyberspace> 
+--------------------
+BlackMirror11/datastorage3 not available 
+
+END ----------------
+[01:23:13] <calvin276> look antivirus4
+[01:23:13] <darknet@cyberspace> 
+--------------------
+BlackMirror11/antivirus4 not available 
+
+END ----------------
+[01:23:24] <calvin276> look firewall
+[01:23:24] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/firewall" properties:
+Installed program: #6449300
+Type: Firewall
+END ----------------
+[01:24:13] <calvin276> #6050 firewall
+[01:24:13] <darknet@cyberspace> executing program #6050 from calvin276 target:BlackMirror11 
+Node defence: #6449300
+attack successfull
+Node 'firewall' disabled for 900 seconds.
+[01:24:38] <calvin276> look firewall
+[01:24:38] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/firewall" properties:
+Installed program: #6449300
+Type: Firewall
+DISABLED for: 875 sec
+Child nodes:
+0: antivirus1 (Antivirus): #1208700  
+1: antivirus2 (Antivirus): #2739100  
+
+END ----------------
+[01:25:31] <calvin276> #3825 antivirus1
+[01:25:31] <darknet@cyberspace> executing program #3825 from calvin276 target:BlackMirror11 
+Node defence: #1208700
+attack successfull
+Node 'antivirus1' disabled for 600 seconds.
+[01:26:25] <calvin276> #1100 VPN3
+[01:26:25] <darknet@cyberspace> executing program #1100 from calvin276 target:BlackMirror11 
+Trace:
+Proxy level decreased by 1. 
+BlackMirror11 security log updated
+Node defence: #7993700
+attack successfull
+Node 'VPN3' disabled for 600 seconds.
+[01:26:36] <calvin276> look VPN3
+[01:26:36] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/VPN3" properties:
+Installed program: #7993700
+Type: VPN
+DISABLED for: 589 sec
+Node effect: trace
+Child nodes:
+0: traffic_monitor1 (Traffic monitor): #1019788  
+1: brandmauer3 (Brandmauer): #2294523  
+
+END ----------------
+[01:27:45] <calvin276> #4851 brandmauer3
+[01:27:45] <darknet@cyberspace> executing program #4851 from calvin276 target:BlackMirror11 
+Node defence: #2294523
+Inevitable effect triggered
+Logname:
+BlackMirror11 security log updated
+attack successfull
+Node 'brandmauer3' disabled for 600 seconds.
+[01:27:49] <calvin276> status
+[01:27:49] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: BlackMirror11
+Current administrating system: none
+Proxy level: 5
+Current proxy address: user3093@bigapple
+END ----------------
+[01:28:10] <calvin276> look brandmauer3
+[01:28:10] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/brandmauer3" properties:
+Installed program: #2294523
+Type: Brandmauer
+DISABLED for: 574 sec
+Child nodes:
+0: cryptocore3 (Cyptographic system): *encrypted*  
+1: VPN4 (VPN): #2209900  
+
+END ----------------
+[01:29:10] <calvin276> #980 VPN4
+[01:29:10] <darknet@cyberspace> executing program #980 from calvin276 target:BlackMirror11 
+Trace:
+Proxy level decreased by 1. 
+BlackMirror11 security log updated
+Node defence: #2209900
+Inevitable effect triggered
+Logname:
+BlackMirror11 security log updated
+attack successfull
+Node 'VPN4' disabled for 600 seconds.
+[01:29:15] <calvin276> status
+[01:29:15] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: BlackMirror11
+Current administrating system: none
+Proxy level: 4
+Current proxy address: farang1714@bangkok
+END ----------------
+[01:29:32] <calvin276> look VPN4
+[01:29:32] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/VPN4" properties:
+Installed program: #2209900
+Type: VPN
+DISABLED for: 577 sec
+Node effect: trace
+Child nodes:
+0: antivirus4 (Antivirus): #405900  
+1: router2 (Router): #2150775  
+
+END ----------------
+[01:30:58] <calvin276> look antivirus4
+[01:30:58] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/antivirus4" properties:
+Installed program: #405900
+Type: Antivirus
+END ----------------
+[01:31:24] <calvin276> look datastorage3
+[01:31:24] <darknet@cyberspace> 
+--------------------
+BlackMirror11/datastorage3 not available 
+
+END ----------------
+[01:31:36] <calvin276> look antivirus4
+[01:31:36] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/antivirus4" properties:
+Installed program: #405900
+Type: Antivirus
+END ----------------
+[01:31:55] <calvin276> #1100 antivirus4
+[01:31:55] <darknet@cyberspace> executing program #1100 from calvin276 target:BlackMirror11 
+Node defence: #405900
+attack successfull
+Node 'antivirus4' disabled for 600 seconds.
+[01:32:03] <calvin276> look antivirus4
+[01:32:03] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/antivirus4" properties:
+Installed program: #405900
+Type: Antivirus
+DISABLED for: 591 sec
+Child nodes:
+0: datastorage3 (Data): #75852  
+1: traffic_monitor2 (Traffic monitor): #481425  
+
+END ----------------
+[01:33:09] <calvin276> #882 datastorage3
+[01:33:09] <darknet@cyberspace> executing program #882 from calvin276 target:BlackMirror11 
+Node defence: #75852
+attack successfull
+Data in BlackMirror11/datastorage3:
+--------------------
+
+#258 #39325 #20825 #15925 #25857 #16731 #7605 #3042 #7623 #5733
+#7497 #4851 #450 #363 #2057 #833 #3825 #2925 #1575 #637 #98 #425
+#153 #6292 #1452 #2156 #1300 #468 #252 #180 
+
+END ----------------
+[01:33:33] <calvin276> look datastorage3
+[01:33:33] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/datastorage3" properties:
+Installed program: #75852
+Type: Data
+END ----------------
+[01:35:54] <calvin276> info 2057
+[01:35:54] <darknet@cyberspace> 
+--------------------
+#2057 programm info:
+Effect: disable
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+Duration: 600sec.
+END ----------------
+[01:37:15] <calvin276> info 605
+[01:37:15] <darknet@cyberspace> 
+--------------------
+#605 programm info:
+Effect: disable
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+Duration: 600sec.
+END ----------------
+[01:37:36] <calvin276> info 847
+[01:37:36] <darknet@cyberspace> 
+--------------------
+#847 programm info:
+Effect: disable
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+Duration: 600sec.
+END ----------------
+[01:38:02] <calvin276> info traffic_monitor2
+[01:38:02] <darknet@cyberspace> 
+--------------------
+incorrect program traffic_monitor2
+END ----------------
+[01:38:09] <calvin276> look traffic_monitor2
+[01:38:09] <darknet@cyberspace> 
+--------------------
+BlackMirror11/traffic_monitor2 not available 
+
+END ----------------
+[01:38:35] <calvin276> look firewall
+[01:38:35] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/firewall" properties:
+Installed program: #6449300
+Type: Firewall
+DISABLED for: 38 sec
+Child nodes:
+0: antivirus1 (Antivirus): #1208700  
+1: antivirus2 (Antivirus): #2739100  
+
+END ----------------
+[01:38:58] <calvin276> #6050 firewall
+[01:38:58] <darknet@cyberspace> executing program #6050 from calvin276 target:BlackMirror11 
+Error 406: node disabled
+
+[01:39:08] <calvin276> #3825 antivirus1
+[01:39:08] <darknet@cyberspace> executing program #3825 from calvin276 target:BlackMirror11 
+Node defence: #1208700
+attack successfull
+Node 'antivirus1' disabled for 600 seconds.
+[01:39:19] <calvin276> #1100 VPN3
+[01:39:19] <darknet@cyberspace> executing program #1100 from calvin276 target:BlackMirror11 
+BlackMirror11/VPN3 not available 
+
+[01:39:40] <calvin276> look antivirus1
+[01:39:40] <darknet@cyberspace> 
+--------------------
+BlackMirror11/antivirus1 not available 
+
+END ----------------
+[01:39:46] <calvin276> look firewall
+[01:39:46] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/firewall" properties:
+Installed program: #6449300
+Type: Firewall
+END ----------------
+[01:40:01] <calvin276> #6050 firewall
+[01:40:01] <darknet@cyberspace> executing program #6050 from calvin276 target:BlackMirror11 
+Node defence: #6449300
+attack successfull
+Node 'firewall' disabled for 900 seconds.
+[01:40:12] <calvin276> #3825 antivirus1
+[01:40:12] <darknet@cyberspace> executing program #3825 from calvin276 target:BlackMirror11 
+Error 406: node disabled
+
+[01:40:22] <calvin276> #1100 VPN3
+[01:40:22] <darknet@cyberspace> executing program #1100 from calvin276 target:BlackMirror11 
+Trace:
+Proxy level decreased by 1. 
+BlackMirror11 security log updated
+Node defence: #7993700
+attack successfull
+Node 'VPN3' disabled for 600 seconds.
+[01:40:29] <calvin276> #4851 brandmauer3
+[01:40:29] <darknet@cyberspace> executing program #4851 from calvin276 target:BlackMirror11 
+Node defence: #2294523
+Inevitable effect triggered
+Logname:
+BlackMirror11 security log updated
+attack successfull
+Node 'brandmauer3' disabled for 600 seconds.
+[01:40:36] <calvin276> #980 VPN4
+[01:40:36] <darknet@cyberspace> executing program #980 from calvin276 target:BlackMirror11 
+Trace:
+Proxy level decreased by 1. 
+BlackMirror11 security log updated
+Node defence: #2209900
+Inevitable effect triggered
+Logname:
+BlackMirror11 security log updated
+attack successfull
+Node 'VPN4' disabled for 600 seconds.
+[01:40:43] <calvin276> #1100 antivirus4
+[01:40:43] <darknet@cyberspace> executing program #1100 from calvin276 target:BlackMirror11 
+Error 406: node disabled
+
+[01:40:51] <calvin276> look antivirus4
+[01:40:51] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/antivirus4" properties:
+Installed program: #405900
+Type: Antivirus
+DISABLED for: 63 sec
+Child nodes:
+0: datastorage3 (Data): #75852  
+1: traffic_monitor2 (Traffic monitor): #481425  
+
+END ----------------
+[01:41:07] <calvin276> look traffic_monitor2
+[01:41:07] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/traffic_monitor2" properties:
+Installed program: #481425
+Type: Traffic monitor
+Node effect: analyze
+END ----------------
+[01:41:42] <calvin276> look router2
+[01:41:42] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/router2" properties:
+Installed program: #2150775
+Type: Router
+END ----------------
+[01:42:28] <calvin276> info 363
+[01:42:28] <darknet@cyberspace> 
+--------------------
+#363 programm info:
+Effect: disable
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+Duration: 600sec.
+END ----------------
+[01:43:50] <calvin276> #363 router2
+[01:43:50] <darknet@cyberspace> executing program #363 from calvin276 target:BlackMirror11 
+Node defence: #2150775
+attack successfull
+Node 'router2' disabled for 600 seconds.
+[01:43:54] <calvin276> status
+[01:43:54] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: BlackMirror11
+Current administrating system: none
+Proxy level: 3
+Current proxy address: drunkmen8316@dublin
+END ----------------
+[01:44:07] <calvin276> look router2
+[01:44:07] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/router2" properties:
+Installed program: #2150775
+Type: Router
+DISABLED for: 582 sec
+END ----------------
+[01:44:18] <calvin276> look router2
+[01:44:18] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/router2" properties:
+Installed program: #2150775
+Type: Router
+DISABLED for: 572 sec
+END ----------------
+[01:45:01] <calvin276> info 16731
+[01:45:01] <darknet@cyberspace> 
+--------------------
+#16731 programm info:
+Effect: disable
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+Duration: 600sec.
+END ----------------
+[01:46:10] <calvin276> #7605 brandmauer2
+[01:46:10] <darknet@cyberspace> executing program #7605 from calvin276 target:BlackMirror11 
+Node defence: #1559025
+attack failed
+Trace:
+Proxy level decreased by 1. 
+BlackMirror11 security log updated
+
+[01:47:01] <calvin276> info 7605
+[01:47:01] <darknet@cyberspace> 
+--------------------
+#7605 programm info:
+Effect: minor_fraud
+Allowed node types:
+ -Bank account
+ -Finance
+Duration: 1500sec.
+END ----------------
+[01:47:46] <calvin276> info 2925
+[01:47:46] <darknet@cyberspace> 
+--------------------
+#2925 programm info:
+Effect: disable
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+Duration: 600sec.
+END ----------------
+[01:48:08] <calvin276> #2905 brandmauer2
+[01:48:08] <darknet@cyberspace> 400 incorrect program #2905
+[01:48:32] <calvin276> status
+[01:48:32] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: BlackMirror11
+Current administrating system: none
+Proxy level: 3
+Current proxy address: drunkmen5365@dublin
+END ----------------
+[01:48:35] <calvin276> #2925 brandmauer2
+[01:48:35] <darknet@cyberspace> executing program #2925 from calvin276 target:BlackMirror11 
+Node defence: #1559025
+attack successfull
+Node 'brandmauer2' disabled for 600 seconds.
+[01:48:45] <calvin276> look brandmauer2
+[01:48:45] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/brandmauer2" properties:
+Installed program: #1559025
+Type: Brandmauer
+DISABLED for: 590 sec
+Child nodes:
+0: VPN1 (VPN): #7684425  
+1: cryptocore2 (Cyptographic system): *encrypted*  
+
+END ----------------
+[01:49:35] <calvin276> look VPN1
+[01:49:35] <darknet@cyberspace> 
+--------------------
+BlackMirror11/VPN1 not available 
+
+END ----------------
+[01:49:43] <calvin276> look firewall
+[01:49:46] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/firewall" properties:
+Installed program: #6449300
+Type: Firewall
+DISABLED for: 318 sec
+Child nodes:
+0: antivirus1 (Antivirus): #1208700  
+1: antivirus2 (Antivirus): #2739100  
+
+END ----------------
+[01:49:56] <calvin276> #6050 firewall
+[01:49:56] <darknet@cyberspace> executing program #6050 from calvin276 target:BlackMirror11 
+Error 406: node disabled
+
+[01:50:08] <calvin276> #3825 antivirus1
+[01:50:08] <darknet@cyberspace> executing program #3825 from calvin276 target:BlackMirror11 
+Node defence: #1208700
+attack successfull
+Node 'antivirus1' disabled for 600 seconds.
+[01:50:22] <calvin276> #2925 brandmauer2
+[01:50:23] <darknet@cyberspace> executing program #2925 from calvin276 target:BlackMirror11 
+Error 406: node disabled
+
+[01:50:30] <calvin276> look brandmauer2
+[01:50:30] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/brandmauer2" properties:
+Installed program: #1559025
+Type: Brandmauer
+DISABLED for: 485 sec
+Child nodes:
+0: VPN1 (VPN): #7684425  
+1: cryptocore2 (Cyptographic system): *encrypted*  
+
+END ----------------
+[01:51:37] <calvin276> #7497 VPN1
+[01:51:37] <darknet@cyberspace> executing program #7497 from calvin276 target:BlackMirror11 
+Trace:
+Proxy level decreased by 1. 
+BlackMirror11 security log updated
+Node defence: #7684425
+attack successfull
+Node 'VPN1' disabled for 600 seconds.
+[01:51:41] <calvin276> look VPN1
+[01:51:41] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/VPN1" properties:
+Installed program: #7684425
+Type: VPN
+DISABLED for: 595 sec
+Node effect: trace
+Child nodes:
+0: antivirus3 (Antivirus): #16354975  
+1: traffic_monitor1 (Traffic monitor): #1019788  
+
+END ----------------
+[01:53:05] <calvin276> look 15925
+[01:53:05] <darknet@cyberspace> 
+--------------------
+BlackMirror11/15925 not available 
+
+END ----------------
+[01:53:10] <calvin276> status
+[01:53:10] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: BlackMirror11
+Current administrating system: none
+Proxy level: 2
+Current proxy address: coder3765@mumbai
+END ----------------
+[01:53:14] <calvin276> info 15925
+[01:53:14] <darknet@cyberspace> 
+--------------------
+#15925 programm info:
+Effect: disable
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+Duration: 600sec.
+END ----------------
+[01:54:24] <calvin276> #15925 antivirus3
+[01:54:24] <darknet@cyberspace> executing program #15925 from calvin276 target:BlackMirror11 
+Node defence: #16354975
+attack successfull
+Node 'antivirus3' disabled for 600 seconds.
+[01:54:28] <calvin276> status
+[01:54:28] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: BlackMirror11
+Current administrating system: none
+Proxy level: 2
+Current proxy address: coder3765@mumbai
+END ----------------
+[01:54:34] <calvin276> look antivirus3
+[01:54:34] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/antivirus3" properties:
+Installed program: #16354975
+Type: Antivirus
+DISABLED for: 589 sec
+Child nodes:
+0: system_information (Data): #151335275  
+1: router1 (Router): #432225  
+
+END ----------------
+[01:55:51] <calvin276> #20825 system_information
+[01:55:51] <darknet@cyberspace> executing program #20825 from calvin276 target:BlackMirror11 
+BlackMirror11/system_information not available 
+
+[01:56:03] <calvin276> status
+[01:56:03] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: BlackMirror11
+Current administrating system: none
+Proxy level: 2
+Current proxy address: coder3765@mumbai
+END ----------------
+[01:56:17] <calvin276> #6050 firewall
+[01:56:17] <darknet@cyberspace> executing program #6050 from calvin276 target:BlackMirror11 
+Node defence: #6449300
+attack successfull
+Node 'firewall' disabled for 900 seconds.
+[01:56:30] <calvin276> #3825 antivirus1
+[01:56:30] <darknet@cyberspace> executing program #3825 from calvin276 target:BlackMirror11 
+Error 406: node disabled
+
+[01:57:00] <calvin276> #2925 brandmauer2
+[01:57:01] <darknet@cyberspace> executing program #2925 from calvin276 target:BlackMirror11 
+Error 406: node disabled
+
+[01:57:34] <calvin276> #7497 VPN1
+[01:57:34] <darknet@cyberspace> executing program #7497 from calvin276 target:BlackMirror11 
+Error 406: node disabled
+
+[01:57:42] <calvin276> #15925 antivirus3
+[01:57:42] <darknet@cyberspace> executing program #15925 from calvin276 target:BlackMirror11 
+Error 406: node disabled
+
+[01:57:54] <calvin276> #20825 system_information
+[01:57:54] <darknet@cyberspace> executing program #20825 from calvin276 target:BlackMirror11 
+Node defence: #151335275
+attack successfull
+Data in BlackMirror11/system_information:
+--------------------
+
+BlackMirror is 'smart-home' system for luxury manor Villa Straylight
+This is private property of Tessier-Ashpool family. Keep out!
+
+END ----------------
+[01:59:38] <calvin276> #3825 router1
+[01:59:38] <darknet@cyberspace> executing program #3825 from calvin276 target:BlackMirror11 
+BlackMirror11/router1 not available 
+
+[01:59:52] <calvin276> #6050 firewall
+[01:59:52] <darknet@cyberspace> executing program #6050 from calvin276 target:BlackMirror11 
+Error 406: node disabled
+
+[01:59:59] <calvin276> #3825 antivirus1
+[01:59:59] <darknet@cyberspace> executing program #3825 from calvin276 target:BlackMirror11 
+Error 406: node disabled
+
+[02:00:17] <calvin276> #2925 brandmauer2
+[02:00:17] <darknet@cyberspace> executing program #2925 from calvin276 target:BlackMirror11 
+BlackMirror11/brandmauer2 not available 
+
+[02:00:27] <calvin276> status
+[02:00:27] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: BlackMirror11
+Current administrating system: none
+Proxy level: 3
+Current proxy address: drunkmen9517@dublin
+END ----------------
+[02:00:55] <calvin276> look antivirus1
+[02:00:55] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/antivirus1" properties:
+Installed program: #1208700
+Type: Antivirus
+END ----------------
+[02:01:13] <calvin276> #3825 antivirus1
+[02:01:13] <darknet@cyberspace> executing program #3825 from calvin276 target:BlackMirror11 
+Node defence: #1208700
+attack successfull
+Node 'antivirus1' disabled for 600 seconds.
+[02:01:25] <calvin276> look antivirus1
+[02:01:25] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/antivirus1" properties:
+Installed program: #1208700
+Type: Antivirus
+DISABLED for: 587 sec
+Child nodes:
+0: brandmauer2 (Brandmauer): #1559025  
+1: VPN3 (VPN): #7993700  
+
+END ----------------
+[02:01:51] <calvin276> #2925 brandmauer2
+[02:01:53] <darknet@cyberspace> executing program #2925 from calvin276 target:BlackMirror11 
+Node defence: #1559025
+attack successfull
+Node 'brandmauer2' disabled for 600 seconds.
+[02:02:00] <calvin276> #7497 VPN1
+[02:02:00] <darknet@cyberspace> executing program #7497 from calvin276 target:BlackMirror11 
+Trace:
+Proxy level decreased by 1. 
+BlackMirror11 security log updated
+Node defence: #7684425
+attack successfull
+Node 'VPN1' disabled for 600 seconds.
+[02:02:11] <calvin276> #15925 antivirus3
+[02:02:12] <darknet@cyberspace> executing program #15925 from calvin276 target:BlackMirror11 
+Error 406: node disabled
+
+[02:02:19] <calvin276> #3825 router1
+[02:02:19] <darknet@cyberspace> executing program #3825 from calvin276 target:BlackMirror11 
+Node defence: #432225
+Inevitable effect triggered
+Analyze:
+'#3825' program code compromised
+BlackMirror11 security log updated
+attack successfull
+Node 'router1' disabled for 600 seconds.
+[02:02:26] <calvin276> look router1
+[02:02:26] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/router1" properties:
+Installed program: #432225
+Type: Router
+DISABLED for: 592 sec
+Child nodes:
+0: datastorage1 (Data): #114300  
+1: VPN4 (VPN): #2209900  
+
+END ----------------
+[02:03:18] <calvin276> info 450
+[02:03:18] <darknet@cyberspace> 
+--------------------
+#450 programm info:
+Effect: get_data
+Allowed node types:
+ -Data
+ -Bank account
+ -Finance
+ -Administrative interface
+ -Corporate HQ
+Duration: 600sec.
+END ----------------
+[02:04:24] <calvin276> #450 datastorage1
+[02:04:24] <darknet@cyberspace> executing program #450 from calvin276 target:BlackMirror11 
+BlackMirror11/datastorage1 not available 
+
+[02:04:32] <calvin276> status
+[02:04:32] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: BlackMirror11
+Current administrating system: none
+Proxy level: 2
+Current proxy address: coder8556@mumbai
+END ----------------
+[02:05:01] <calvin276> #6050 firewall
+[02:05:01] <darknet@cyberspace> executing program #6050 from calvin276 target:BlackMirror11 
+Error 406: node disabled
+
+[02:05:09] <calvin276> #3825 antivirus1
+[02:05:09] <darknet@cyberspace> executing program #3825 from calvin276 target:BlackMirror11 
+Error 406: node disabled
+
+[02:05:15] <calvin276> #2925 brandmauer2
+[02:05:15] <darknet@cyberspace> executing program #2925 from calvin276 target:BlackMirror11 
+Error 406: node disabled
+
+[02:05:23] <calvin276> #7497 VPN1
+[02:05:23] <darknet@cyberspace> executing program #7497 from calvin276 target:BlackMirror11 
+Error 406: node disabled
+
+[02:05:32] <calvin276> #15925 antivirus3
+[02:05:32] <darknet@cyberspace> executing program #15925 from calvin276 target:BlackMirror11 
+Node defence: #16354975
+attack successfull
+Node 'antivirus3' disabled for 600 seconds.
+[02:05:37] <calvin276> #3825 router1
+[02:05:37] <darknet@cyberspace> executing program #3825 from calvin276 target:BlackMirror11 
+Error 406: node disabled
+
+[02:05:50] <calvin276> #450 datastorage1
+[02:05:50] <darknet@cyberspace> executing program #450 from calvin276 target:BlackMirror11 
+Node defence: #114300
+Inevitable effect triggered
+Logname:
+BlackMirror11 security log updated
+attack successfull
+Data in BlackMirror11/datastorage1:
+--------------------
+
+#41 #9075 #20825 #3675 #25857 #10647 #18513 #2475 #2178 
+#5733 #7497 #4851 #1573 #242 #245 #2205 #2028 #2925 #1575 #605
+#2420 #2548 #980 #300 #700 #180 #252 #396 #588 #147 #425 #117
+
+END ----------------
+[02:06:15] <calvin276> status
+[02:06:15] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: BlackMirror11
+Current administrating system: none
+Proxy level: 2
+Current proxy address: coder8556@mumbai
+END ----------------
+[02:06:30] <calvin276> look datastorage1
+[02:06:30] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/datastorage1" properties:
+Installed program: #114300
+Type: Data
+END ----------------
+[02:08:14] <calvin276> #2450 VPN4
+[02:08:14] <darknet@cyberspace> executing program #2450 from calvin276 target:BlackMirror11 
+Trace:
+Proxy level decreased by 1. 
+BlackMirror11 security log updated
+Node defence: #2209900
+Inevitable effect triggered
+Logname:
+BlackMirror11 security log updated
+attack successfull
+Node 'VPN4' disabled for 600 seconds.
+[02:08:20] <calvin276> status
+[02:08:20] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: BlackMirror11
+Current administrating system: none
+Proxy level: 1
+Current proxy address: citizen8384@california
+END ----------------
+[02:08:32] <calvin276> look vpn4
+[02:08:32] <darknet@cyberspace> 
+--------------------
+BlackMirror11/vpn4 not available 
+
+END ----------------
+[02:08:37] <calvin276> look VPN4
+[02:08:37] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/VPN4" properties:
+Installed program: #2209900
+Type: VPN
+DISABLED for: 577 sec
+Node effect: trace
+Child nodes:
+0: antivirus4 (Antivirus): #405900  
+1: router2 (Router): #2150775  
+
+END ----------------
+[02:09:52] <calvin276> look antivirus4 
+[02:09:52] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/antivirus4" properties:
+Installed program: #405900
+Type: Antivirus
+END ----------------
+[02:10:44] <calvin276> info 605
+[02:10:44] <darknet@cyberspace> 
+--------------------
+#605 programm info:
+Effect: disable
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+Duration: 600sec.
+END ----------------
+[02:11:37] <calvin276> #605 router2
+[02:11:37] <darknet@cyberspace> executing program #605 from calvin276 target:BlackMirror11 
+BlackMirror11/router2 not available 
+
+[02:11:46] <calvin276> #6050 firewall
+[02:11:46] <darknet@cyberspace> executing program #6050 from calvin276 target:BlackMirror11 
+Node defence: #6449300
+attack successfull
+Node 'firewall' disabled for 900 seconds.
+[02:11:54] <calvin276> #3825 antivirus1
+[02:11:54] <darknet@cyberspace> executing program #3825 from calvin276 target:BlackMirror11 
+Node defence: #1208700
+attack successfull
+Node 'antivirus1' disabled for 600 seconds.
+[02:12:00] <calvin276> #1100 VPN3
+[02:12:00] <darknet@cyberspace> executing program #1100 from calvin276 target:BlackMirror11 
+Trace:
+Proxy level decreased by 1. 
+BlackMirror11 security log updated
+Node defence: #7993700
+attack successfull
+Node 'VPN3' disabled for 600 seconds.
+[02:12:19] <calvin276> #2925 brandmauer2
+[02:12:19] <darknet@cyberspace> executing program #2925 from calvin276 target:BlackMirror11 
+Node defence: #1559025
+attack successfull
+Node 'brandmauer2' disabled for 600 seconds.
+[02:12:41] <calvin276> #7497 VPN1
+[02:12:41] <darknet@cyberspace> executing program #7497 from calvin276 target:BlackMirror11 
+Trace:
+Proxy level decreased by 1. 
+BlackMirror11 security log updated
+Node defence: #7684425
+attack successfull
+Node 'VPN1' disabled for 600 seconds.
+[02:12:46] <calvin276> #15925 antivirus3
+[02:12:46] <darknet@cyberspace> executing program #15925 from calvin276 target:BlackMirror11 
+Error 406: node disabled
+
+[02:12:52] <calvin276> #3825 router1
+[02:12:52] <darknet@cyberspace> executing program #3825 from calvin276 target:BlackMirror11 
+Node defence: #432225
+Inevitable effect triggered
+Analyze:
+'#3825' program code compromised
+BlackMirror11 security log updated
+attack successfull
+Node 'router1' disabled for 600 seconds.
+[02:13:00] <calvin276> #2450 VPN4
+[02:13:00] <darknet@cyberspace> executing program #2450 from calvin276 target:BlackMirror11 
+Error 406: node disabled
+
+[02:13:06] <calvin276> #605 router2
+[02:13:06] <darknet@cyberspace> executing program #605 from calvin276 target:BlackMirror11 
+Node defence: #2150775
+attack successfull
+Node 'router2' disabled for 600 seconds.
+[02:13:11] <calvin276> look router2
+[02:13:11] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/router2" properties:
+Installed program: #2150775
+Type: Router
+DISABLED for: 594 sec
+END ----------------
+[02:14:33] <calvin276> info 180 
+[02:14:33] <darknet@cyberspace> 
+--------------------
+#180 programm info:
+Effect: disable
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+Duration: 600sec.
+END ----------------
+[02:15:11] <calvin276> info 153
+info 6292
+info 1452
+info 2156
+info 1300
+info 468
+info 252
+[02:15:11] <darknet@cyberspace> 
+--------------------
+#153 programm info:
+Effect: disable
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+Duration: 600sec.
+END ----------------
+[02:15:47] <calvin276> info 6292
+[02:15:47] <darknet@cyberspace> 
+--------------------
+#6292 programm info:
+Effect: disable
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+Duration: 600sec.
+END ----------------
+[02:16:02] <calvin276> info 1452
+[02:16:02] <darknet@cyberspace> 
+--------------------
+#1452 programm info:
+Effect: minor_fraud
+Allowed node types:
+ -Bank account
+ -Finance
+Duration: 2400sec.
+END ----------------
+[02:16:24] <calvin276> info 2156
+[02:16:24] <darknet@cyberspace> 
+--------------------
+#2156 programm info:
+Effect: disable
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+Duration: 600sec.
+END ----------------
+[02:16:36] <calvin276> info 1300
+[02:16:36] <darknet@cyberspace> 
+--------------------
+#1300 programm info:
+Effect: disable
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+Duration: 600sec.
+END ----------------
+[02:16:53] <calvin276> info 468
+[02:16:53] <darknet@cyberspace> 
+--------------------
+#468 programm info:
+Effect: disable
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+Duration: 600sec.
+END ----------------
+[02:17:27] <calvin276> info 847
+[02:17:27] <darknet@cyberspace> 
+--------------------
+#847 programm info:
+Effect: disable
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+Duration: 600sec.
+END ----------------
+[02:17:42] <calvin276> info 1573
+[02:17:42] <darknet@cyberspace> 
+--------------------
+#1573 programm info:
+Effect: disable
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+Duration: 600sec.
+END ----------------
+[02:17:57] <calvin276> info 2057
+[02:17:57] <darknet@cyberspace> 
+--------------------
+#2057 programm info:
+Effect: disable
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+Duration: 600sec.
+END ----------------
+[02:22:46] <calvin276> #look firewall
+[02:22:46] <darknet@cyberspace> 400 incorrect program #look
+[02:22:50] <calvin276> status
+[02:22:50] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: BlackMirror11
+Current administrating system: none
+Proxy level: 1
+Current proxy address: citizen2583@california
+END ----------------
+[02:22:56] <calvin276> look firewall
+[02:22:56] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/firewall" properties:
+Installed program: #6449300
+Type: Firewall
+DISABLED for: 230 sec
+Child nodes:
+0: antivirus1 (Antivirus): #1208700  
+1: antivirus2 (Antivirus): #2739100  
+
+END ----------------
+[02:23:14] <calvin276> #6050 firewall
+[02:23:14] <darknet@cyberspace> executing program #6050 from calvin276 target:BlackMirror11 
+Error 406: node disabled
+
+[02:23:22] <calvin276> #3825 antivirus1
+[02:23:22] <darknet@cyberspace> executing program #3825 from calvin276 target:BlackMirror11 
+Node defence: #1208700
+attack successfull
+Node 'antivirus1' disabled for 600 seconds.
+[02:23:39] <calvin276> #2925 brandmauer2
+[02:23:39] <darknet@cyberspace> executing program #2925 from calvin276 target:BlackMirror11 
+Node defence: #1559025
+attack successfull
+Node 'brandmauer2' disabled for 600 seconds.
+[02:23:47] <calvin276> look brandmauer2
+[02:23:47] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/brandmauer2" properties:
+Installed program: #1559025
+Type: Brandmauer
+DISABLED for: 592 sec
+Child nodes:
+0: VPN1 (VPN): #7684425  
+1: cryptocore2 (Cyptographic system): *encrypted*  
+
+END ----------------
+[02:23:54] <calvin276> #1 cryptocore2
+[02:23:55] <darknet@cyberspace> 400 incorrect program #1
+[02:24:06] <calvin276> status
+[02:24:06] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: BlackMirror11
+Current administrating system: none
+Proxy level: 1
+Current proxy address: citizen2583@california
+END ----------------
+[02:24:32] <calvin276> #2925 cryptocore2
+[02:24:32] <darknet@cyberspace> executing program #2925 from calvin276 target:BlackMirror11 
+Node defence: #36900
+attack failed
+Trace:
+Proxy level decreased by 1. 
+BlackMirror11 security log updated
+
+[02:24:41] <calvin276> status
+[02:24:41] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: BlackMirror11
+Current administrating system: none
+Warning: proxy not available
+END ----------------
+[02:24:55] <calvin276> look cryptocore2
+[02:24:55] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/cryptocore2" properties:
+Installed program: *encrypted*
+Type: Cyptographic system
+END ----------------
+[02:25:10] <calvin276> info 36900
+[02:25:10] <darknet@cyberspace> 
+--------------------
+#36900 programm info:
+Effect: trace
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+END ----------------
+[02:26:57] <calvin276> #180 cryptocore2
+[02:26:57] <darknet@cyberspace> executing program #180 from calvin276 target:BlackMirror11 
+BlackMirror11/cryptocore2 not available 
+
+[02:27:00] <calvin276> status
+[02:27:00] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: BlackMirror11
+Current administrating system: none
+Warning: proxy not available
+END ----------------
+[02:27:20] <calvin276> #6050 firewall
+[02:27:20] <darknet@cyberspace> executing program #6050 from calvin276 target:BlackMirror11 
+Node defence: #6449300
+attack successfull
+Node 'firewall' disabled for 900 seconds.
+[02:27:25] <calvin276> #3825 antivirus1
+[02:27:26] <darknet@cyberspace> executing program #3825 from calvin276 target:BlackMirror11 
+Error 406: node disabled
+
+[02:27:51] <calvin276> #2925 brandmauer2
+[02:27:51] <darknet@cyberspace> executing program #2925 from calvin276 target:BlackMirror11 
+Error 406: node disabled
+
+[02:28:30] <calvin276> #180 cryptocore2
+[02:28:30] <darknet@cyberspace> executing program #180 from calvin276 target:BlackMirror11 
+Node defence: #36900
+attack successfull
+Node 'cryptocore2' disabled for 600 seconds.
+[02:28:38] <calvin276> look cryptocore2
+[02:28:38] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/cryptocore2" properties:
+Installed program: *encrypted*
+Type: Cyptographic system
+DISABLED for: 592 sec
+Child nodes:
+0: router1 (Router): #432225  
+1: cryptocore4 (Cyptographic system): *encrypted*  
+2: router2 (Router): #2150775  
+
+END ----------------
+[02:29:02] <calvin276> status
+[02:29:02] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: BlackMirror11
+Current administrating system: none
+Warning: proxy not available
+END ----------------
+[02:30:25] <calvin276> status
+[02:30:25] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: BlackMirror11
+Current administrating system: none
+Proxy level: 1
+Current proxy address: citizen6386@california
+END ----------------
+[02:31:13] <calvin276> #180 cryptocore4
+[02:31:13] <darknet@cyberspace> executing program #180 from calvin276 target:BlackMirror11 
+Node defence: #117468
+attack failed
+Trace:
+Proxy level decreased by 1. 
+BlackMirror11 security log updated
+
+[02:31:35] <calvin276> info 117468
+[02:31:35] <darknet@cyberspace> 
+--------------------
+#117468 programm info:
+Effect: trace
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+END ----------------
+[02:31:44] <calvin276> status
+[02:31:44] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: BlackMirror11
+Current administrating system: none
+Warning: proxy not available
+END ----------------
+[02:34:30] <calvin276> info 41
+[02:34:30] <darknet@cyberspace> 
+--------------------
+#41 programm info:
+Effect: get_admins
+Allowed node types:
+ -Administrative interface
+END ----------------
+[02:35:17] <calvin276> info 9075
+[02:35:17] <darknet@cyberspace> 
+--------------------
+#9075 programm info:
+Effect: disable
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+Duration: 900sec.
+END ----------------
+[02:36:57] <calvin276> info 117
+[02:36:57] <darknet@cyberspace> 
+--------------------
+#117 programm info:
+Effect: disable
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+Duration: 600sec.
+END ----------------
+[02:37:18] <calvin276> info 468
+[02:37:18] <darknet@cyberspace> 
+--------------------
+#468 programm info:
+Effect: disable
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+Duration: 600sec.
+END ----------------
+[02:40:38] <calvin276> status
+[02:40:38] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: BlackMirror11
+Current administrating system: none
+Warning: proxy not available
+END ----------------
+[02:42:30] <calvin276> #6050 firewall
+[02:42:30] <darknet@cyberspace> executing program #6050 from calvin276 target:BlackMirror11 
+Node defence: #6449300
+attack successfull
+Node 'firewall' disabled for 900 seconds.
+[02:42:44] <calvin276> look firewall
+[02:42:44] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/firewall" properties:
+Installed program: #6449300
+Type: Firewall
+DISABLED for: 885 sec
+Child nodes:
+0: antivirus1 (Antivirus): #1208700  
+1: antivirus2 (Antivirus): #2739100  
+
+END ----------------
+[02:45:07] <calvin276> status
+[02:45:07] <darknet@cyberspace> 
+--------------------
+calvin276 status:
+Current target: BlackMirror11
+Current administrating system: none
+Proxy level: 1
+Current proxy address: citizen6420@california
+END ----------------
+[02:45:18] <calvin276> look antivirus2
+[02:45:18] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/antivirus2" properties:
+Installed program: #2739100
+Type: Antivirus
+END ----------------
+[02:45:30] <calvin276> info 2739100
+[02:45:30] <darknet@cyberspace> 
+--------------------
+#2739100 programm info:
+Effect: trace
+Allowed node types:
+ -Firewall
+ -Antivirus
+ -VPN
+ -Brandmauer
+ -Router
+ -Traffic monitor
+ -Cyptographic system
+END ----------------
+[02:45:49] <calvin276> #2450 antivirus2
+[02:45:49] <darknet@cyberspace> executing program #2450 from calvin276 target:BlackMirror11 
+Node defence: #2739100
+attack successfull
+Node 'antivirus2' disabled for 600 seconds.
+[02:46:01] <calvin276> look antivirus2
+[02:46:01] <darknet@cyberspace> 
+--------------------
+Node "BlackMirror11/antivirus2" properties:
+Installed program: #2739100
+Type: Antivirus
+DISABLED for: 588 sec
+Child nodes:
+0: VPN2 (VPN): #834372  
+1: brandmauer3 (Brandmauer): #2294523  
