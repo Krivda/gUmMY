@@ -11,7 +11,7 @@ namespace Sharp.Xmpp
     internal static class Util
     {
         /// <summary>
-        /// Creates an exception from the specified Iq stanza.
+        /// Creates an exception from the specified Iq stanza. 3
         /// </summary>
         /// <param name="errorIq">The Iq stanza to create the exception from. The
         /// stanza must be of type IqType.Error.</param>
