@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace DexNetwork.DexInterpreter.Response
 {
@@ -9,6 +10,7 @@ namespace DexNetwork.DexInterpreter.Response
         public string AdminSystem { get; set; }
         public int Proxy { get; set; }
         public string VisibleAs { get; set; }
+        public string Error { get; set; }
 
         public static string CommandName { get; }  = "status";
 
@@ -37,6 +39,13 @@ Current proxy address: (?<visibleLogin>[\w@]+)";
                     AdminSystem = match.Groups["system"].Value,
                     Proxy = int.Parse(match.Groups["proxy"].Value),
                     VisibleAs = match.Groups["visibleLogin"].Value
+                };
+            }
+            else
+            {
+                result = new StatusInstruction()
+                {
+                    Error = $"Unexpected reply: \n{commandOuptut}"
                 };
             }
 

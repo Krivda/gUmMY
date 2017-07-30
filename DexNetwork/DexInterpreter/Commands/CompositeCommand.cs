@@ -26,7 +26,7 @@ namespace DexNetwork.DexInterpreter.Commands
             if (Commands == null)
                 return CreateError("Commands array is null");
 
-            if (Status == CommadStatus.NotStarted)
+            if (State == CommadState.NotStarted)
             {
                 result = ParseArguments(input);
                 if (result != null)
@@ -38,7 +38,7 @@ namespace DexNetwork.DexInterpreter.Commands
                 result = Proceed();
                 return result;
             }
-            else if (Status == CommadStatus.AwaitInput)
+            else if (State == CommadState.AwaitInput)
             {
                 if (!(_commandIndex < Commands.Count))
                     return CreateError($"Command index is {_commandIndex} and it exceeds commads count {Commands.Count}");
@@ -52,20 +52,20 @@ namespace DexNetwork.DexInterpreter.Commands
             return CreateError($"Command {CommandName} is not ready to accept input");
         }
 
-        public override CommandResult OnXMPPInput(string message)
+        public override CommandResult OnXmppMessageReceived(string message)
         {
             CommandResult result;
 
-            if (Status == CommadStatus.AwaitXMPP)
+            if (State == CommadState.AwaitXmpp)
             {
                 if (Commands != null && _commandIndex < Commands.Count)
                 {
                     var command = Commands[_commandIndex];
 
                     //translate input to child command
-                    if (command.Command.Status == CommadStatus.AwaitXMPP)
+                    if (command.Command.State == CommadState.AwaitXmpp)
                     {
-                        result = command.Command.OnXMPPInput(message);
+                        result = command.Command.OnXmppMessageReceived(message);
 
                         result = HandleLast(result);
 
@@ -78,7 +78,7 @@ namespace DexNetwork.DexInterpreter.Commands
                 return CreateError("_commands not set, or _commandIndex exceeds commands count.");
             }
 
-            result = CreateError($"Command {CommandName} is in the wrong state to accept XMPP messages. Command state is {Enum.GetName(typeof(CommadStatus), Status)}. Message is '{message}'");
+            result = CreateError($"Command {CommandName} is in the wrong state to accept XMPP messages. Command state is {Enum.GetName(typeof(CommadState), State)}. Message is '{message}'");
 
             return result;
         }
@@ -98,7 +98,7 @@ namespace DexNetwork.DexInterpreter.Commands
                 var command = Commands[_commandIndex];
 
                 //translate input to child command
-                if (command.Command.Status == CommadStatus.NotStarted)
+                if (command.Command.State == CommadState.NotStarted)
                 {
                     result = command.Command.OnCommandInput(command.CommandLine);
 
@@ -116,25 +116,25 @@ namespace DexNetwork.DexInterpreter.Commands
         private CommandResult HandleLast(CommandResult result)
         {
             //if child command finished
-            if (result.Status == CommadStatus.Finished)
+            if (result.State == CommadState.Finished)
             {
                 //is last command?
                 if (_commandIndex + 1 == Commands.Count)
                 {
-                    Status = CommadStatus.Finished;
+                    State = CommadState.Finished;
                     result.BlockInput = false;
                     return result;
                 }
 
                 _commandIndex++;
-                Status = CommadStatus.RequestResume;
+                State = CommadState.RequestResume;
                 result.BlockInput = true;
-                result.Status = CommadStatus.RequestResume;
+                result.State = CommadState.RequestResume;
                 return result;
             }
 
             //if child command is not finished - need to have the same status as the underlying command
-            Status = result.Status;
+            State = result.State;
             return result;
         }
     }

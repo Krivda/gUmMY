@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using DexNetwork.DexInterpreter.Commands;
 using DexNetwork.DexInterpreter.Response;
 using DexNetwork.Structure;
 
 namespace DexNetwork.Server
 {
-    class XMPPLocal : IXMPPClient
+    class XmppLocal : IXMPPClient
     {
         private string _user;
         private string _domain;
@@ -16,7 +15,7 @@ namespace DexNetwork.Server
         private string _admSystem;
         private int _proxyLevel;
         private string _visibleAs;
-        private SoftwareLib _software;
+        private SoftwareLib _softwareLib;
         public Dictionary<string, Network> AvailableNetworks { get; } = new Dictionary<string, Network>();
 
 
@@ -29,9 +28,10 @@ namespace DexNetwork.Server
             _proxyLevel = 6;
             _visibleAs = "kenguru2157@sydney";
 
-            string softLib = Path.GetFullPath(@"Software/lib.xml");
+            string softLib = Path.GetFullPath(@"Server/Data/lib.xml");
 
-            _software = Serializer.DeserializeSoft(softLib);
+            _softwareLib = Serializer.DeserializeSoft(softLib);
+            _softwareLib.Init(@"Server/Data/lib.xml");
 
             //EmulateResponse($"Logged in to LOCAL XMPP Emulation. Software loaded from {softLib}");
         }
@@ -54,6 +54,36 @@ namespace DexNetwork.Server
             {
                 EmulateResponse(StatusInstruction.Assemble($"{_user}@{_domain}", _target, _admSystem,_proxyLevel, _visibleAs));
             }
+            else if (message.StartsWith("info"))
+            {
+                string codeStr = message.Replace("info #", "");
+                long softCode;
+
+                string incorrectProgMessage = $@"--------------------
+incorrect program {1}
+END----------------";
+
+                if (!long.TryParse(codeStr, out softCode))
+                {
+                    EmulateResponse(string.Format(incorrectProgMessage, codeStr));
+                }
+                else
+                {
+                    Structure.Software libSoft;
+                    if (!_softwareLib.All.TryGetValue(softCode, out libSoft))
+                    {
+                        EmulateResponse(string.Format(incorrectProgMessage, codeStr));
+                        return;
+                    }
+                    //soft found 
+                    EmulateResponse(InfoInstruction.Assemble(libSoft));
+                }
+            }
+            else
+            {
+                EmulateResponse("command no found");
+            }
+
         }
 
         public void AddNetwork(Network net)

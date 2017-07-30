@@ -56,7 +56,7 @@ END ----------------";
             Assert.AreEqual(180, infoResponse.Code, "Code");
             Assert.AreEqual(600, infoResponse.Duration, "Duration");
             Assert.AreEqual("disable", infoResponse.Effect, "Effect");
-            Assert.AreEqual(null, infoResponse.InevitableEffect, "InevitableEffect");
+            Assert.AreEqual("", infoResponse.InevitableEffect, "InevitableEffect");
             Assert.AreEqual("[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]", infoResponse.SupportedNodes, "SupportedNodes");
             Assert.AreEqual("exploit", infoResponse.Software.SoftwareType, "SoftwareType");
 
@@ -109,6 +109,25 @@ END ----------------";
             Assert.AreEqual("trace", infoResponse.Effect, "Effect");
             Assert.AreEqual("logname", infoResponse.InevitableEffect, "InevitableEffect");
             Assert.AreEqual("[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]", infoResponse.SupportedNodes, "SupportedNodes");
+            Assert.AreEqual("protection", infoResponse.Software.SoftwareType, "SoftwareType");
+
+
+            soft = @"--------------------
+#2294523 programm info:
+Allowed node types:
+ -Firewall
+END ----------------";
+
+            infoResponse = InfoInstruction.Parse(soft);
+
+            Assert.NotNull(soft, "Parsed not successfully");
+            Assert.IsTrue(string.IsNullOrEmpty(infoResponse.Error), "Should be a success");
+
+            Assert.AreEqual(2294523, infoResponse.Code, "2294523");
+            Assert.AreEqual(0, infoResponse.Duration, "Duration");
+            Assert.AreEqual("", infoResponse.Effect, "");
+            Assert.AreEqual("", infoResponse.InevitableEffect, "");
+            Assert.AreEqual("[Firewall]", infoResponse.SupportedNodes, "SupportedNodes");
             Assert.AreEqual("protection", infoResponse.Software.SoftwareType, "SoftwareType");
 
         }

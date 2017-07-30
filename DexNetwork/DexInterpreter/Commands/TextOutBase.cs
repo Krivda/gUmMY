@@ -12,13 +12,13 @@ namespace DexNetwork.DexInterpreter.Commands
 
         public override CommandResult OnCommandInput(string input)
         {
-            if (Status == CommadStatus.NotStarted)
-                return CreateOutput(new TextOutput(_verbosity, _text), CommadStatus.Finished);
+            if (State == CommadState.NotStarted)
+                return CreateOutput(new TextOutput(_verbosity, _text), CommadState.Finished);
 
             return CreateError($"Command {CommandName} should be in other state but NotStarted");
         }
 
-        public override CommandResult OnXMPPInput(string message)
+        public override CommandResult OnXmppMessageReceived(string message)
         {
             return CreateError($"XMPP is not supported for the command {CommandName}");
         }

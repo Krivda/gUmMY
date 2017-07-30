@@ -10,7 +10,7 @@ namespace DexNetwork.DexInterpreter.Commands
             CommandHelpString = $"{CmdName}";
             _text = text;
             _verbosity = verbosity;
-            Status = CommadStatus.NotStarted;
+            State = CommadState.NotStarted;
         }
 
 

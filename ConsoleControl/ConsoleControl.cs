@@ -81,6 +81,8 @@ namespace ConsoleControl
             processInterace.OnProcessExit += new ProcessEventHanlder(ProcessInterace_OnProcessExit);
             processInterace.OnPromptChanged += new ProcessEventHanlder(ProcessInterace_OnPromptChange);
 
+            processInterace.StartProcess("", "");
+
         }
 
         /// <summary>

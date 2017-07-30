@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Network xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="BlackMirror11">
+<Network xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="BlackMirror12">
   <Root name="firewall" nodeType="Firewall" disabled="0" software="4000000" explored="true">
     <Subnodes>
       <Node name="antivirus1" nodeType="Antivirus" disabled="0" software="1208700" explored="true">

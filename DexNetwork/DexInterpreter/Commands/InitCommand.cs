@@ -15,8 +15,8 @@ namespace DexNetwork.DexInterpreter.Commands
         public InitCommand(IDexPromise promise) :base (promise)
         {
             CommandHelpString = $"{CmdName} <login> <pwd> [realm]";
-            Status = CommadStatus.NotStarted;
-            _promise = promise;
+            State = CommadState.NotStarted;
+            Promise = promise;
             CommandName = CmdName.ToLower();
             MandatoryParamCount = 2;
             OptionalParamCount = 1;
@@ -25,7 +25,7 @@ namespace DexNetwork.DexInterpreter.Commands
 
         public override CommandResult OnCommandInput(string input)
         {
-            CommandResult result = EnsureStatus(CommadStatus.NotStarted);
+            CommandResult result = EnsureState(CommadState.NotStarted);
             if (result != null)
                 return result;
 
@@ -42,20 +42,20 @@ namespace DexNetwork.DexInterpreter.Commands
             Commands.Add(new QueuedCommand
             {
                 CommandLine = $"{WellcomeCommand.CmdName}",
-                Command =new WellcomeCommand("Wellcome ! ", Verbosity.Full, _promise),
+                Command =new WellcomeCommand("Wellcome ! ", Verbosity.Normal, Promise),
                 
             });
 
             Commands.Add(new QueuedCommand
             {
                 CommandLine = $"{LoginCommand.CmdName} {Login} {Password} {Realm}",
-                Command = new LoginCommand(_promise),
+                Command = new LoginCommand(Promise),
             });
 
             Commands.Add(new QueuedCommand
             {
-                CommandLine = $"{DexStatusCommand.CmdName}",
-                Command = new DexStatusCommand(Verbosity.Full, _promise),
+                CommandLine = $"{DexStatusInstructionCommand.CmdName}",
+                Command = new DexStatusInstructionCommand(Verbosity.Normal, Promise),
             });
 
             result = base.OnCommandInput(input);

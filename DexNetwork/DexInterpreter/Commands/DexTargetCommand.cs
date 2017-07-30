@@ -18,12 +18,12 @@ namespace DexNetwork.DexInterpreter.Commands
             CommandHelpString = "target <networkName>  //i.e target Blackmirror11";
             MandatoryParamCount = 1;
             OptionalParamCount = 0;
-            Status = CommadStatus.NotStarted;
+            State = CommadState.NotStarted;
         }
 
         public override CommandResult OnCommandInput(string input)
         {
-            CommandResult result = EnsureStatus(CommadStatus.AwaitInput);
+            CommandResult result = EnsureState(CommadState.AwaitInput);
             if (result != null)
                 return result;
 
@@ -37,10 +37,10 @@ namespace DexNetwork.DexInterpreter.Commands
 
             string xmppCommand = $"{CmdName} Parameters[1]";
 
-            result = CreateOutput(new TextOutput(Verbosity.Critical, $">> ${xmppCommand} "), CommadStatus.AwaitXMPP);
+            result = CreateOutput(new TextOutput(Verbosity.Critical, $">> ${xmppCommand} "), CommadState.AwaitXmpp);
             result.BlockInput = true;
 
-            Status = CommadStatus.AwaitXMPP;
+            State = CommadState.AwaitXmpp;
             result.XMPPCommand = StatusInstruction.CommandName;
 
             _awaitFor = "Ok";
@@ -48,9 +48,9 @@ namespace DexNetwork.DexInterpreter.Commands
             return result;
         }
 
-        public override CommandResult OnXMPPInput(string message)
+        public override CommandResult OnXmppMessageReceived(string message)
         {
-            CommandResult result = EnsureStatus(CommadStatus.AwaitXMPP);
+            CommandResult result = EnsureState(CommadState.AwaitXmpp);
             if (result != null)
                 return result;
 
@@ -58,7 +58,7 @@ namespace DexNetwork.DexInterpreter.Commands
             {
                 if (message.ToLower().Equals(RESPONSE_OK.ToLower()))
                 {
-                    result = CreateOutput(new TextOutput(Verbosity.Important, $"{message}"), CommadStatus.AwaitXMPP);
+                    result = CreateOutput(new TextOutput(Verbosity.Important, $"{message}"), CommadState.AwaitXmpp);
                     result.BlockInput = false;
                 }
                 else
@@ -75,7 +75,7 @@ namespace DexNetwork.DexInterpreter.Commands
                 }
                 else
                 {
-                    result = CreateOutput(new TextOutput(Verbosity.Important, $"{message}"), CommadStatus.Finished);
+                    result = CreateOutput(new TextOutput(Verbosity.Important, $"{message}"), CommadState.Finished);
                     result.BlockInput = false;
                     result.UpdatedNetStatus = status;
                     result.Output.Add(new TextOutput(Verbosity.Important, $"Established link to network {status.Target}!"));

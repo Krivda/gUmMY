@@ -13,7 +13,7 @@ namespace UnitTests
             {
                 InternalMeth();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Console.WriteLine("in outer catch");
             }
@@ -26,7 +26,7 @@ namespace UnitTests
             {
                 throw new Exception();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Console.WriteLine("in Catch");
                 throw;

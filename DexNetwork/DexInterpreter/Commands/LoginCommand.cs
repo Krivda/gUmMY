@@ -22,7 +22,7 @@ namespace DexNetwork.DexInterpreter.Commands
             MandatoryParamCount = 2;
             CommandName = CmdName;
             CommandHelpString = "login <user> <password> [realm->local]";
-            Status = CommadStatus.NotStarted;
+            State = CommadState.NotStarted;
 
             _wellknownNames = new Dictionary<string, string>();
             _wellknownNames.Add("calvin", "mypass");
@@ -30,7 +30,7 @@ namespace DexNetwork.DexInterpreter.Commands
 
         public override CommandResult OnCommandInput(string input)
         {
-            CommandResult result = EnsureStatus(CommadStatus.NotStarted);
+            CommandResult result = EnsureState(CommadState.NotStarted);
             if (result != null)
                 return result;
 
@@ -49,14 +49,14 @@ namespace DexNetwork.DexInterpreter.Commands
 
             if (Realm.Equals(REALM_LOCAL))
             {
-                _promise.XMPPClient = new XMPPLocal();
+                Promise.XmppClient = new XmppLocal();
                 string pwd;
 
                 if (!_wellknownNames.TryGetValue(Login, out pwd))
                     pwd = Password;
                 try
                 {
-                    _promise.XMPPClient.Login(Login, Realm, pwd);
+                    Promise.XmppClient.Login(Login, Realm, pwd);
                 }
                 catch (Exception e)
                 {
@@ -68,7 +68,7 @@ namespace DexNetwork.DexInterpreter.Commands
                 return CreateError($"Couldn't connect to realm '{Realm}'. It's not supported.");
             }
 
-            result = CreateOutput(new TextOutput(Verbosity.Critical, $"Logged as user {Login} to realm {Realm}."), CommadStatus.Finished);
+            result = CreateOutput(new TextOutput(Verbosity.Critical, $"Logged as user {Login} to realm {Realm}."), CommadState.Finished);
             result.Prompt = new Dictionary<string, string> {{"login", Login}};
             result.XMPPConnected = true;
 
@@ -76,7 +76,7 @@ namespace DexNetwork.DexInterpreter.Commands
         }
                 
 
-        public override CommandResult OnXMPPInput(string message)
+        public override CommandResult OnXmppMessageReceived(string message)
         {
             return CreateError($"XMPP is not supported for the command '{CommandName}'");
         }

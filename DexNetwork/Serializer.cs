@@ -65,5 +65,15 @@ namespace DexNetwork
             return strXml;
         }
 
+
+        public static string SerializeNetAndDump(SoftwareLib softwareLib, string fileName)
+        {
+            string xmlString = SerializeSoft(softwareLib);
+            Directory.CreateDirectory(Path.GetDirectoryName(fileName));
+
+            File.WriteAllBytes(fileName, Encoding.UTF8.GetBytes(xmlString));
+
+            return xmlString;
+        }
     }
 }

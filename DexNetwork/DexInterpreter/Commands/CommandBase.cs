@@ -4,25 +4,25 @@ using System.Collections.Generic;
 namespace DexNetwork.DexInterpreter.Commands
 {
 
-    public enum CommadStatus
+    public enum CommadState
     {
         Finished,
         AwaitInput,
-        AwaitXMPP,
+        AwaitXmpp,
         NotStarted,
         RequestResume,
     }
 
     public enum Verbosity
     {
-        Full=0,
+        Normal=0,
         Important=1,
         Critical=2
     }
 
     public abstract class CommandBase
     {
-        protected IDexPromise _promise;
+        protected IDexPromise Promise;
 
 
         public string CommandName { get; protected set; }
@@ -30,14 +30,14 @@ namespace DexNetwork.DexInterpreter.Commands
         public int MandatoryParamCount { get; protected set; }
         public int OptionalParamCount { get; protected set; }
 
-        public CommadStatus Status { get; protected set; }
+        public CommadState State { get; protected set; }
         public string CommandHelpString { get; protected set; }
         public List<string> Parameters { get; protected set; }
 
 
         protected CommandBase(IDexPromise promise)
         {
-            _promise = promise;
+            Promise = promise;
         }
 
         protected virtual CommandResult ParseArguments(string command)
@@ -96,20 +96,20 @@ namespace DexNetwork.DexInterpreter.Commands
         
 
         public abstract CommandResult OnCommandInput(string input);
-        public abstract CommandResult OnXMPPInput(string message);
+        public abstract CommandResult OnXmppMessageReceived(string message);
 
         public virtual CommandResult Proceed()
         {
             return CreateError($"Task {CommandName} is not resumable");
         }
 
-        protected CommandResult EnsureStatus(CommadStatus status)
+        protected CommandResult EnsureState(CommadState state)
         {
             CommandResult result = null;
 
-            if (Status != status)
+            if (State != state)
             {
-                result = CreateError($"Incorrected command status. Current status is '{Enum.GetName(typeof(CommadStatus), Status)}',  expected status is '{Enum.GetName(typeof(CommadStatus), status)}'. Command terminated.");
+                result = CreateError($"Incorrect command state. Current state is '{Enum.GetName(typeof(CommadState), State)}',  expected state is '{Enum.GetName(typeof(CommadState), state)}'. Command terminated.");
             }
 
             return result;
@@ -120,19 +120,19 @@ namespace DexNetwork.DexInterpreter.Commands
             var result = new CommandResult();
 
             result.Error = new TextOutput(Verbosity.Critical, message);
-            result.Status = CommadStatus.Finished;
+            result.State = CommadState.Finished;
             result.BlockInput = false;
 
             return result;
         }
 
 
-        protected CommandResult CreateOutput(TextOutput output, CommadStatus status)
+        protected CommandResult CreateOutput(TextOutput output, CommadState state)
         {
             var result = new CommandResult();
 
             result.Output.Add(output); 
-            result.Status = status;
+            result.State = state;
 
             return result;
         }

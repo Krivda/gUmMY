@@ -5,14 +5,14 @@ namespace DexNetwork.DexInterpreter.Response
 {
     public class InfoInstruction
     {
-        public int Code { get; set; }
-        public string Effect { get; set; }
-        public string InevitableEffect { get; set; }
-        public string SupportedNodes { get; set; }
-        public int Duration { get; set; }
-        public string ProgrammType { get; set; }
+        public int Code { get; set; } = 0;
+        public string Effect { get; set; } = "";
+        public string InevitableEffect { get; set; } = "";
+        public string SupportedNodes { get; set; } = "";
+        public int Duration { get; set; } = 0;
+        public string ProgrammType { get; set; } = "Unknown";
 
-        public string Error { get; set; }
+        public string Error { get; set; } = "";
 
         public Structure.Software Software { get; set; }
 
@@ -37,9 +37,13 @@ namespace DexNetwork.DexInterpreter.Response
 
             //or Incorrect arguments.Usage: info #<program>
 
-            string[] lines = commandOuptut.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+            string[] lines = commandOuptut.Split(new [] { Environment.NewLine }, StringSplitOptions.None);
 
             if (lines[0].StartsWith("Incorrect arguments"))
+            {
+                result.Error = commandOuptut;
+            }
+            else if (lines[0].StartsWith("incorrect program"))
             {
                 result.Error = commandOuptut;
             }
@@ -91,8 +95,10 @@ namespace DexNetwork.DexInterpreter.Response
                         NodeTypesString = result.SupportedNodes,
                         SoftwareType = result.Duration==0? "protection" : "exploit"
                 };
-
-
+            }
+            else
+            {
+                result.Error = $"Unexpected reply: \n{commandOuptut}";
             }
 
             return result;

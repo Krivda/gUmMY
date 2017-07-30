@@ -13,22 +13,24 @@ namespace DexNetwork.DexInterpreter
     public interface IDexPromise
     {
         Network Network { get; set; }
+        SoftwareLib SoftwareLib { get; set; }
         LoggedUser LoggedUser { get; set; }
-        IXMPPClient XMPPClient { get; set; }
         Form BaseForm { get; }
+        IXMPPClient XmppClient { get; set; }
     }
 
     public class DexCommandProccessor : ConsoleStreamBase
     {
         private readonly Form _baseForm;
         public Network Network { get; private set; }
+        public SoftwareLib SoftwareLib { get; private set; }
         public LoggedUser User { get; private set; }
-        public IXMPPClient XMPPClient { get; private set; }
+        public IXMPPClient XmppClient { get; private set; }
         public CommandBase ActiveCommand { get; private set; }
 
-        private DexPromise _dexPromise;
+        private readonly DexPromise _dexPromise;
 
-        public ConcurrentQueue<String> XMPPQueue = new ConcurrentQueue<string>();
+        public ConcurrentQueue<String> XmppQueue = new ConcurrentQueue<string>();
 
         class DexPromise : IDexPromise
         {
@@ -40,17 +42,23 @@ namespace DexNetwork.DexInterpreter
                 set => _proccessor.Network = value;
             }
 
+            public SoftwareLib SoftwareLib
+            {
+                get => _proccessor.SoftwareLib;
+                set => _proccessor.SoftwareLib = value;
+            }
+
             public LoggedUser LoggedUser
             {
                 get => _proccessor.User;
                 set => _proccessor.User = value;
             }
-
-            public IXMPPClient XMPPClient
+            public IXMPPClient XmppClient
             {
-                get => _proccessor.XMPPClient;
-                set => _proccessor.XMPPClient = value;
+                get => _proccessor.XmppClient;
+                set => _proccessor.XmppClient = value;
             }
+            
 
             public Form BaseForm => _proccessor._baseForm;
 
@@ -64,8 +72,28 @@ namespace DexNetwork.DexInterpreter
         {
             _baseForm = baseForm;
             _dexPromise = new DexPromise(this);
+
         }
 
+        public override void StartProcess(string fileName, string arguments)
+        {
+            string softwareLibPath = @"Software/lib.xml";
+
+            try
+            {
+                SoftwareLib = Serializer.DeserializeSoft(softwareLibPath);
+                SoftwareLib.Init(softwareLibPath);
+            }
+            catch (Exception e)
+            {
+                FireProcessErrorEvent(e.ToString());
+            }
+        }
+
+        public override void StopProcess()
+        {
+            base.StopProcess();
+        }
 
         public override void ExecuteCommad(string input)
         {
@@ -104,11 +132,14 @@ namespace DexNetwork.DexInterpreter
             if (InitCommand.CmdName.Equals(split[0].ToLower()))
                 return new InitCommand(_dexPromise);
 
-            if (DexStatusCommand.CmdName.Equals(split[0].ToLower()))
-                return new DexStatusCommand(Verbosity.Critical, _dexPromise);
+            if (DexStatusInstructionCommand.CmdName.Equals(split[0].ToLower()))
+                return new DexStatusInstructionCommand(Verbosity.Critical, _dexPromise);
 
             if (LoginCommand.CmdName.Equals(split[0].ToLower()))
                 return new LoginCommand(_dexPromise);
+
+            if (DexInfoInstructionCommand.CmdName.Equals(split[0].ToLower()))
+                return new DexInfoInstructionCommand(Verbosity.Critical, _dexPromise);
 
 
             return null;
@@ -122,19 +153,19 @@ namespace DexNetwork.DexInterpreter
 
             if (result.XMPPConnected)
             {
-                if (XMPPClient != null)
+                if (XmppClient != null)
                 {
                     Action xmppTimerAction = () =>
                     {
                         string command;
-                        if (XMPPQueue.TryDequeue(out command))
+                        if (XmppQueue.TryDequeue(out command))
                         {
-                            XMPPClient.SendMessage(command);
+                            XmppClient.SendMessage(command);
                         }
                     };
 
 
-                    XMPPClient.OnMessageRecieved += OnXMPPResponse;
+                    XmppClient.OnMessageRecieved += OnXmppResponse;
                     PeriodicTaskFactory.Start(xmppTimerAction, 1000, 1, -1, -1, true);
                 }
                     
@@ -152,25 +183,25 @@ namespace DexNetwork.DexInterpreter
 
             if (result.XMPPCommand != null)
             {
-                if (XMPPClient == null)
+                if (XmppClient == null)
                     throw new Exception("XMPP Connection is not set up, use login command to establish connection");
 
-                XMPPQueue.Enqueue(result.XMPPCommand);
+                XmppQueue.Enqueue(result.XMPPCommand);
             }
                 
 
-            if (result.Status == CommadStatus.RequestResume)
+            if (result.State == CommadState.RequestResume)
             {
                 var newResult = ActiveCommand.Proceed();
                 HandleResult(newResult);
             }
-            else if (result.Status == CommadStatus.Finished)
+            else if (result.State == CommadState.Finished)
             {
                 ActiveCommand = null;
             }
         }
 
-        private void OnXMPPResponse(IXMPPClient sender, XMPPEventArgs args)
+        private void OnXmppResponse(IXMPPClient sender, XMPPEventArgs args)
         {
             Monitor.Enter(this);
             try
@@ -182,7 +213,7 @@ namespace DexNetwork.DexInterpreter
                     return;
                 }
 
-                HandleResult(ActiveCommand.OnXMPPInput(args.Message));
+                HandleResult(ActiveCommand.OnXmppMessageReceived(args.Message));
             }
             finally
             {

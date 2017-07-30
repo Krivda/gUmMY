@@ -46,6 +46,7 @@
     <Compile Include="NetMapTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestFinally.cs" />
+    <Compile Include="TestLibSerialize.cs" />
     <Compile Include="TestResponses.cs" />
   </ItemGroup>
   <ItemGroup>

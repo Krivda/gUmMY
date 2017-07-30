@@ -14,7 +14,7 @@ namespace DexNetwork.Structure
         [XmlAttribute(AttributeName = "disabled")]
         public int Disabled { get; set; }
         [XmlAttribute(AttributeName = "software")]
-        public string Software { get; set; }
+        public long Software { get; set; }
         [XmlAttribute(AttributeName = "explored")]
         public bool Explored { get; set; }
 
@@ -62,13 +62,11 @@ namespace DexNetwork.Structure
 
         private void ProccessInstance(NodeInstance nodeInstance, NodeInstance parent, int level)
         {
-            bool newNode = false;
 
             if (!Nodes.TryGetValue(nodeInstance.Name, out Node node))
             {
                 node = new Node();
                 Nodes.Add(nodeInstance.Name, node);
-                newNode = true;
             }
 
             nodeInstance.Parent = parent;
@@ -121,7 +119,7 @@ namespace DexNetwork.Structure
         public string Name { get; set; }
         public string NodeType { get; set; }
         public int Disabled { get; set; }
-        public string Software { get; set; }
+        public long Software { get; set; }
         public bool Explored { get; set; }
 
         public List<NodeInstance> Instances { get; } = new List<NodeInstance>();
