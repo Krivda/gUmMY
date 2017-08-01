@@ -35,53 +35,15 @@ namespace UnitTests
 
             string expected =
                 "                     ┌Router1"     + "\r\n" +
-                "          ┌Firewall  ┤"            + "\r\n" +
+                "          ┌VPN       ┤"            + "\r\n" +
                 "          │          └Monitor3"    + "\r\n" +
-                "VPN       ┤"                       + "\r\n" +
+                "firewall  ┤" + "\r\n" +
                 "          │          ┌VPN2"        + "\r\n" +
                 "          └Monitor1  ┤"            + "\r\n" +
-                "                     └Monitor4"    + "\r\n" ;    
+                "                     └Monitor4"    + "\r\n" ;
 
 
-            Network net = new Network();
-            net.Root = new NodeInstance()
-            {
-                Name = "VPN",
-                Subnodes = new List<NodeInstance>()
-                {
-                    new NodeInstance()
-                    {
-                        Name = "Firewall",
-                        Subnodes = new List<NodeInstance>()
-                        {
-                            new NodeInstance()
-                            {
-                                Name = "Router1"
-                            },
-                            new NodeInstance()
-                            {
-                                Name = "Monitor3"
-                            }
-                        }
-                    },
-                    new NodeInstance()
-                    {
-                        Name = "Monitor1",
-                        Subnodes = new List<NodeInstance>()
-                        {
-                            new NodeInstance()
-                            {
-                                Name = "VPN2"
-                            },
-                            new NodeInstance()
-                            {
-                                Name = "Monitor4"
-                            }
-                        }
-                    },
-                }
-            };
-            net.MakeTreeLike();
+            var net = NetGenerator.GetNet("simple");
 
             NetTextMap visual = new NetTextMap(net);
             string netText = visual.GetTextView("", 10);
@@ -103,7 +65,7 @@ namespace UnitTests
                 "          │          └Monitor3  ┼data core1"     + "\r\n" +
                 "          │                     │"               + "\r\n" +
                 "          │                     └data core2"     + "\r\n" +
-                "Firewall  ┤"                                     + "\r\n" +
+                "firewall  ┤"                                     + "\r\n" +
                 "          │                     ┌VPN3"           + "\r\n" +
                 "          │                     │"               + "\r\n" + 
                 "          │          ┌VPN2      ┼Traffic2"       + "\r\n" +
@@ -112,90 +74,50 @@ namespace UnitTests
                 "          └Monitor1  ┤"                          + "\r\n" +
                 "                     └Monitor4  ─Antivirus1"     + "\r\n";
 
-
-            Network net = new Network();
-            net.Root = new NodeInstance()
-            {
-                Name = "Firewall",
-                Subnodes = new List<NodeInstance>()
-                {
-                    new NodeInstance()
-                    {
-                        Name = "VPN1",
-                        Subnodes = new List<NodeInstance>()
-                        {
-                            new NodeInstance()
-                            {
-                                Name = "Router1"
-                            },
-                            new NodeInstance()
-                            {
-                                Name = "Monitor3",
-                                Subnodes = new List<NodeInstance>()
-                                {
-                                    new NodeInstance()
-                                    {
-                                        Name = "cryptore1"
-                                    },
-                                    new NodeInstance()
-                                    {
-                                        Name = "data core1"
-                                    },
-                                    new NodeInstance()
-                                    {
-                                        Name = "data core2"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    new NodeInstance()
-                    {
-                        Name = "Monitor1",
-                        Subnodes = new List<NodeInstance>()
-                        {
-                            new NodeInstance()
-                            {
-                                Name = "VPN2",
-                                Subnodes = new List<NodeInstance>()
-                                {
-                                    new NodeInstance()
-                                    {
-                                        Name = "VPN3"
-                                    },
-                                    new NodeInstance()
-                                    {
-                                        Name = "Traffic2"
-                                    },
-                                    new NodeInstance()
-                                    {
-                                        Name = "cryptocore3"
-                                    }
-                                }
-                            },
-                            new NodeInstance()
-                            {
-                                Name = "Monitor4",
-                                Subnodes = new List<NodeInstance>()
-                                {
-                                    new NodeInstance()
-                                    {
-                                        Name = "Antivirus1"
-                                    },
-                                }
-                            }
-                        }
-                    },
-                }
-            };
-            net.MakeTreeLike();
+            
+            var net = NetGenerator.GetNet("complicated");
 
             NetTextMap visual = new NetTextMap(net);
             string netText = visual.GetTextView("", 10);
 
             Console.WriteLine(netText);
             Assert.AreEqual(expected, netText, "complicated network");
+            
         }
+
+        [TestCase(TestName = "Looped tree network")]
+        public void TestLayoutLooped()
+        {
+
+            string expected =
+                //          ********** 
+                "                     ┌Router1" + "\r\n" +
+                "          ┌VPN1      ┤" + "\r\n" +
+                "          │          │          ┌cryptore1" + "\r\n" +
+                "          │          │          │" + "\r\n" +
+                "          │          └Monitor3  ┼data core1" + "\r\n" +
+                "          │                     │" + "\r\n" +
+                "          │                     └data core2" + "\r\n" +
+                "firewall  ┤" + "\r\n" +
+                "          │                     ┌VPN3" + "\r\n" +
+                "          │                     │" + "\r\n" +
+                "          │          ┌VPN2      ┼Traffic2" + "\r\n" +
+                "          │          │          │" + "\r\n" +
+                "          │          │          └cryptocore3" + "\r\n" +
+                "          └Monitor1  ┤" + "\r\n" +
+                "                     └Monitor4  ─Antivirus1" + "\r\n";
+
+
+            var net = NetGenerator.GetNet("linked");
+
+            NetTextMap visual = new NetTextMap(net);
+            string netText = visual.GetTextView("", 15);
+
+            Console.WriteLine(netText);
+            Assert.AreEqual(expected, netText, "looped network");
+
+        }
+
     }
 
     static class AccessExtensions

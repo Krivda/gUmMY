@@ -125,7 +125,7 @@ namespace DexNetwork.DexInterpreter.Commands
                     //save software code
                     _softwareCode = long.Parse(Parameters[0].Replace("#", ""));
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     string errorMsg = $"Can't extract software code from param {Parameters[0]}";
 

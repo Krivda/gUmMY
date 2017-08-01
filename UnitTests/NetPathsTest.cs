@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text;
 using DexNetwork.Structure;
 using NUnit.Framework;
 
@@ -8,93 +7,7 @@ namespace UnitTests
     public class NetPathsTest
     {
 
-        private Network GetNet(string netName)
-        {
-            Network net = null;
-            if (netName.Equals("testNetA"))
-            {
-                net = new Network();
-                net.Root = new NodeInstance()
-                {
-                    Name = "firewall",
-                    Subnodes = new List<NodeInstance>()
-                    {
-                        new NodeInstance()
-                        {
-                            Name = "brandmauer1",
-                            Subnodes = new List<NodeInstance>()
-                            {
-                                new NodeInstance()
-                                {
-                                    Name = "VPN1",
-                                    Subnodes = new List<NodeInstance>()
-                                    {
-                                        new NodeInstance()
-                                        {
-                                            Name = "brandmauer2"
-                                        }
-                                    }
-                                },
-                                new NodeInstance()
-                                {
-                                    Name = "VPN2"
-                                },
-                                new NodeInstance()
-                                {
-                                    Name = "VPN3",
-                                    Subnodes = new List<NodeInstance>()
-                                    {
-                                        new NodeInstance()
-                                        {
-                                            Name = "antivirus1",
-                                            Subnodes = new List<NodeInstance>()
-                                            {
-                                                new NodeInstance()
-                                                {
-                                                    Name = "datanode1"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        new NodeInstance()
-                        {
-                            Name = "brandmauer2",
-                            Subnodes = new List<NodeInstance>()
-                            {
-                                new NodeInstance()
-                                {
-                                    Name = "VPN3"
-                                },
-                                new NodeInstance()
-                                {
-                                    Name = "VPN4",
-                                    Subnodes = new List<NodeInstance>()
-                                    {
-                                        new NodeInstance()
-                                        {
-                                            Name = "antivirus2",
-                                            Subnodes = new List<NodeInstance>()
-                                            {
-                                                new NodeInstance()
-                                                {
-                                                    Name = "datanode1"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                };
-                net.MakeTreeLike();
-            }
 
-            return net;
-        }
 
         private string GetStrPath(Dictionary<string, Node> nodes)
         {
@@ -130,10 +43,10 @@ namespace UnitTests
         }
 
 
-        [TestCase(TestName = "get parent in net A")]
+        [TestCase(TestName = "get parent in linked net")]
         public void CheckParents()
         {
-            var net = GetNet("testNetA");
+            var net = NetGenerator.GetNet("linked");
 
             Assert.IsTrue(KeysExists("", net.Nodes["firewall"].GetParents()));
 
@@ -152,10 +65,10 @@ namespace UnitTests
         }
 
 
-        [TestCase(TestName = "path to root in net A")]
+        [TestCase(TestName = "path to root in looped net")]
         public void TestPathInNetA()
         {
-            var net = GetNet("testNetA");
+            var net = NetGenerator.GetNet("looped");
 
             var paths = net.GetStrPathsToRoot(net.Nodes["brandmauer1"]);
             Assert.AreEqual(1, paths.Count);

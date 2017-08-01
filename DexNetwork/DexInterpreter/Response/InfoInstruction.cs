@@ -14,7 +14,7 @@ namespace DexNetwork.DexInterpreter.Response
 
         public string Error { get; set; } = "";
 
-        public Structure.Software Software { get; set; }
+        public Software Software { get; set; }
 
         public static string CommandName { get; } = "info";
 

@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Xml.Serialization;
 
 namespace DexNetwork.Structure
 {
 
-    public class NodeInstance
+    /*public class NodeInstance
     {
         [XmlAttribute(AttributeName = "name")]
         public string Name { get; set; }
@@ -39,9 +38,7 @@ namespace DexNetwork.Structure
 
         [XmlIgnore]
         public string NodeInstKey { get; set; }
-
-
-    }
+    }*/
 
     [XmlRoot(ElementName = "Network")]
     public class Network
@@ -49,84 +46,85 @@ namespace DexNetwork.Structure
         [XmlIgnore]
         private string _networkFileName;
 
-        //[XmlElement(ElementName = "Root", Type = typeof(NodeInstance))]
-        public NodeInstance Root { get; set; }
         [XmlAttribute(AttributeName = "name")]
         public string Name { get; set; }
 
+        [XmlArray("Nodes")]
+        [XmlArrayItem("Node", Type = typeof(Node))]
+        public List<Node> NodesList { get; set; }
+
         [XmlIgnore]
-        public List<List<NodeInstance>> NodeInstByLevel {get; private set; }
+        public List<List<Node>> NodesByLevel {get; private set; }
         [XmlIgnore]
-        //Todo alex: pure nodes (w/o duplicates)
+
         public Dictionary<string, Node> Nodes { get; private set; }
 
-
-        public void MakeTreeLike()
+        private void ProccessNode(Node node,  int level)
         {
-            NodeInstByLevel = new List<List<NodeInstance>>();
-            Nodes =new Dictionary<string, Node>();
-
-            if (Root != null)
-                ProccessInstance(Root, null, 0);
-        }
-
-        private void ProccessInstance(NodeInstance nodeInstance, NodeInstance parent, int level)
-        {
-
-            if (!Nodes.TryGetValue(nodeInstance.Name, out Node node))
+            //first time met a new level
+            if (!(level < NodesByLevel.Count))
             {
-                node = new Node();
-                Nodes.Add(nodeInstance.Name, node);
+                NodesByLevel.Add(new List<Node>());
             }
 
-            nodeInstance.Parent = parent;
-            nodeInstance.Node = node;
 
-            string instKey;
-            int nodeIndex=0;
-            if (parent == null)
+            if (!NodesByLevel[level].Contains(node))
             {
-                instKey = $"root_{nodeInstance.Name}";
-                nodeIndex = 0;
-            }
-            else
-            {
-                for (int i = 0; i < nodeInstance.Parent.Subnodes.Count; i++)
-                {
-                    if (nodeInstance.Parent.Subnodes[i].Name.Equals(nodeInstance.Name))
-                    {
-                        nodeIndex = i;
-                        break;
-                    }
-                }
-                instKey = $"{parent.Name}_{nodeInstance.Name}";
+                NodesByLevel[level].Add(node);
             }
 
-            nodeInstance.NodeInstKey = instKey;
-            nodeInstance.Index = nodeIndex;
 
-            if (NodeInstByLevel.Count == level)
-                NodeInstByLevel.Add(new List<NodeInstance>());
-
-            NodeInstByLevel[level].Add(nodeInstance);
-            node.AddInstance(nodeInstance);
-
-            if (nodeInstance.Subnodes == null)
+            int index = 0;
+            foreach (var childLink in node.Links)
             {
-                nodeInstance.Subnodes = new List<NodeInstance>();
-            }
-            
-            
-            foreach (var childInstance in nodeInstance.Subnodes)
-            {
-                ProccessInstance(childInstance, nodeInstance, level + 1);
+                Node childNode;
+                
+                //check if child is a valid node
+                if (!Nodes.TryGetValue(childLink.To, out childNode))
+                    throw new Exception($"Node {node.Name} has a link to a non-existing node named {childLink.To} ");
+
+                childLink.LinkedNode = childNode;
+                childNode.Index = index;
+                index++;
+
+                ProccessNode(childNode, level + 1);
             }
         }
 
         public void Init(string networkFileName)
         {
             _networkFileName = networkFileName;
-            MakeTreeLike();
+
+            NodesByLevel = new List<List<Node>>();
+            Nodes = new Dictionary<string, Node>();
+
+            foreach (var node in NodesList)
+            {
+                string nodeNotUniqueErr = "These nodes are not unique";
+                bool errFound = false;
+                if (Nodes.ContainsKey(node.Name))
+                {
+                    nodeNotUniqueErr += $"Node {node.Name} is not unique";
+                    errFound = true;
+                }
+                else
+                {
+                    Nodes.Add(node.Name, node);
+                    node.Network = this;
+                }
+
+                if (errFound)
+                {
+                    throw new Exception(nodeNotUniqueErr);
+                }
+            }
+
+            Node root;
+            if (!Nodes.TryGetValue("firewall", out root))
+                throw new Exception("Network doesn't have firewall node");
+            
+            
+            ProccessNode(root, 0);
         }
 
         public void Dump()
@@ -182,8 +180,7 @@ namespace DexNetwork.Structure
                 }
                 else
                 {
-                    var newFork = new List<string>(currPath);
-                    newFork.Add(parent.Key);
+                    var newFork = new List<string>(currPath) {parent.Key};
 
                     if (parent.Key != target.Name)
                     {
@@ -208,88 +205,59 @@ namespace DexNetwork.Structure
         }
     }
 
+    public class Link
+    {
+        [XmlAttribute(AttributeName = "to")]
+        public string To { get; set; }
+
+        [XmlIgnore]
+        public Node LinkedNode { get; set; }
+
+    }
+
     public class Node
     {
+        [XmlAttribute(AttributeName = "name")]
         public string Name { get; set; }
+        [XmlAttribute(AttributeName = "nodeType")]
         public string NodeType { get; set; }
-        public int Disabled { get; set; }
-        public long Software { get; set; }
-        public bool Explored { get; set; }
+        [XmlAttribute(AttributeName = "effect")]
         public string Effect { get; set; }
+        [XmlAttribute(AttributeName = "software")]
+        public long Software { get; set; }
+        [XmlAttribute(AttributeName = "explored")]
+        public bool Explored { get; set; }
 
-        public List<NodeInstance> Instances { get; } = new List<NodeInstance>();
-        
+        [XmlIgnore]
+        public int Index { get; set; }
+
+        [XmlIgnore]
+        public int Disabled { get; set; }
+
+        [XmlIgnore]
+        public Network Network { get; set; }
+
+        [XmlArray("Links")]
+        [XmlArrayItem("Link", Type = typeof(Link))]
+        public List<Link> Links { get; set; }
+
+
         private bool _initialized = false;
-
-        public void AddInstance(NodeInstance inst)
-        {
-
-            bool exists = false;
-            foreach (var nodeInstance in Instances)
-            {
-                if (nodeInstance.NodeInstKey.Equals(inst.NodeInstKey))
-                {
-                    exists = true;
-                    break;
-                }
-            }
-
-            if (!exists)
-            {
-                Instances.Add(inst);
-            }
-                
-
-            if (!_initialized)
-            {
-                Name = inst.Name;
-                NodeType = inst.Name;
-
-                Disabled = inst.Disabled;
-
-                Software = inst.Software;
-                Effect = inst.Effect;
-                
-                Explored = inst.Explored;
-            }
-            else
-            {
-                bool updateInstances = false;
-                if (Name != inst.Name)
-                    throw new Exception($"Node instance name '{inst.Name}' doesn't math node name {Name}");
-
-                if (NodeType != inst.NodeType)
-                    throw new Exception($"Node instance type '{inst.NodeType}' doesn't math node name {NodeType}");
-
-                if (Software != inst.Software)
-                    updateInstances = true;
-
-                Software = inst.Software;
-
-                Disabled = inst.Disabled;
-
-                if (!Explored)
-                    Explored = inst.Explored;
-
-            }
-        }
 
         public Dictionary<string, Node> GetParents()
         {
             Dictionary<string, Node> result = new Dictionary<string, Node>();
 
-            foreach (var nodeInstance in Instances)
+            foreach (var node in Network.NodesList)
             {
-                if (nodeInstance.Parent != null)
+                foreach (var nodeLink in node.Links)
                 {
-                    // check if we already met this parent?
-                    if (!result.ContainsKey(nodeInstance.Parent.Node.Name))
+                    if (nodeLink.To.Equals(Name))
                     {
-                        result.Add(nodeInstance.Parent.Node.Name, nodeInstance.Parent.Node);
+                        result.Add(node.Name, node);
                     }
                 }
             }
-
             return result;
         }
 
@@ -297,19 +265,9 @@ namespace DexNetwork.Structure
         {
             Dictionary<string, Node> result = new Dictionary<string, Node>();
 
-            foreach (var nodeInstance in Instances)
+            foreach (var link in Links)
             {
-                if (nodeInstance.Subnodes != null)
-                {
-                    foreach (var subnode in nodeInstance.Subnodes)
-                    {
-                        // check if we already met this parent?
-                        if (!result.ContainsKey(subnode.Node.Name))
-                        {
-                            result.Add(subnode.Node.Name, subnode.Node);
-                        }
-                    }
-                }
+                result.Add(link.LinkedNode.Name, link.LinkedNode);
             }
 
             return result;

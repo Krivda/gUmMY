@@ -69,7 +69,7 @@ namespace gUmMYConsole
         {
             Network net = new Network();
 
-            net.Name = "BlackMirror11";
+            net.Name = "BlackMirror11";/*
             net.Root = new NodeInstance()
             {
                 Disabled = 0,
@@ -261,7 +261,7 @@ namespace gUmMYConsole
                     }
                 }
             };
-
+            */
             string netName = "BlackMirror11";
             string path = $@"Networks/{netName}.xml";
             //_consoleStream.FeedOutput(Serializer.SerializeNetAndDump(net, path));

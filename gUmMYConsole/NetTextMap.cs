@@ -13,14 +13,30 @@ namespace gUmMYConsole
         /// </summary>
         public class TextNetNodeInstance
         {
-            private readonly NodeInstance _node;
+            private readonly Node _node;
+            private readonly string _instanceKey;
 
             public string LineId { get; }
  
-            public TextNetNodeInstance(NodeInstance node, string lineId)
+            public TextNetNodeInstance(Node node, string lineId, string instanceKey)
             {
                 LineId = lineId;
                 _node = node;
+                _instanceKey = instanceKey;
+            }
+
+            public static string GetKey(List<Node> path)
+            {
+                string result = "";
+                string delim = "";
+
+                foreach (var node in path)
+                {
+                    result += $"{delim}{node.Name}";
+                    delim = ",";
+                }
+
+                return result;
             }
 
             
@@ -28,7 +44,7 @@ namespace gUmMYConsole
 
         public int MaxLevel { get; set; }
         List<string> _lines;
-        public Dictionary<string, TextNetNodeInstance> _nodes;
+        private Dictionary<string, TextNetNodeInstance> _textNodeInstances;
 
 
         public Network Network { get; }
@@ -45,16 +61,32 @@ namespace gUmMYConsole
         {
             _currentLineId = 0;
             _lines = new List<string>();
-            _nodes = new Dictionary<string, TextNetNodeInstance>();
+            _textNodeInstances = new Dictionary<string, TextNetNodeInstance>();
             InsertLine(0);
 
 
-            for (var level = 0; level < Network.NodeInstByLevel.Count; level++)
+            for (var level = 0; level < Network.NodesByLevel.Count; level++)
             {
-                List<NodeInstance> levelNodesInstances = Network.NodeInstByLevel[level];
-                foreach (var nodeInst in levelNodesInstances)
+                //finding all parents on prev level (ie if node is on lvl 3 it may have 2 or more links from lvl2, so it;s drawn several times)
+                foreach (var node in Network.NodesByLevel[level])
                 {
-                    DrawNode(3+maxLen*level + level, nodeFormat, maxLen, nodeInst);
+                    var pathsToRoot = node.Network.GetNodePathsToRoot(node);
+
+                    if (level != 0)
+                    {
+                        foreach (var path in pathsToRoot)
+                        {
+                            //take only paths that end on lvl 2
+                            if (path.Count == level+1)
+                            {
+                                DrawNode(3 + maxLen * level + level, nodeFormat, maxLen, node, path[1], path);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        DrawNode(3, nodeFormat, maxLen, node, null, new List<Node> { node });
+                    }
                 }
             }
 
@@ -62,19 +94,21 @@ namespace gUmMYConsole
         }
 
 
-        private void DrawNode(int hpos, string nodeFormat, int maxLen, NodeInstance netNode)
+        private void DrawNode(int hpos, string nodeFormat, int maxLen, Node node, Node parent, List<Node> path)
         {
-            int vpos = GetNodeInstLineIndex(netNode);
+            int vpos = GetNodeInstLineIndex(node, parent, path);
             string lineId = _lines[vpos].Substring(0, 3);
-            TextNetNodeInstance textNode = new TextNetNodeInstance(netNode, lineId);
-            _nodes.Add(netNode.NodeInstKey, textNode);
+            string textNodeKey = TextNetNodeInstance.GetKey(path);
+            TextNetNodeInstance textNode = new TextNetNodeInstance(node, lineId, textNodeKey);
 
-            string nodeText = GetNodeTextView(netNode, nodeFormat, maxLen);
+            _textNodeInstances.Add(textNodeKey, textNode);
+
+            string nodeText = GetNodeTextView(node, nodeFormat, maxLen);
 
             //draw this node text
             _lines[vpos] = _lines[vpos].ReplaceAt(hpos, maxLen, nodeText);
 
-            List<string> connectorBlock = CreateBlock(netNode.Subnodes.Count);
+            List<string> connectorBlock = CreateBlock(node.Links.Count);
             int middle = connectorBlock.Count / 2;
             InsertLinesAroundNode(vpos, middle);
 
@@ -85,7 +119,6 @@ namespace gUmMYConsole
             {
                 _lines[newBaseNodeIndex - middle + i] = _lines[newBaseNodeIndex - middle + i].ReplaceAt(hpos+maxLen, 1, connectorBlock[i]);
             }
-            
         }
 
         private void InsertLinesAroundNode(int baseLine, int linesCount)
@@ -102,7 +135,7 @@ namespace gUmMYConsole
             }
         }
 
-        private string GetNodeTextView(NodeInstance netNode, string nodeFormat, int maxLen)
+        private string GetNodeTextView(Node netNode, string nodeFormat, int maxLen)
         {
 
             string formatString = $"{{0,-{maxLen}}}";
@@ -199,20 +232,26 @@ namespace gUmMYConsole
             return line;
         }
 
-        private int GetNodeInstLineIndex(NodeInstance nodeInst)
+        private int GetNodeInstLineIndex(Node node, Node parent, List<Node> path)
         {
             int result;
-            if (nodeInst.Parent == null)
+            if (parent == null)
             {
                 result = 0;
             }
             else
             {
-                string lineId = _nodes[nodeInst.Parent.NodeInstKey].LineId;
-                int parentLine = GetLineById(lineId);
+                List<Node> parentPath = new List<Node>();
+                for (int i = 1; i < path.Count; i++)
+                {
+                    parentPath.Add(path[i]);
+                }
+
+                TextNetNodeInstance parentTextNode = _textNodeInstances[TextNetNodeInstance.GetKey(parentPath)];
+                int parentLine = GetLineById(parentTextNode.LineId);
 
                 //result = parentLine + (nodeInst.Index * 2 - nodeInst.Parent.Subnodes.Count / 2);
-                result = parentLine + (nodeInst.Index * 2 - (nodeInst.Parent.Subnodes.Count * 2 - 1) / 2);
+                result = parentLine + (node.Index * 2 - (parent.Links.Count * 2 - 1) / 2);
             }
 
             return result;

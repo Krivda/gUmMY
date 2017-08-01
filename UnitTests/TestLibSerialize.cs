@@ -1,4 +1,5 @@
 using DexNetwork;
+using DexNetwork.Structure;
 using NUnit.Framework;
 
 namespace UnitTests
@@ -10,9 +11,9 @@ namespace UnitTests
         {
             
 
-            var softlib = Serializer.DeserializeSoft(TestContext.CurrentContext.TestDirectory + @"\\Software\lib.xml");
+            var softlib = Serializer.Deserialize<Software>(TestContext.CurrentContext.TestDirectory + @"\\Software\lib.xml");
 
-            string s = Serializer.SerializeSoft(softlib);
+            string s = Serializer.Serialize(softlib);
         }
     }
 }

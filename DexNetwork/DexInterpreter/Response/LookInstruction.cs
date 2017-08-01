@@ -11,13 +11,13 @@ namespace DexNetwork.DexInterpreter.Response
 
         private const string NODE_INFO_REGEX = @"Node ""(?<netName>\w+)/(?<nodeName>\w+)"" properties:";
         private const string NODE_SOFT_REGEX = @"Installed program: ((#(?<softCode>\d+))|(?<none>none))";
-        private const string NODE_NODE_REGEX = @"(\d): (?<nodeName>\w+)\((?<nodeType>\w+)\): #(?<softCode>\d+)(?<disabled> \w+)?";
+        private const string NODE_NODE_REGEX = @"(?<index>\d): (?<nodeName>\w+)\((?<nodeType>\w+)\): #(?<softCode>\d+)(?<disabled> \w+)?";
 
 
 
         public string NetName { get; private set; } = "";
         public string Error { get; private set; } = "";
-        public NodeInstance NodeInst { get; set; }
+        public Node Node { get; set; }
 
         public static LookInstruction Parse(string commandOuptut)
         {
@@ -84,7 +84,7 @@ namespace DexNetwork.DexInterpreter.Response
                         else
                         {
                             result.NetName = matches["netName"];
-                            result.NodeInst.Name = matches["nodeName"];
+                            result.Node.Name = matches["nodeName"];
                         }
                     }
                     else if (cmdLine.StartsWith("Installed program: "))
@@ -113,23 +113,23 @@ namespace DexNetwork.DexInterpreter.Response
                                 result.Error = "can't parse props line, no softcode / none captured";
                             }
 
-                            result.NodeInst.Software = software;
+                            result.Node.Software = software;
                         }
                     }
                     else if (cmdLine.StartsWith("Type: "))
                     {
                         //Type: Cyptographic system
-                        result.NodeInst.NodeType = cmdLine.Replace("Type: ", "");
+                        result.Node.NodeType = cmdLine.Replace("Type: ", "");
                     }
                     else if (cmdLine.StartsWith("DISABLED for: "))
                     {
                         //DISABLED for: 395 sec
-                        result.NodeInst.NodeType = cmdLine.Replace("DISABLED for: ", "").Replace(" sec", "");
+                        result.Node.NodeType = cmdLine.Replace("DISABLED for: ", "").Replace(" sec", "");
                     }
                     else if (cmdLine.StartsWith("Node effect: "))
                     {
                         //Node effect: trace
-                        result.NodeInst.Effect = cmdLine.Replace("Node effect: ", "");
+                        result.Node.Effect = cmdLine.Replace("Node effect: ", "");
                     }
                     else if (cmdLine.StartsWith("//Child nodes:"))
                     {
@@ -145,14 +145,21 @@ namespace DexNetwork.DexInterpreter.Response
                         }
                         else
                         {
-                            if (result.NodeInst.Subnodes == null)
-                                result.NodeInst.Subnodes = new List<NodeInstance>();
+                            //it can't happen
+                            if (result.Node.Links == null)
+                                result.Node.Links = new List<Link>();
 
-                            result.NodeInst.Subnodes.Add(new NodeInstance()
+
+                            result.Node.Links.Add(new Link()
                             {
-                                Name = matches["nodeName"],
-                                NodeType = matches["nodeType"],
-                                Software = long.Parse(matches["softCode"])
+                                To = matches["nodeName"],
+                                LinkedNode = new Node()
+                                {
+                                    Name = matches["nodeName"],
+                                    NodeType = matches["nodeType"],
+                                    Software = long.Parse(matches["softCode"]),
+                                    Index = int.Parse(matches["index"])
+                                }
                             });
                         }
 
