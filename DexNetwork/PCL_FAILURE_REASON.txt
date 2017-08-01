@@ -1,1 +1,0 @@
-﻿Using Serialize() and Deserialize() extension method.

@@ -16,6 +16,7 @@ namespace DexNetwork.Server
         private int _proxyLevel;
         private string _visibleAs;
         private SoftwareLib _softwareLib;
+        private Network _network;
         public Dictionary<string, Network> AvailableNetworks { get; } = new Dictionary<string, Network>();
 
 
@@ -30,7 +31,7 @@ namespace DexNetwork.Server
 
             string softLib = Path.GetFullPath(@"Server/Data/lib.xml");
 
-            _softwareLib = Serializer.DeserializeSoft(softLib);
+            _softwareLib = Serializer.Deserialize<SoftwareLib>(softLib);
             _softwareLib.Init(@"Server/Data/lib.xml");
 
             //EmulateResponse($"Logged in to LOCAL XMPP Emulation. Software loaded from {softLib}");
@@ -47,20 +48,34 @@ namespace DexNetwork.Server
         {
             if (message.StartsWith("target"))
             {
+                if (message.Split(' ').Length > 1)
+                {
+                    _target = message.Split(' ')[1];
+
+                    string netPath = $"Server//Data//{_target}.xml";
+
+                    _network = Serializer.DeserializeNet(netPath);
+
+                }
+
                 EmulateResponse("ok");
                 //404 target system:2739100 not found
             }
             else if (message.StartsWith("status"))
             {
-                EmulateResponse(StatusInstruction.Assemble($"{_user}@{_domain}", _target, _admSystem,_proxyLevel, _visibleAs));
+                EmulateResponse(StatusInstruction.Assemble($"{_user}@{_domain}", 
+                    string.IsNullOrEmpty(_target)?"none":_target,
+                    _admSystem,
+                    _proxyLevel,
+                    _visibleAs));
             }
             else if (message.StartsWith("info"))
             {
                 string codeStr = message.Replace("info #", "");
                 long softCode;
 
-                string incorrectProgMessage = $@"--------------------
-incorrect program {1}
+                string incorrectProgMessage = @"--------------------
+incorrect program #{0}
 END----------------";
 
                 if (!long.TryParse(codeStr, out softCode))

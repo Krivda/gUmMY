@@ -84,12 +84,14 @@
     <Compile Include="DexInterpreter\Commands\DexInfoInstructionCommand.cs" />
     <Compile Include="DexInterpreter\Commands\InitCommand.cs" />
     <Compile Include="DexInterpreter\Commands\LoginCommand.cs" />
+    <Compile Include="DexInterpreter\Commands\TargetCommand.cs" />
     <Compile Include="DexInterpreter\Commands\WellcomeCommand.cs" />
     <Compile Include="DexInterpreter\Commands\DexStatusInstructionCommand.cs" />
     <Compile Include="DexInterpreter\Commands\TextOutBase.cs" />
     <Compile Include="DexInterpreter\DexCommandProccessor.cs" />
+    <Compile Include="DexInterpreter\Response\LookInstruction.cs" />
     <Compile Include="DexInterpreter\Response\InfoInstruction.cs" />
-    <Compile Include="DexInterpreter\Commands\DexTargetCommand.cs" />
+    <Compile Include="DexInterpreter\Commands\DexTargetInstructionCommand.cs" />
     <Compile Include="DexInterpreter\Response\StatusInstruction.cs" />
     <Compile Include="DexInterpreter\TextOutput.cs" />
     <Compile Include="DexInterpreter\LoggedUser.cs" />
@@ -99,9 +101,12 @@
     <Compile Include="Server\XMPPLocal.cs" />
     <Compile Include="Server\IXMPPClient.cs" />
     <Compile Include="Server\OnMessageRecievedArgs.cs" />
-    <Compile Include="Software\NodeTypes.cs" />
+    <Compile Include="Structure\NodeEffects.cs" />
+    <Compile Include="Structure\NodeTypesLib.cs" />
+    <Compile Include="Structure\SoftwareEffectsLib.cs" />
     <Compile Include="Structure\SoftwareLib.cs" />
     <Compile Include="Structure\Structure.cs" />
+    <Compile Include="Utils\RegexUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Networks\BlackMirror11.xml">
@@ -116,9 +121,20 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="PCL_FAILURE_REASON.txt" />
     <Content Include="Server\Data\lib.xml">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Software\NodeTypesLib.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Software\Networks.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Software\SoftwareEffects.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Software\NodeEffectsLib.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Software\lib.xml">

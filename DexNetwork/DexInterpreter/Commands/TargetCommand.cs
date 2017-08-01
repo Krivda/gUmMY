@@ -2,23 +2,18 @@ using System.Collections.Generic;
 
 namespace DexNetwork.DexInterpreter.Commands
 {
-    class InitCommand : CompositeCommand
+    class TargetCommand : CompositeCommand
     {
-        public const string CmdName = "init";
+        public const string CmdName = "target";
 
-        public string Login { get; protected set; }
-        public string Realm { get; protected set; }
-        public string Password { get; protected set; }
+        public string Network { get; protected set; }
 
-
-        public InitCommand(IDexPromise promise) :base (promise)
+        public TargetCommand(IDexPromise promise) : base(promise)
         {
-            CommandHelpString = $"{CmdName} <login> <pwd> [realm]";
+            CommandHelpString = $"{CmdName} <network>";
             State = CommadState.NotStarted;
             CommandName = CmdName.ToLower();
-            MandatoryParamCount = 2;
-            OptionalParamCount = 1;
-
+            MandatoryParamCount = 1;
         }
 
         public override CommandResult OnCommandInput(string input)
@@ -31,23 +26,14 @@ namespace DexNetwork.DexInterpreter.Commands
             if (result != null)
                 return result;
 
-            Login = Parameters[0];
-            Password = Parameters[1];
-            Realm = Parameters[2];
+            Network = Parameters[0];
 
             Commands = new List<QueuedCommand>();
 
             Commands.Add(new QueuedCommand
             {
-                CommandLine = $"{WellcomeCommand.CmdName}",
-                Command =new WellcomeCommand("Wellcome ! ", Verbosity.Normal, Promise),
-                
-            });
-
-            Commands.Add(new QueuedCommand
-            {
-                CommandLine = $"{LoginCommand.CmdName} {Login} {Password} {Realm}",
-                Command = new LoginCommand(Promise),
+                CommandLine = $"${DexTargetInstructionCommand.CmdName} {Network}",
+                Command = new DexTargetInstructionCommand(Verbosity.Important, Promise),
             });
 
             Commands.Add(new QueuedCommand
@@ -56,10 +42,12 @@ namespace DexNetwork.DexInterpreter.Commands
                 Command = new DexStatusInstructionCommand(Verbosity.Normal, Promise),
             });
 
+            //todo: look fw?
+
             result = base.OnCommandInput(input);
 
             return result;
-           
+
         }
 
     }

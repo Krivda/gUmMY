@@ -42,23 +42,23 @@ namespace DexNetwork
             return xmlString;
         }
 
-        public static SoftwareLib DeserializeSoft(string path)
+        public static T Deserialize<T>(string path) where T:class
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(SoftwareLib));
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
             // To write to a file, create a StreamWriter object.  
             TextReader reader = new StreamReader(path);
-            var result = (SoftwareLib)xmlSerializer.Deserialize(reader);
+            var result = (T)xmlSerializer.Deserialize(reader);
             reader.Close();
 
             return result;
         }
 
-        public static string SerializeSoft(SoftwareLib softwareLib)
+        public static string Serialize<T>(T persistingObject) where T : class
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(SoftwareLib));
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
             // To write to a file, create a StreamWriter object.  
             TextWriter textWriter = new StringWriter();
-            xmlSerializer.Serialize(textWriter, softwareLib);
+            xmlSerializer.Serialize(textWriter, persistingObject);
             string strXml = textWriter.ToString();
             textWriter.Close();
 
@@ -66,9 +66,9 @@ namespace DexNetwork
         }
 
 
-        public static string SerializeNetAndDump(SoftwareLib softwareLib, string fileName)
+        public static string SerializeAndDump<T>(T persistingObject, string fileName) where T : class
         {
-            string xmlString = SerializeSoft(softwareLib);
+            string xmlString = Serialize(persistingObject);
             Directory.CreateDirectory(Path.GetDirectoryName(fileName));
 
             File.WriteAllBytes(fileName, Encoding.UTF8.GetBytes(xmlString));

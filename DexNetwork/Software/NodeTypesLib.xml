@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<NodeTypesLib xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <NodeTypes>
+    <NodeType name='Administrative interface' description='valueable node' abbriviation='AD'/>
+    <NodeType name='Firewall' description='net entry node' abbriviation='FW'/>
+    <NodeType name='Antivirus' description='trash utility node' abbriviation='AV'/>
+    <NodeType name='VPN' description='trash utility node' abbriviation='VN'/>
+    <NodeType name='Brandmauer' description='trash utility node' abbriviation='BM'/>
+    <NodeType name='Router' description='trash utility node' abbriviation='RT'/>
+    <NodeType name='Traffic monitor' description='trash utility node' abbriviation='TM'/>
+    <NodeType name='Cyptographic system' description='DANGER utility node' abbriviation='CC'/>
+    <NodeType name='Data' description='valuable node' abbriviation='DT'/>
+    <NodeType name='Bank account' description='valuable node' abbriviation='AC'/>
+    <NodeType name='Finance' description='valuable node' abbriviation='FI'/>
+    <NodeType name='Corporate HQ' description='VERY valuable node' abbriviation='HQ'/>
+  </NodeTypes>
+</NodeTypesLib>

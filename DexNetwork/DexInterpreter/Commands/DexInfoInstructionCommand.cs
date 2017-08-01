@@ -17,14 +17,12 @@ namespace DexNetwork.DexInterpreter.Commands
 
         protected override string GetXmppInputForInstruction(string input)
         {
-
-
             return $"{CmdName} #{_softwareCode}";
         }
 
         protected override CommandResult ProcessXmppMesssage(string message)
         {
-            InfoInstruction infoResult = null;
+            InfoInstruction infoResult;
 
             try
             {
@@ -35,6 +33,12 @@ namespace DexNetwork.DexInterpreter.Commands
                 return CreateError($"Can't parse {CmdName} instruction output: got exception \n{e}");
             }
 
+            if (! string.IsNullOrEmpty(infoResult.Error))
+            {
+                return CreateError(infoResult.Error);
+            }
+
+
             TextOutput updateResult;
             try
             {
@@ -44,9 +48,11 @@ namespace DexNetwork.DexInterpreter.Commands
             {
                 return CreateError($"Command {CmdName} failed. Can't sync command {infoResult.Code} to lib: \n{e}");
             }
-            
 
-            CommandResult result = CreateOutput(updateResult, CommadState.Finished);
+            //todo: sync soft effect info
+
+            CommandResult result = CreateOutput(new TextOutput(Verbosity, message), CommadState.Finished);
+            result.Output.Add(updateResult);
 
             return result;
 
@@ -67,36 +73,35 @@ namespace DexNetwork.DexInterpreter.Commands
                 return result;
             }
 
-
             // known soft, trying to update
             StringBuilder updateString = new StringBuilder();
 
             if (!libSoft.Effect.Equals(infoResultSoftware.Effect))
             {
-                libSoft.Effect = infoResultSoftware.Effect;
                 updateString.AppendLine($"Effect updated from {libSoft.Effect} to {infoResultSoftware.Effect}");
+                libSoft.Effect = infoResultSoftware.Effect;
             }
             if (!libSoft.InevitableEffect.Equals(infoResultSoftware.InevitableEffect))
             {
-                libSoft.InevitableEffect = infoResultSoftware.InevitableEffect;
                 updateString.AppendLine($"Inevitable Effect updated from {libSoft.InevitableEffect} to {infoResultSoftware.InevitableEffect}");
+                libSoft.InevitableEffect = infoResultSoftware.InevitableEffect;
             }
             if (!libSoft.NodeTypesString.Equals(infoResultSoftware.NodeTypesString))
             {
-                libSoft.NodeTypesString = infoResultSoftware.NodeTypesString;
                 updateString.AppendLine($"Supported Node Types updated from {libSoft.NodeTypesString} to {infoResultSoftware.NodeTypesString}");
+                libSoft.NodeTypesString = infoResultSoftware.NodeTypesString;
             }
             if (!libSoft.Duration.Equals(infoResultSoftware.Duration))
             {
-                libSoft.Duration = infoResultSoftware.Duration;
                 updateString.AppendLine($"Supported Node Types updated from {libSoft.Duration} to {infoResultSoftware.Duration}");
+                libSoft.Duration = infoResultSoftware.Duration;
             }
 
             //check if there was an update
             if (updateString.ToString().Equals(""))
             {
                 //no changes found
-                result = new TextOutput(Verbosity, $"No new info on sofware #{libSoft.Code} got.");
+                result = new TextOutput(Verbosity, $"Got no new info on sofware #{libSoft.Code}.");
             }
             else
             {
@@ -122,7 +127,7 @@ namespace DexNetwork.DexInterpreter.Commands
                 }
                 catch (Exception e)
                 {
-                    string errorMsg = $"Can't extract software code from param {Parameters[1]}";
+                    string errorMsg = $"Can't extract software code from param {Parameters[0]}";
 
                     if (baseRes == null)
                     {

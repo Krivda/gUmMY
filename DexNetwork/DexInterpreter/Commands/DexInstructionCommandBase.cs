@@ -1,14 +1,11 @@
-using DexNetwork.DexInterpreter.Response;
-
 namespace DexNetwork.DexInterpreter.Commands
 {
     public abstract class  DexInstructionCommandBase : CommandBase
     {
-        private string _waitfor;
         private readonly string _instruction;
         protected readonly Verbosity Verbosity;
 
-        public DexInstructionCommandBase(string instruction, Verbosity verbosity, IDexPromise promise) : base(promise)
+        protected DexInstructionCommandBase(string instruction, Verbosity verbosity, IDexPromise promise) : base(promise)
         {
             _instruction = instruction;
             Verbosity = verbosity;
@@ -25,7 +22,6 @@ namespace DexNetwork.DexInterpreter.Commands
             if (result != null)
                 return result;
 
-            _waitfor = _instruction;
             string xmppCommand = GetXmppInputForInstruction(input);
 
             State = CommadState.AwaitXmpp;
@@ -48,13 +44,8 @@ namespace DexNetwork.DexInterpreter.Commands
             if (result != null)
                 return result;
 
-            if ( _waitfor.Equals(_instruction))
-            {
-                _waitfor = "";
-                return ProcessXmppMesssage(message);
-            }
-            _waitfor = "";
-            return CreateError($"Invalid command wait state. Expected {_instruction} output, got {message}.");
+            return ProcessXmppMesssage(message);
+
         }
 
         protected abstract CommandResult ProcessXmppMesssage(string message);

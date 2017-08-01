@@ -37,13 +37,9 @@ namespace DexNetwork.DexInterpreter.Response
 
             //or Incorrect arguments.Usage: info #<program>
 
-            string[] lines = commandOuptut.Split(new [] { Environment.NewLine }, StringSplitOptions.None);
+            string[] lines = commandOuptut.Split(new [] { Environment.NewLine, "\n" }, StringSplitOptions.None);
 
             if (lines[0].StartsWith("Incorrect arguments"))
-            {
-                result.Error = commandOuptut;
-            }
-            else if (lines[0].StartsWith("incorrect program"))
             {
                 result.Error = commandOuptut;
             }
@@ -55,7 +51,11 @@ namespace DexNetwork.DexInterpreter.Response
                 {
                     string cmdLine = line.TrimStart().TrimEnd();
 
-                    if (line.Contains("programm info"))
+                    if (cmdLine.StartsWith("incorrect program"))
+                    {
+                        result.Error = commandOuptut;
+                    }
+                    else if (line.Contains("programm info"))
                     {
                         string codeStr = cmdLine.Replace("programm info:", "").Replace("#", "").Trim();
                         result.Code = int.Parse(codeStr);
@@ -74,7 +74,7 @@ namespace DexNetwork.DexInterpreter.Response
                     }
                     else if (cmdLine.StartsWith("-") && !line.StartsWith("---"))
                     {
-                        supportedNodes += $"{delimiter}{cmdLine.Replace("-", "")}";
+                        supportedNodes += $"{delimiter}{cmdLine.Replace("-", "").Replace(Environment.NewLine, "")}";
                         delimiter = ",";
                     }
                     else if (cmdLine.StartsWith("Duration:"))
@@ -104,22 +104,29 @@ namespace DexNetwork.DexInterpreter.Response
             return result;
         }
 
-        public static string Assemble(string programm, string effect, string inevitableEffect, string nodeTypes, int duration=-1)
+        public static string Assemble(string programm, string effect, string inevitableEffect, string nodeTypes, int duration)
         {
             string inevitableEffectString = "";
             if (!string.IsNullOrEmpty(inevitableEffect))
                 inevitableEffectString = $"\nInevitable effect: {inevitableEffect}";
 
             string nodes = "";
+            string delim = "";
             foreach (var nodeType in nodeTypes.Replace("[","").Replace("]", "").Split(','))
             {
-                nodes += $"\n -{nodeType}";
+                nodes += $"{delim} -{nodeType}";
+                delim = Environment.NewLine;
             }
 
-            return $@"#{programm} programm info:
+            string durationStr = "";
+            if (duration != 0)
+                durationStr = $"{Environment.NewLine}Duration: {duration}sec.";
+
+            return $@"--------------------
+#{programm} programm info:
 Effect: {effect}{inevitableEffectString}
 Allowed node types:
-{nodes}
+{nodes}{durationStr}
 END ----------------";
         }
 
@@ -127,5 +134,7 @@ END ----------------";
         {
             return Assemble(programm.Code.ToString(), programm.Effect, programm.InevitableEffect, programm.NodeTypesString, programm.Duration); 
         }
+
+
     }
 }

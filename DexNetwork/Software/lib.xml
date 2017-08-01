@@ -2,67 +2,67 @@
  
 <SoftwareLib xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <AllSoft>
-    <software type='exploit' code='258' effect='get_admins' invetialeEffect='' nodeType='[Administrative interface]'/>
-    <software type='exploit' code='51425' effect='disable' invetialeEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
-    <software type='exploit' code='20825' effect='get_data' invetialeEffect=''  nodeType='[Data,Bank account,Finance,Administrative interface,Corporate HQ]'/>
-    <software type='exploit' code='6050' effect='disable'  invetialeEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
-    <software type='exploit' code='2450' effect='disable'  invetialeEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
-    <software type='exploit' code='10647' effect='disable'  invetialeEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
-    <software type='exploit' code='7605' effect='minor_fraud'  invetialeEffect='' nodeType='[Bank account,Finance]'/>
-    <software type='exploit' code='3042' effect='disable'  invetialeEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
-    <software type='exploit' code='14157' effect='disable'  invetialeEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
-    <software type='exploit' code='5733' effect='disable'  invetialeEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
-    <software type='exploit' code='7497' effect='disable'  invetialeEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
-    <software type='exploit' code='4851' effect='disable'  invetialeEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
-    <software type='exploit' code='2205' effect='disable'  invetialeEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
-    <software type='exploit' code='3825' effect='disable'  invetialeEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
-    <software type='exploit' code='882' effect='get_data'  invetialeEffect='' nodeType='[Data,Bank account,Finance,Administrative interface,Corporate HQ]'/>
-    <software type='exploit' code='1575' effect='disable'  invetialeEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
-    <software type='exploit' code='4732' effect='minor_fraud'  invetialeEffect='' nodeType='[Bank account,Finance]'/>
-    <software type='exploit' code='8228' effect='disable'  invetialeEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
-    <software type='exploit' code='980' effect='disable'  invetialeEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
-    <software type='exploit' code='1700' effect='disable'  invetialeEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
-    <software type='exploit' code='612' effect='disable'  invetialeEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
-    <software type='exploit' code='252' effect='minor_fraud'  invetialeEffect='' nodeType='[Bank account,Finance]'/>
-    <software type='exploit' code='1100' effect='disable'  invetialeEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
-    <software type='exploit' code='605' effect='disable'  invetialeEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
-    <software type='exploit' code='847' effect='disable'  invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='1573' effect='disable'  invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='2057' effect='disable'  invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='39325' effect=''  invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='15925' effect='disable' invetialeEffect=''  nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
-    <software type='exploit' code='25857' effect=''  invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='16731' effect=''  invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='7623' effect=''  invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='450' effect='get_data' invetialeEffect='' nodeType='[Data,Bank account,Finance,Administrative interface,Corporate HQ]'/>
-    <software type='exploit' code='363' effect='disable' invetialeEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
-    <software type='exploit' code='833' effect='' invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='2925' effect='disable' invetialeEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
-    <software type='exploit' code='637' effect='' invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='98' effect='' invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='153' effect='' invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='6292' effect='' invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='1452' effect='' invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='2156' effect='' invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='1300' effect='' invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='468' effect='disable' invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='41' effect='get_admins' invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='9075' effect='' invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='3675' effect='' invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='18513' effect='' invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='2475' effect='' invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='2178' effect='' invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='242' effect='' invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='245' effect='' invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='2028' effect='' invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='2420' effect='' invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='2548' effect='' invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='300' effect='' invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='700' effect='' invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='396' effect='' invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='588' effect='' invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='147' effect='' invetialeEffect='' nodeType=''/>
-    <software type='exploit' code='117' effect='d' invetialeEffect='' nodeType=''/>
+    <software type='exploit' code='258' effect='get_admins' inevitableEffect='trace' nodeType='[Administrative interface]'/>
+    <software type='exploit' code='51425' effect='disable' inevitableEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
+    <software type='exploit' code='20825' effect='get_data' inevitableEffect=''  nodeType='[Data,Bank account,Finance,Administrative interface,Corporate HQ]'/>
+    <software type='exploit' code='6050' effect='disable'  inevitableEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
+    <software type='exploit' code='2450' effect='disable'  inevitableEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
+    <software type='exploit' code='10647' effect='disable'  inevitableEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
+    <software type='exploit' code='7605' effect='minor_fraud'  inevitableEffect='' nodeType='[Bank account,Finance]'/>
+    <software type='exploit' code='3042' effect='disable'  inevitableEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
+    <software type='exploit' code='14157' effect='disable'  inevitableEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
+    <software type='exploit' code='5733' effect='disable'  inevitableEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
+    <software type='exploit' code='7497' effect='disable'  inevitableEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
+    <software type='exploit' code='4851' effect='disable'  inevitableEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
+    <software type='exploit' code='2205' effect='disable'  inevitableEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
+    <software type='exploit' code='3825' effect='disable'  inevitableEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
+    <software type='exploit' code='882' effect='get_data'  inevitableEffect='' nodeType='[Data,Bank account,Finance,Administrative interface,Corporate HQ]'/>
+    <software type='exploit' code='1575' effect='disable'  inevitableEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
+    <software type='exploit' code='4732' effect='minor_fraud'  inevitableEffect='' nodeType='[Bank account,Finance]'/>
+    <software type='exploit' code='8228' effect='disable'  inevitableEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
+    <software type='exploit' code='980' effect='disable'  inevitableEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
+    <software type='exploit' code='1700' effect='disable'  inevitableEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
+    <software type='exploit' code='612' effect='disable'  inevitableEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
+    <software type='exploit' code='252' effect='minor_fraud'  inevitableEffect='' nodeType='[Bank account,Finance]'/>
+    <software type='exploit' code='1100' effect='disable'  inevitableEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
+    <software type='exploit' code='605' effect='disable'  inevitableEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
+    <software type='exploit' code='847' effect='disable'  inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='1573' effect='disable'  inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='2057' effect='disable'  inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='39325' effect=''  inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='15925' effect='disable' inevitableEffect=''  nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
+    <software type='exploit' code='25857' effect=''  inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='16731' effect=''  inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='7623' effect=''  inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='450' effect='get_data' inevitableEffect='' nodeType='[Data,Bank account,Finance,Administrative interface,Corporate HQ]'/>
+    <software type='exploit' code='363' effect='disable' inevitableEffect='' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
+    <software type='exploit' code='833' effect='' inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='2925' effect='disable' inevitableEffect='trace' nodeType='[Firewall,Antivirus,VPN,Brandmauer,Router,Traffic monitor,Cyptographic system]'/>
+    <software type='exploit' code='637' effect='' inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='98' effect='' inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='153' effect='' inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='6292' effect='' inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='1452' effect='' inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='2156' effect='' inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='1300' effect='' inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='468' effect='disable' inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='41' effect='get_admins' inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='9075' effect='' inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='3675' effect='' inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='18513' effect='' inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='2475' effect='' inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='2178' effect='' inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='242' effect='' inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='245' effect='' inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='2028' effect='' inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='2420' effect='' inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='2548' effect='' inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='300' effect='' inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='700' effect='' inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='396' effect='' inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='588' effect='' inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='147' effect='' inevitableEffect='' nodeType=''/>
+    <software type='exploit' code='117' effect='d' inevitableEffect='' nodeType=''/>
 	  
 	  
 	  

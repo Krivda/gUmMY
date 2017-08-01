@@ -81,7 +81,7 @@ namespace DexNetwork.DexInterpreter
 
             try
             {
-                SoftwareLib = Serializer.DeserializeSoft(softwareLibPath);
+                SoftwareLib = Serializer.Deserialize<SoftwareLib>(softwareLibPath);
                 SoftwareLib.Init(softwareLibPath);
             }
             catch (Exception e)
@@ -115,7 +115,11 @@ namespace DexNetwork.DexInterpreter
             }
             catch (Exception e)
             {
-                FireProcessErrorEvent(e.ToString());
+                string errorMsg = e.ToString();
+                if (e.Message.StartsWith("XMPP Connection is not set up"))
+                    errorMsg = e.Message;
+
+                FireProcessErrorEvent(errorMsg);
                 ActiveCommand = null;
             }
             finally
@@ -141,6 +145,13 @@ namespace DexNetwork.DexInterpreter
             if (DexInfoInstructionCommand.CmdName.Equals(split[0].ToLower()))
                 return new DexInfoInstructionCommand(Verbosity.Critical, _dexPromise);
 
+            if (DexTargetInstructionCommand.CmdName.Equals(split[0].ToLower()))
+                return new DexTargetInstructionCommand(Verbosity.Critical, _dexPromise);
+
+            if (TargetCommand.CmdName.Equals(split[0].ToLower()))
+                return new TargetCommand(_dexPromise);
+
+            
 
             return null;
         }

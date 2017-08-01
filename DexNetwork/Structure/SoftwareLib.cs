@@ -73,14 +73,14 @@ namespace DexNetwork.Structure
             }
 
             if (Unknown.ContainsKey(software.Code))
-                throw new ArgumentException($"Softwere  #{software.Code} is duplicated in library.");
+                throw new ArgumentException($"Software  #{software.Code} is duplicated in library.");
 
             All.Add(software.Code, software);
         }
 
         public void DumpToFile()
         {
-            Serializer.SerializeNetAndDump(this, _fileName);
+            Serializer.SerializeAndDump(this, _fileName);
         }
     }
 

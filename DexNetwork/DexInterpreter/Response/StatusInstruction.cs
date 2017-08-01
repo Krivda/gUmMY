@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace DexNetwork.DexInterpreter.Response
@@ -18,7 +19,7 @@ namespace DexNetwork.DexInterpreter.Response
             @"^(?<login>[\w@]+) status:
 Current target: (?<target>\w+)
 Current administrating system: (?<system>\w+)
-Proxy level: (?<proxy>\w+)
+Proxy level: (?<proxy>\w+))?
 Current proxy address: (?<visibleLogin>[\w@]+)";
 
 
@@ -37,9 +38,25 @@ Current proxy address: (?<visibleLogin>[\w@]+)";
                     Login = match.Groups["login"].Value,
                     Target = match.Groups["target"].Value,
                     AdminSystem = match.Groups["system"].Value,
-                    Proxy = int.Parse(match.Groups["proxy"].Value),
                     VisibleAs = match.Groups["visibleLogin"].Value
                 };
+
+                if (string.IsNullOrEmpty(match.Groups["proxy"].Value))
+                {
+                    if (! string.IsNullOrEmpty(match.Groups["noproxy"].Value))
+                    {
+                        result.Proxy = 0;
+                    }
+                    else
+                    {
+                        result = null;
+                    }
+                }
+                else
+                {
+                    result.Proxy = int.Parse(match.Groups["proxy"].Value);
+                }
+                
             }
             else
             {
@@ -54,11 +71,17 @@ Current proxy address: (?<visibleLogin>[\w@]+)";
 
         public static string Assemble(string login, string target, string amdinSystem, int proxyLevel, string visibleAs)
         {
+            string prxStr = "";
+
+            if (proxyLevel == 0)
+                prxStr = "Warning: proxy not available";
+            else
+                prxStr = $"Proxy level: {proxyLevel}{Environment.NewLine}Current proxy address: {visibleAs}";
+
             return $@"{login} status:
 Current target: {target}
 Current administrating system: {amdinSystem}
-Proxy level: {proxyLevel}
-Current proxy address: {visibleAs}";
+{prxStr}";
         }
     }
 }

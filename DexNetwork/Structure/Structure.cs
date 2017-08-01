@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Serialization;
 
 namespace DexNetwork.Structure
@@ -9,10 +10,16 @@ namespace DexNetwork.Structure
     {
         [XmlAttribute(AttributeName = "name")]
         public string Name { get; set; }
+
         [XmlAttribute(AttributeName = "nodeType")]
         public string NodeType { get; set; }
-        [XmlAttribute(AttributeName = "disabled")]
+
+        [XmlAttribute(AttributeName = "effect")]
+        public string Effect { get; set; }
+
+        [XmlIgnore]
         public int Disabled { get; set; }
+
         [XmlAttribute(AttributeName = "software")]
         public long Software { get; set; }
         [XmlAttribute(AttributeName = "explored")]
@@ -39,6 +46,9 @@ namespace DexNetwork.Structure
     [XmlRoot(ElementName = "Network")]
     public class Network
     {
+        [XmlIgnore]
+        private string _networkFileName;
+
         //[XmlElement(ElementName = "Root", Type = typeof(NodeInstance))]
         public NodeInstance Root { get; set; }
         [XmlAttribute(AttributeName = "name")]
@@ -56,8 +66,8 @@ namespace DexNetwork.Structure
             NodeInstByLevel = new List<List<NodeInstance>>();
             Nodes =new Dictionary<string, Node>();
 
-            ProccessInstance(Root, null, 0);
-
+            if (Root != null)
+                ProccessInstance(Root, null, 0);
         }
 
         private void ProccessInstance(NodeInstance nodeInstance, NodeInstance parent, int level)
@@ -112,6 +122,90 @@ namespace DexNetwork.Structure
                 ProccessInstance(childInstance, nodeInstance, level + 1);
             }
         }
+
+        public void Init(string networkFileName)
+        {
+            _networkFileName = networkFileName;
+            MakeTreeLike();
+        }
+
+        public void Dump()
+        {
+            Serializer.SerializeNetAndDump(this, _networkFileName);
+        }
+
+        public List<List<string>> GetStrPathsToRoot(Node node)
+        {
+            var strPaths = GetPathToNodeReverse(Nodes["firewall"], new List<string>() { node.Name });
+
+            return strPaths;
+        }
+
+        public List<List<Node>> GetNodePathsToRoot(Node node)
+        {
+            var strPaths = GetStrPathsToRoot(node);
+
+            return StringPathsToNodePaths(strPaths);
+        }
+
+        private List<List<Node>> StringPathsToNodePaths(List<List<string>> strPaths)
+        {
+            List<List<Node>> result = new List<List<Node>>();
+
+            foreach (var strPath in strPaths)
+            {
+                List<Node> rootPath = new List<Node>();
+                result.Add(rootPath);
+
+                foreach (var nodeName in strPath)
+                {
+                    rootPath.Add(Nodes[nodeName]);
+                }
+            }
+
+            return result;
+        }
+
+        private List<List<string>> GetPathToNodeReverse(Node target, List<string> currPath)
+        {
+            List<List<string>> paths = new List<List<string>>();
+            Node node = Nodes[currPath[currPath.Count - 1]];
+
+            Dictionary<string, Node> parentNodes = node.GetParents();
+
+            foreach (var parent in parentNodes)
+            {
+                //ignore loops loop
+                if (currPath.Contains(parent.Key))
+                {
+                    // do nothing
+                }
+                else
+                {
+                    var newFork = new List<string>(currPath);
+                    newFork.Add(parent.Key);
+
+                    if (parent.Key != target.Name)
+                    {
+                        var forks = GetPathToNodeReverse(target, newFork);
+                        foreach (var fork in forks)
+                        {
+                            if (fork.Count > 0 && fork[fork.Count - 1].Equals(target.Name))
+                            {
+                                paths.Add(fork);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //parent is a target: this is already a good path
+                        paths.Add(newFork);
+                    }
+
+                }
+            }
+            return paths;
+        }
     }
 
     public class Node
@@ -121,8 +215,10 @@ namespace DexNetwork.Structure
         public int Disabled { get; set; }
         public long Software { get; set; }
         public bool Explored { get; set; }
+        public string Effect { get; set; }
 
         public List<NodeInstance> Instances { get; } = new List<NodeInstance>();
+        
         private bool _initialized = false;
 
         public void AddInstance(NodeInstance inst)
@@ -139,7 +235,10 @@ namespace DexNetwork.Structure
             }
 
             if (!exists)
+            {
                 Instances.Add(inst);
+            }
+                
 
             if (!_initialized)
             {
@@ -149,7 +248,7 @@ namespace DexNetwork.Structure
                 Disabled = inst.Disabled;
 
                 Software = inst.Software;
-
+                Effect = inst.Effect;
                 
                 Explored = inst.Explored;
             }
@@ -174,6 +273,48 @@ namespace DexNetwork.Structure
 
             }
         }
+
+        public Dictionary<string, Node> GetParents()
+        {
+            Dictionary<string, Node> result = new Dictionary<string, Node>();
+
+            foreach (var nodeInstance in Instances)
+            {
+                if (nodeInstance.Parent != null)
+                {
+                    // check if we already met this parent?
+                    if (!result.ContainsKey(nodeInstance.Parent.Node.Name))
+                    {
+                        result.Add(nodeInstance.Parent.Node.Name, nodeInstance.Parent.Node);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public Dictionary<string, Node> GetChildren()
+        {
+            Dictionary<string, Node> result = new Dictionary<string, Node>();
+
+            foreach (var nodeInstance in Instances)
+            {
+                if (nodeInstance.Subnodes != null)
+                {
+                    foreach (var subnode in nodeInstance.Subnodes)
+                    {
+                        // check if we already met this parent?
+                        if (!result.ContainsKey(subnode.Node.Name))
+                        {
+                            result.Add(subnode.Node.Name, subnode.Node);
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
 
     }
 }

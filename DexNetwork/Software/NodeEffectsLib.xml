@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<NodeEffects xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Effects>
+    <Effect  name='disable' description='bans from darknet' />
+    <Effect  name='analyze' description='prints used malware to admin log' />
+    <Effect  name='logname' description='prints user name/proxy to admin log' />
+    <Effect  name='trace' description='decreases proxy level' />
+  </Effects>
+</NodeEffects>

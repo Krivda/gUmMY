@@ -196,11 +196,6 @@ namespace UnitTests
             Console.WriteLine(netText);
             Assert.AreEqual(expected, netText, "complicated network");
         }
-
-
-
-
-
     }
 
     static class AccessExtensions
