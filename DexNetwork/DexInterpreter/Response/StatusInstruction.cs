@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using DexNetwork.Structure;
+using DexNetwork.Utils;
 
 namespace DexNetwork.DexInterpreter.Response
 {
@@ -18,45 +21,23 @@ namespace DexNetwork.DexInterpreter.Response
         private const string REGEX =
             @"^(?<login>[\w@]+) status:
 Current target: (?<target>\w+)
-Current administrating system: (?<system>\w+)
-Proxy level: (?<proxy>\w+))?
-Current proxy address: (?<visibleLogin>[\w@]+)";
+Current administrating system: (?<system>\w+)";
 
 
         public static StatusInstruction Parse(string commandOuptut)
         {
-            StatusInstruction result = null;
+            StatusInstruction result = new StatusInstruction();
 
             Regex regex = new Regex(REGEX, RegexOptions.Multiline);
-
             Match match = regex.Match(commandOuptut);
 
             if (match.Success)
             {
-                result = new StatusInstruction()
-                {
-                    Login = match.Groups["login"].Value,
-                    Target = match.Groups["target"].Value,
-                    AdminSystem = match.Groups["system"].Value,
-                    VisibleAs = match.Groups["visibleLogin"].Value
-                };
-
-                if (string.IsNullOrEmpty(match.Groups["proxy"].Value))
-                {
-                    if (! string.IsNullOrEmpty(match.Groups["noproxy"].Value))
-                    {
-                        result.Proxy = 0;
-                    }
-                    else
-                    {
-                        result = null;
-                    }
-                }
-                else
-                {
-                    result.Proxy = int.Parse(match.Groups["proxy"].Value);
-                }
-                
+                result.Login = match.Groups["login"].Value;
+                result.Target = match.Groups["target"].Value;
+                result.AdminSystem = match.Groups["system"].Value;
+                result.VisibleAs = match.Groups["visibleLogin"].Value;
+               
             }
             else
             {
@@ -64,6 +45,24 @@ Current proxy address: (?<visibleLogin>[\w@]+)";
                 {
                     Error = $"Unexpected reply: \n{commandOuptut}"
                 };
+            }
+
+
+            string[] lines = commandOuptut.Split(new[] { Environment.NewLine, "\n" }, StringSplitOptions.None);
+
+            foreach (string line in lines)
+            {
+                string cmdLine = line.TrimStart().TrimEnd().Replace("\n", "").Replace("\r", "");
+
+                if (cmdLine.StartsWith("Proxy level: "))
+                {
+                    result.Proxy = int.Parse(cmdLine.Replace("Proxy level: ", "").Trim());
+                }
+                else if (cmdLine.StartsWith("Warning: proxy not available"))
+                {
+                    result.Proxy = 0;
+                }
+
             }
 
             return result;

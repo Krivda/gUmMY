@@ -1,62 +1,78 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Network xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="BlackMirror12">
-  <Root name="firewall" nodeType="Firewall" disabled="0" software="4000000" explored="true">
-    <Subnodes>
-      <Node name="antivirus1" nodeType="Antivirus" disabled="0" software="1208700" explored="true">
-        <Subnodes>
-          <Node name="brandmauer2" nodeType="Brandmauer" disabled="0" software="1208700" explored="true">
-            <Subnodes>
-              <Node name="VPN1" nodeType="VPN" disabled="0" software="7684425" explored="true">
-                <Subnodes>
-                  <Node name="antivirus3" nodeType="Antivirus" disabled="0" software="16354975" explored="true">
-                    <Subnodes>
-                      <Node name="system_information" nodeType="Data" disabled="0" software="151335275" explored="true">
-                        <Subnodes />
-                      </Node>
-                      <Node name="router1" nodeType="Router" disabled="0" software="432225" explored="true">
-                        <Subnodes />
-                      </Node>
-                    </Subnodes>
-                  </Node>
-                  <Node name="traffic_monitor1" nodeType="Traffic monitor" disabled="0" software="1019788" explored="true">
-                    <Subnodes />
-                  </Node>
-                </Subnodes>
-              </Node>
-              <Node name="cryptocore2" nodeType="Cyptographic system" disabled="0" software="36900" explored="true">
-                <Subnodes>
-                  <Node name="router1" nodeType="Router" disabled="0" software="432225" explored="true">
-                    <Subnodes>
-                      <Node name="VPN4" nodeType="VPN" disabled="0" software="2209900" explored="true">
-                        <Subnodes />
-                      </Node>
-                    </Subnodes>
-                  </Node>
-                  <Node name="cryptocore4" nodeType="Cyptographic system" disabled="0" software="432225" explored="true">
-                    <Subnodes />
-                  </Node>
-                  <Node name="router2" nodeType="Router" disabled="0" software="432225" explored="true">
-                    <Subnodes />
-                  </Node>
-                </Subnodes>
-              </Node>
-            </Subnodes>
-          </Node>
-          <Node name="VPN3" nodeType="VPN" disabled="0" software="7993700" explored="true">
-            <Subnodes />
-          </Node>
-        </Subnodes>
-      </Node>
-      <Node name="antivirus2" nodeType="Antivirus" disabled="0" software="2739100" explored="true">
-        <Subnodes>
-          <Node name="VPN2" nodeType="VPN" disabled="0" software="834372" explored="true">
-            <Subnodes />
-          </Node>
-          <Node name="brandmauer3" nodeType="Brandmauer" disabled="0" software="2294523" explored="true">
-            <Subnodes />
-          </Node>
-        </Subnodes>
-      </Node>
-    </Subnodes>
-  </Root>
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Network xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="BlackMirror11">
+	<Nodes>
+		<Node name="firewall" nodeType="Firewall" software="4000000" effect='' explored="true">
+			<Links>
+				<Link to="antivirus1"/>
+				<Link to="antivirus2"/>
+			</Links>
+		</Node>
+		<Node name="antivirus1" nodeType="Antivirus" software="1208700" effect='' explored="true">
+			<Links>
+				<Link to="brandmauer2"/>
+				<Link to="VPN3"/>
+			</Links>
+		</Node>
+		<Node name="brandmauer2" nodeType="Brandmauer" software="1208700" effect='' explored="true">
+			<Links>
+				<Link to="VPN1"/>
+				<Link to="cryptocore2"/>
+			</Links>			
+		</Node>
+		<Node name="VPN1" nodeType="VPN" software="7684425" effect='' explored="true">
+			<Links>
+				<Link to="antivirus3"/>
+				<Link to="traffic_monitor1"/>
+			</Links>
+		</Node>
+		<Node name="antivirus3" nodeType="Antivirus" software="16354975" effect='' explored="true">
+			<Links>
+				<Link to="system_information"/>
+				<Link to="router1"/>
+			</Links>
+		</Node>
+		<Node name="traffic_monitor1" nodeType="Traffic monitor" software="1019788" effect='' explored="true">
+			<Links/>
+		</Node>
+		<Node name="cryptocore2" nodeType="Cyptographic system" software="36900" effect='' explored="true">
+			<Links>
+				<Link to="router1"/>
+				<Link to="cryptocore4"/>
+				<Link to="router2"/>
+			</Links>
+		</Node>
+		<Node name="router1" nodeType="Router" software="432225" effect='' explored="true">
+			<Links>
+				<Link to="VPN4"/>
+			</Links>
+		</Node>
+		<Node name="VPN4" nodeType="VPN" software="2209900" effect='' explored="true">
+			<Links/>
+		</Node>
+		<Node name="VPN3" nodeType="VPN" software="7993700" effect='' explored="true">
+			<Links />
+		</Node>
+		<Node name="cryptocore4" nodeType="Cyptographic system" software="432225" effect='' explored="true">
+			<Links />
+		</Node>
+		<Node name="antivirus2" nodeType="Antivirus" software="2739100" effect='' explored="true">
+			<Links>
+				<Link to="VPN2"/>
+				<Link to="brandmauer3"/>
+			</Links>
+		</Node>
+		<Node name="VPN2" nodeType="VPN" software="834372" effect='' explored="true">
+			<Links />
+		</Node>
+		<Node name="brandmauer3" nodeType="Brandmauer" software="2294523" effect='' explored="true">
+			<Links />
+		</Node>
+		<Node name="system_information" nodeType="Data" software="1019788" effect='' explored="true">
+			<Links/>
+		</Node>
+		<Node name="router2" nodeType="Router" software="432225" effect='' explored="true">
+			<Links>
+			</Links>
+		</Node>
+	</Nodes>
 </Network>

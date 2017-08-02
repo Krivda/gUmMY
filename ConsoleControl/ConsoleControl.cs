@@ -404,6 +404,12 @@ namespace ConsoleControl
             
             //save caret
             int caretPos = richTextBoxConsole.SelectionStart;
+            int intputOffset = 0;
+            if (caretPos > inputStart)
+            {
+                //in input line 
+                intputOffset = caretPos - inputStart;
+            }
 
             //manage crlf's
             string contentPrefix = "\n";
@@ -423,7 +429,7 @@ namespace ConsoleControl
             inputStart = propmtStart + GetPrompt().Length;
 
             //restore caret
-            richTextBoxConsole.SelectionStart = caretPos;
+            richTextBoxConsole.SelectionStart = inputStart + inputOffset;
         }
 
         private void UpdatePrompt()

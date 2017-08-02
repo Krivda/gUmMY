@@ -1655,12 +1655,7 @@ Node defence: #1208700
 attack successfull
 Node 'antivirus1' disabled for 600 seconds.
 [02:12:00] <calvin276> #1100 VPN3
-[02:12:00] <darknet@cyberspace> executing program #1100 from calvin276 target:BlackMirror11 
-Trace:
-Proxy level decreased by 1. 
-BlackMirror11 security log updated
-Node defence: #7993700
-attack successfull
+[02:12:00] <darknet@cyberspace> c
 Node 'VPN3' disabled for 600 seconds.
 [02:12:19] <calvin276> #2925 brandmauer2
 [02:12:19] <darknet@cyberspace> executing program #2925 from calvin276 target:BlackMirror11 

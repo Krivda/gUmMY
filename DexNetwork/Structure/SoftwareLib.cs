@@ -9,6 +9,15 @@ namespace DexNetwork.Structure
     [XmlRoot(ElementName = "SoftwareLib")]
     public class SoftwareLib
     {
+
+        public enum SoftwareCheckResult
+        {
+            Valid = 0,
+            Unknown = 1,
+            Invalid = 2,
+        }
+
+
         private string _fileName;
 
         [XmlArray("AllSoft")]
@@ -82,6 +91,53 @@ namespace DexNetwork.Structure
         {
             Serializer.SerializeAndDump(this, _fileName);
         }
+
+        public SoftwareCheckResult CheckExploitCompatibility(long exploit, Node node)
+        {
+
+            SoftwareCheckResult result = SoftwareCheckResult.Invalid;
+
+            Software libExploit;
+            if (!Exloits.TryGetValue(exploit, out libExploit))
+            {
+                
+                //just check numbers
+                if (CheckAttackRule(exploit, node.Software))
+                {
+                    return SoftwareCheckResult.Unknown;
+                }
+                else
+                {
+                    return SoftwareCheckResult.Invalid;
+                }
+            }
+            else
+            {
+                //check node types fit
+                if (libExploit.NodeTypesString.Contains(node.NodeType))
+                {
+                    //just check numbers
+                    if (CheckAttackRule(exploit, node.Software))
+                    {
+                        return SoftwareCheckResult.Valid;
+                    }
+                    else
+                    {
+                        return SoftwareCheckResult.Unknown;
+                    }
+                }
+                else
+                {
+                    return SoftwareCheckResult.Invalid;
+                }
+            }
+        }
+
+        public bool CheckAttackRule(long attack, long defence)
+        {
+            return true;
+        }
+
     }
 
     public class Software

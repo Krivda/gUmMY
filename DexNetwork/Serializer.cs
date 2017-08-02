@@ -15,7 +15,7 @@ namespace DexNetwork
             var result = (Network) xmlSerializer.Deserialize(reader);
             reader.Close();
 
-            result.Init("");
+            result.Init(path);
 
             return result;
         }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace DexNetwork.DexInterpreter.Commands
 {
-    abstract class CompositeCommand : CommandBase
+    public abstract class CompositeCommand : CommandBase
     {
-        internal class QueuedCommand
+        public class QueuedCommand
         {
             public string CommandLine { get; set; }
             public CommandBase Command { get; set; }
@@ -129,7 +129,16 @@ namespace DexNetwork.DexInterpreter.Commands
                 _commandIndex++;
                 State = CommadState.RequestResume;
                 result.BlockInput = true;
-                result.State = CommadState.RequestResume;
+
+                if (result.Error != null)
+                {
+                    //terminate all on error
+                    result.State = CommadState.Finished;
+                }
+                else
+                {
+                    result.State = CommadState.RequestResume;
+                }
                 return result;
             }
 

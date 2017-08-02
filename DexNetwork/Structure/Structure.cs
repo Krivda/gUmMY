@@ -5,42 +5,9 @@ using System.Xml.Serialization;
 namespace DexNetwork.Structure
 {
 
-    /*public class NodeInstance
-    {
-        [XmlAttribute(AttributeName = "name")]
-        public string Name { get; set; }
-
-        [XmlAttribute(AttributeName = "nodeType")]
-        public string NodeType { get; set; }
-
-        [XmlAttribute(AttributeName = "effect")]
-        public string Effect { get; set; }
-
-        [XmlIgnore]
-        public int Disabled { get; set; }
-
-        [XmlAttribute(AttributeName = "software")]
-        public long Software { get; set; }
-        [XmlAttribute(AttributeName = "explored")]
-        public bool Explored { get; set; }
-
-        [XmlArray("Subnodes")]
-        [XmlArrayItem("Node", Type=typeof(NodeInstance))]
-        public List<NodeInstance> Subnodes { get; set; }
-
-        [XmlIgnore]
-        public int Index { get; set; }
-
-        [XmlIgnore]
-        public NodeInstance Parent { get; set; }
-        [XmlIgnore]
-        public Node Node { get; set; }
-
-        [XmlIgnore]
-        public string NodeInstKey { get; set; }
-    }*/
 
     [XmlRoot(ElementName = "Network")]
+    [Serializable]
     public class Network
     {
         [XmlIgnore]
@@ -74,7 +41,6 @@ namespace DexNetwork.Structure
             }
 
 
-            int index = 0;
             foreach (var childLink in node.Links)
             {
                 Node childNode;
@@ -84,8 +50,7 @@ namespace DexNetwork.Structure
                     throw new Exception($"Node {node.Name} has a link to a non-existing node named {childLink.To} ");
 
                 childLink.LinkedNode = childNode;
-                childNode.Index = index;
-                index++;
+
 
                 ProccessNode(childNode, level + 1);
             }
@@ -132,16 +97,84 @@ namespace DexNetwork.Structure
             Serializer.SerializeNetAndDump(this, _networkFileName);
         }
 
-        public List<List<string>> GetStrPathsToRoot(Node node)
+        public List<List<string>> GetStrPathsToRoot(Node node, bool filterloops=true)
         {
             var strPaths = GetPathToNodeReverse(Nodes["firewall"], new List<string>() { node.Name });
+
+            if (filterloops)
+            {
+                //remove loops
+                strPaths = filterPaths(strPaths);
+            }
 
             return strPaths;
         }
 
-        public List<List<Node>> GetNodePathsToRoot(Node node)
+        private List<List<string>> filterPaths(List<List<string>> strPaths)
         {
-            var strPaths = GetStrPathsToRoot(node);
+            List<List<string>> strFilteredPaths = new List<List<string>>();
+
+            foreach (var checkingPath in strPaths)
+            {
+                int clearPath = 0; //0: clean, 1: loop start; 2 dirtyPath
+                bool firstNode = true;
+                foreach (var nodeKey in checkingPath)
+                {
+                    if (firstNode)
+                    {
+                        firstNode = false;
+                        continue;
+                    }
+
+                    //check there's no path starting from this Node key
+                    //that should remove loops
+                    int index = 0;
+                    foreach (var lookupPath in strPaths)
+                    {
+                        if (lookupPath.Count > 1 && lookupPath[1].Equals(nodeKey))
+                        {
+                            //this is a loop, skip
+                            if (lookupPath.Count < checkingPath.Count)
+                            {
+                                if (index == 0)
+                                {
+                                    clearPath = 1;
+                                }
+                                else
+                                {
+                                    clearPath = 2;
+                                }
+                                break;
+                            }
+                        }
+                        index++;
+                    }
+
+                    if ( clearPath!=0)
+                        break;
+                }
+
+                if (clearPath == 1)
+                {
+                    //HACK: add to loops Dict
+                    Loops.Add(checkingPath, "");
+                    strFilteredPaths.Add(checkingPath);
+                }
+                else if (clearPath == 0)
+                {
+                    strFilteredPaths.Add(checkingPath);
+                }
+            }
+
+            return strFilteredPaths;
+        }
+
+        [XmlIgnore]
+        public Dictionary<List<string>, object> Loops { get; set; } = new Dictionary<List<string>, object>();
+
+        public List<List<Node>> GetNodePathsToRoot(Node node, bool filterloops = true)
+        {
+            var strPaths = GetStrPathsToRoot(node, filterloops);
 
             return StringPathsToNodePaths(strPaths);
         }
@@ -203,8 +236,14 @@ namespace DexNetwork.Structure
             }
             return paths;
         }
+
+        public void DumpToFile()
+        {
+            Serializer.SerializeNetAndDump(this, _networkFileName);
+        }
     }
 
+    [Serializable]
     public class Link
     {
         [XmlAttribute(AttributeName = "to")]
@@ -215,6 +254,7 @@ namespace DexNetwork.Structure
 
     }
 
+    [Serializable]
     public class Node
     {
         [XmlAttribute(AttributeName = "name")]
@@ -227,9 +267,6 @@ namespace DexNetwork.Structure
         public long Software { get; set; }
         [XmlAttribute(AttributeName = "explored")]
         public bool Explored { get; set; }
-
-        [XmlIgnore]
-        public int Index { get; set; }
 
         [XmlIgnore]
         public int Disabled { get; set; }

@@ -80,8 +80,11 @@
     <Compile Include="DexInterpreter\Commands\CommandBase.cs" />
     <Compile Include="DexInterpreter\CommandResult.cs" />
     <Compile Include="DexInterpreter\Commands\CompositeCommand.cs" />
+    <Compile Include="DexInterpreter\Commands\DexHackInstructionCommand.cs" />
     <Compile Include="DexInterpreter\Commands\DexInstructionCommandBase.cs" />
     <Compile Include="DexInterpreter\Commands\DexInfoInstructionCommand.cs" />
+    <Compile Include="DexInterpreter\Commands\DexLookInstructionCommand.cs" />
+    <Compile Include="DexInterpreter\Commands\HackCommand.cs" />
     <Compile Include="DexInterpreter\Commands\InitCommand.cs" />
     <Compile Include="DexInterpreter\Commands\LoginCommand.cs" />
     <Compile Include="DexInterpreter\Commands\TargetCommand.cs" />
@@ -89,6 +92,7 @@
     <Compile Include="DexInterpreter\Commands\DexStatusInstructionCommand.cs" />
     <Compile Include="DexInterpreter\Commands\TextOutBase.cs" />
     <Compile Include="DexInterpreter\DexCommandProccessor.cs" />
+    <Compile Include="DexInterpreter\Response\HackInstruction.cs" />
     <Compile Include="DexInterpreter\Response\LookInstruction.cs" />
     <Compile Include="DexInterpreter\Response\InfoInstruction.cs" />
     <Compile Include="DexInterpreter\Commands\DexTargetInstructionCommand.cs" />
@@ -113,14 +117,15 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Networks\BlackMirror12.xml" />
-    <Content Include="Server\Data\BlackMirror12.xml">
+    <Content Include="Networks\BlackMirror12.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
     </Content>
     <Content Include="Networks\testnet.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Server\Data\BlackMirror12.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Server\Data\lib.xml">
       <SubType>Designer</SubType>

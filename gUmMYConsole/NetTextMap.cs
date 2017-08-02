@@ -70,7 +70,8 @@ namespace gUmMYConsole
                 //finding all parents on prev level (ie if node is on lvl 3 it may have 2 or more links from lvl2, so it;s drawn several times)
                 foreach (var node in Network.NodesByLevel[level])
                 {
-                    var pathsToRoot = node.Network.GetNodePathsToRoot(node);
+                    var pathsToRoot = node.Network.GetNodePathsToRoot(node, true);
+                    //var pathsToRootWOCycleStarts = node.Network.GetNodePathsToRoot(node, true);
 
                     if (level != 0)
                     {
@@ -79,13 +80,22 @@ namespace gUmMYConsole
                             //take only paths that end on lvl 2
                             if (path.Count == level+1)
                             {
-                                DrawNode(3 + maxLen * level + level, nodeFormat, maxLen, node, path[1], path);
+
+                                DrawNode(3 + maxLen * level + level, nodeFormat, maxLen, node, path[1], path, false);
+                                /*if (pathsToRootWOCycleStarts.Contains(path))
+                                {
+                                    DrawNode(3 + maxLen * level + level, nodeFormat, maxLen, node, path[1], path, false);
+                                }
+                                else
+                                {
+                                    DrawNode(3 + maxLen * level + level, nodeFormat, maxLen, node, path[1], path, true);
+                                }*/
                             }
                         }
                     }
                     else
                     {
-                        DrawNode(3, nodeFormat, maxLen, node, null, new List<Node> { node });
+                        DrawNode(3, nodeFormat, maxLen, node, null, new List<Node> { node }, false);
                     }
                 }
             }
@@ -94,7 +104,7 @@ namespace gUmMYConsole
         }
 
 
-        private void DrawNode(int hpos, string nodeFormat, int maxLen, Node node, Node parent, List<Node> path)
+        private void DrawNode(int hpos, string nodeFormat, int maxLen, Node node, Node parent, List<Node> path, bool isLoopStart)
         {
             int vpos = GetNodeInstLineIndex(node, parent, path);
             string lineId = _lines[vpos].Substring(0, 3);
@@ -103,7 +113,7 @@ namespace gUmMYConsole
 
             _textNodeInstances.Add(textNodeKey, textNode);
 
-            string nodeText = GetNodeTextView(node, nodeFormat, maxLen);
+            string nodeText = GetNodeTextView(node, nodeFormat, maxLen, isLoopStart);
 
             //draw this node text
             _lines[vpos] = _lines[vpos].ReplaceAt(hpos, maxLen, nodeText);
@@ -135,10 +145,12 @@ namespace gUmMYConsole
             }
         }
 
-        private string GetNodeTextView(Node netNode, string nodeFormat, int maxLen)
+        private string GetNodeTextView(Node netNode, string nodeFormat, int maxLen, bool isLoopStart)
         {
 
-            string formatString = $"{{0,-{maxLen}}}";
+            string looped = isLoopStart ? ">>" : "";
+
+            string formatString = $"{looped}{{0,-{maxLen}}}";
 
             string result = string.Format(formatString, netNode.Name);
 
@@ -250,8 +262,20 @@ namespace gUmMYConsole
                 TextNetNodeInstance parentTextNode = _textNodeInstances[TextNetNodeInstance.GetKey(parentPath)];
                 int parentLine = GetLineById(parentTextNode.LineId);
 
+                int index = 0;
+                foreach (var link in parentPath[0].Links)
+                {
+                    if (link.To.Equals(node.Name))
+                    {
+                        break;
+                    }
+                    index++;
+
+                }
+
+
                 //result = parentLine + (nodeInst.Index * 2 - nodeInst.Parent.Subnodes.Count / 2);
-                result = parentLine + (node.Index * 2 - (parent.Links.Count * 2 - 1) / 2);
+                result = parentLine + (index * 2 - (parent.Links.Count * 2 - 1) / 2);
             }
 
             return result;

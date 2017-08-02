@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Network xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="BlackMirror11">
 	<Nodes>
-		<Node name="firewall" nodeType="Firewall" software="4000000" effect='' explored="true">
+		<Node name="firewall" nodeType="Firewall" software="4003400" effect='' explored="true">
 			<Links>
 				<Link to="antivirus1"/>
 				<Link to="antivirus2"/>
@@ -66,6 +66,13 @@
 		</Node>
 		<Node name="brandmauer3" nodeType="Brandmauer" software="2294523" effect='' explored="true">
 			<Links />
+		</Node>
+		<Node name="system_information" nodeType="Data" software="1019788" effect='' explored="true">
+			<Links/>
+		</Node>
+		<Node name="router2" nodeType="Router" software="432225" effect='' explored="true">
+			<Links>
+			</Links>
 		</Node>
 	</Nodes>
 </Network>

@@ -5,50 +5,34 @@ using DexNetwork.Utils;
 
 namespace DexNetwork.DexInterpreter.Response
 {
-    public class LookInstruction
+    public class HackInstruction
     {
-        public static string CommandName { get; } = "look";
+        public static string CommandName { get; } = "#";
 
-        private const string NODE_INFO_REGEX = @"Node ""(?<netName>\w+)/(?<nodeName>\w+)"" properties:";
-        private const string NODE_SOFT_REGEX = @"Installed program: ((#(?<softCode>\d+))|(?<none>none))";
-        private const string NODE_NODE_REGEX = @"(?<index>\d): (?<nodeName>\w+)\((?<nodeType>\w+)\): #(?<softCode>\d+)(?<disabled> \w+)?";
 
-        public string NetName { get; private set; } = "";
         public string Error { get; private set; } = "";
         public Node Node { get; set; }
 
-        public static LookInstruction Parse(string commandOuptut)
+        //executing program #2925 from calvin276 target:BlackMirror11 
+        //Node defence: #36900
+        //attack failed
+        //Trace:
+        //Proxy level decreased by 1. 
+        //BlackMirror11 security log updated
+
+        //executing program #6050 from calvin276 target:BlackMirror11 
+        //Node defence: #6449300
+        //attack successfull
+        //Node 'firewall' disabled for 900 seconds.
+
+
+        public static HackInstruction Parse(string commandOuptut)
         {
-            LookInstruction result = new LookInstruction();
-
-            //--------------------
-            //BlackMirror11 / 0: not available
-            //
-            //END----------------
+            HackInstruction result = new HackInstruction();
 
 
-            //Type: Cyptographic system
-
-            //DISABLED for: 395 sec
-            //Node effect: trace
-            //Child nodes:
-            //0: antivirus4(Antivirus): #405900 DISABLED 
-            //1: router2(Router): #2150775
-
-
-            //--------------------
-            //Node "BlackMirror11/firewall" properties:
-            //Installed program: #6449300
-            //Type: Firewall
-            //DISABLED for: 885 sec
-            //Child nodes:
-            //0: antivirus1(Antivirus): #1208700  
-            //1: antivirus2(Antivirus): #2739100  
-            //
-            //END----------------
-
-            bool foundDisabled = false;
-            string[] lines = commandOuptut.Split(new [] { Environment.NewLine, "\n" }, StringSplitOptions.None);
+            /*bool foundDisabled = false;
+            string[] lines = commandOuptut.Split(new[] { Environment.NewLine, "\n" }, StringSplitOptions.None);
 
             if (lines[0].StartsWith("Incorrect arguments"))
             {
@@ -60,7 +44,7 @@ namespace DexNetwork.DexInterpreter.Response
 
                 foreach (string line in lines)
                 {
-                    string cmdLine = line.TrimStart().TrimEnd().Replace("\n","").Replace("\r", "");
+                    string cmdLine = line.TrimStart().TrimEnd().Replace("\n", "").Replace("\r", "");
 
                     if (cmdLine.Contains("--------------------"))
                     {
@@ -82,7 +66,7 @@ namespace DexNetwork.DexInterpreter.Response
                         else
                         {
                             result.NetName = matches["netName"];
-                            result.Node = new Node() {Effect = ""};
+                            result.Node = new Node() { Effect = "" };
                             result.Node.Links = new List<Link>();
                             result.Node.Name = matches["nodeName"];
                         }
@@ -91,7 +75,7 @@ namespace DexNetwork.DexInterpreter.Response
                     {
                         //Installed program: #6449300
                         //Installed program: none
-                        long software=0;
+                        long software = 0;
 
                         var matches = RegexUtils.GetMatchGroups(cmdLine, NODE_SOFT_REGEX);
                         if (matches == null)
@@ -166,14 +150,14 @@ namespace DexNetwork.DexInterpreter.Response
                     }
                 }
 
-                if (!foundDisabled && result.Node != null)
+                if (!foundDisabled)
                     result.Node.Disabled = 0;
             }
             else
             {
                 result.Error = $"Unexpected reply: \n{commandOuptut}";
             }
-
+            */
             return result;
         }
 
@@ -182,13 +166,13 @@ namespace DexNetwork.DexInterpreter.Response
 
 
             string disabledStr = "";
-            if (node.Disabled!=0)
+            if (node.Disabled != 0)
                 disabledStr = $"\nDISABLED for: {node.Disabled} sec";
 
 
-            
+
             string effectStr = "";
-            if (! string.IsNullOrEmpty(node.Effect))
+            if (!string.IsNullOrEmpty(node.Effect))
                 disabledStr = $"\nNode effect: {node.Effect}";
 
 

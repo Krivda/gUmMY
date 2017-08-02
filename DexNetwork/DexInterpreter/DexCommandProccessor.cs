@@ -151,7 +151,14 @@ namespace DexNetwork.DexInterpreter
             if (TargetCommand.CmdName.Equals(split[0].ToLower()))
                 return new TargetCommand(_dexPromise);
 
-            
+            if (DexLookInstructionCommand.CmdName.Equals(split[0].ToLower()))
+                return new DexLookInstructionCommand(Verbosity.Critical,  _dexPromise);
+
+            if (HackCommand.CmdName.Equals(split[0].ToLower()))
+                return new HackCommand(_dexPromise);
+
+            if (split[0].ToLower().StartsWith("#"))
+                return new DexHackInstructionCommand(Verbosity.Critical, _dexPromise);
 
             return null;
         }
@@ -225,6 +232,9 @@ namespace DexNetwork.DexInterpreter
                 }
 
                 HandleResult(ActiveCommand.OnXmppMessageReceived(args.Message));
+            }
+            catch (Exception ex)
+            {
             }
             finally
             {

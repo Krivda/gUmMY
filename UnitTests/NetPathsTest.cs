@@ -65,22 +65,23 @@ namespace UnitTests
         }
 
 
-        [TestCase(TestName = "path to root in looped net")]
+        [TestCase(TestName = "path to root in linked net")]
         public void TestPathInNetA()
         {
-            var net = NetGenerator.GetNet("looped");
+            var net = NetGenerator.GetNet("linked");
 
-            var paths = net.GetStrPathsToRoot(net.Nodes["brandmauer1"]);
+            List<List<string>> paths;
+            /*var paths = net.GetStrPathsToRoot(net.Nodes["brandmauer1"]);
             Assert.AreEqual(1, paths.Count);
 
             paths = net.GetStrPathsToRoot(net.Nodes["brandmauer2"]);
-            Assert.AreEqual(2, paths.Count);
+            Assert.AreEqual(2, paths.Count);*/
 
             paths = net.GetStrPathsToRoot(net.Nodes["VPN3"]);
-            Assert.AreEqual(3, paths.Count);
+            Assert.AreEqual(2, paths.Count);
 
             paths = net.GetStrPathsToRoot(net.Nodes["datanode1"]);
-            Assert.AreEqual(5, paths.Count);
+            Assert.AreEqual(3, paths.Count);
         }
 
     }

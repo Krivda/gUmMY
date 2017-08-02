@@ -26,7 +26,7 @@ namespace DexNetwork.Server
             _domain = domain;
             _target = "none";
             _admSystem = "none";
-            _proxyLevel = 6;
+            _proxyLevel = 0;
             _visibleAs = "kenguru2157@sydney";
 
             string softLib = Path.GetFullPath(@"Server/Data/lib.xml");
@@ -93,6 +93,31 @@ END----------------";
                     //soft found 
                     EmulateResponse(InfoInstruction.Assemble(libSoft));
                 }
+            }
+            else if (message.StartsWith("look"))
+            {
+                //todo: check errors
+
+                string nodeName = message.Replace("look ", "");
+
+                Node node;
+                if (!_network.Nodes.TryGetValue(nodeName, out node))
+                {
+                    EmulateResponse($@"--------------------
+{_network.Name} / {nodeName}: not available
+
+END----------------");
+                }
+                else
+                {
+                    string response = LookInstruction.AssembleAccessible(_network.Name, node);
+                    EmulateResponse(response);
+                }
+
+            }
+            else if (message.StartsWith("#"))
+            {
+                EmulateResponse("Not implemented");
             }
             else
             {
