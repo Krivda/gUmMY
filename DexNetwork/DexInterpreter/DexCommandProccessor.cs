@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using ConsoleStream;
@@ -7,6 +8,8 @@ using DexNetwork.DexInterpreter.Commands;
 using DexNetwork.Multithreading;
 using DexNetwork.Server;
 using DexNetwork.Structure;
+using DexNetwork.UI;
+using NLog;
 
 namespace DexNetwork.DexInterpreter
 {
@@ -17,16 +20,20 @@ namespace DexNetwork.DexInterpreter
         LoggedUser LoggedUser { get; set; }
         Form BaseForm { get; }
         IXMPPClient XmppClient { get; set; }
+        WPFHostForm HostForm { get; set; }
     }
 
     public class DexCommandProccessor : ConsoleStreamBase
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         private readonly Form _baseForm;
         public Network Network { get; private set; }
         public SoftwareLib SoftwareLib { get; private set; }
-        public LoggedUser User { get; private set; }
+        public LoggedUser User { get; private set; } = new LoggedUser();
         public IXMPPClient XmppClient { get; private set; }
         public CommandBase ActiveCommand { get; private set; }
+        WPFHostForm HostForm { get; set; }
 
         private readonly DexPromise _dexPromise;
 
@@ -58,7 +65,13 @@ namespace DexNetwork.DexInterpreter
                 get => _proccessor.XmppClient;
                 set => _proccessor.XmppClient = value;
             }
-            
+
+            public WPFHostForm HostForm
+            {
+                get => _proccessor.HostForm;
+                set => _proccessor.HostForm = value;
+            }
+
 
             public Form BaseForm => _proccessor._baseForm;
 
@@ -157,6 +170,9 @@ namespace DexNetwork.DexInterpreter
             if (HackCommand.CmdName.Equals(split[0].ToLower()))
                 return new HackCommand(_dexPromise);
 
+            if (ShowGraphUICommand.CmdName.Equals(split[0].ToLower()))
+                return new ShowGraphUICommand(_dexPromise);
+
             if (split[0].ToLower().StartsWith("#"))
                 return new DexHackInstructionCommand(Verbosity.Critical, _dexPromise);
 
@@ -166,8 +182,6 @@ namespace DexNetwork.DexInterpreter
         private void HandleResult(CommandResult result)
         {
             //FireBlockInput(false)
-
-            //firePromptChanged
 
             if (result.XMPPConnected)
             {
@@ -186,7 +200,6 @@ namespace DexNetwork.DexInterpreter
                     XmppClient.OnMessageRecieved += OnXmppResponse;
                     PeriodicTaskFactory.Start(xmppTimerAction, 1000, 1, -1, -1, true);
                 }
-                    
             }
 
             if (result.Output != null)
@@ -199,6 +212,26 @@ namespace DexNetwork.DexInterpreter
             if (result.Error != null)
                 FireProcessErrorEvent(result.Error.Text);
 
+            if (result.UpdatedNetStatus!=null)
+            {
+                User.Login = result.UpdatedNetStatus.Login;
+
+                string realm = "";
+                if(result.Prompt != null  && result.Prompt.ContainsKey("realm"))
+                    realm = $"@{result.Prompt["realm"]}";
+
+                User.Login = result.UpdatedNetStatus.Login;
+                User.AdminSystem = result.UpdatedNetStatus.AdminSystem;
+                User.Proxy = result.UpdatedNetStatus.Proxy;
+                User.Target = result.UpdatedNetStatus.Target;
+                User.VisibleAs = result.UpdatedNetStatus.VisibleAs;
+
+
+                string prompt = $"{User.Login}{realm}# prx:{User.Proxy} :{User.VisibleAs} $$ {User.Target}";
+
+                FirePromptChangedEvent(prompt);
+            }
+
             if (result.XMPPCommand != null)
             {
                 if (XmppClient == null)
@@ -207,7 +240,7 @@ namespace DexNetwork.DexInterpreter
                 XmppQueue.Enqueue(result.XMPPCommand);
             }
                 
-
+            
             if (result.State == CommadState.RequestResume)
             {
                 var newResult = ActiveCommand.Proceed();
@@ -224,7 +257,7 @@ namespace DexNetwork.DexInterpreter
             Monitor.Enter(this);
             try
             {
-
+                logger.Info($"darknet@cyberspace:>>\n{args.Message}");
                 if (ActiveCommand == null)
                 {
                     FireProcessErrorEvent($"Got XMPP message {args.Message} when no ActiveCommand exists!");

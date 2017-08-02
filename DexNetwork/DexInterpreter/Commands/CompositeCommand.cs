@@ -54,6 +54,8 @@ namespace DexNetwork.DexInterpreter.Commands
 
         public override CommandResult OnXmppMessageReceived(string message)
         {
+            base.OnXmppMessageReceived(message);
+
             CommandResult result;
 
             if (State == CommadState.AwaitXmpp)

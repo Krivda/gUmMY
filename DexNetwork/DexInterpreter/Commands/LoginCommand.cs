@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using DexNetwork.Server;
+using NLog;
 
 namespace DexNetwork.DexInterpreter.Commands
 {
     public class LoginCommand : CommandBase
     {
+           
         private readonly Dictionary<string, string> _wellknownNames;
         public const string CmdName = "login";
 
@@ -69,8 +72,12 @@ namespace DexNetwork.DexInterpreter.Commands
             }
 
             result = CreateOutput(new TextOutput(Verbosity.Critical, $"Logged as user {Login} to realm {Realm}."), CommadState.Finished);
-            result.Prompt = new Dictionary<string, string> {{"login", Login}};
+            
+            result.Prompt = new Dictionary<string, string> { { "realm", Realm } };
             result.XMPPConnected = true;
+
+
+            Logger.Info("Session started");
 
             return result;
         }

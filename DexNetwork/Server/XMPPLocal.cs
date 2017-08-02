@@ -26,7 +26,7 @@ namespace DexNetwork.Server
             _domain = domain;
             _target = "none";
             _admSystem = "none";
-            _proxyLevel = 0;
+            _proxyLevel = 7;
             _visibleAs = "kenguru2157@sydney";
 
             string softLib = Path.GetFullPath(@"Server/Data/lib.xml");
@@ -101,6 +101,11 @@ END----------------";
                 string nodeName = message.Replace("look ", "");
 
                 Node node;
+                if (_network == null)
+                {
+                    EmulateResponse("network not found");    
+                }
+
                 if (!_network.Nodes.TryGetValue(nodeName, out node))
                 {
                     EmulateResponse($@"--------------------

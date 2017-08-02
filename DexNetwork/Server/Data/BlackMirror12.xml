@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Network xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="BlackMirror11">
+<Network xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="BlackMirror12">
 	<Nodes>
 		<Node name="firewall" nodeType="Firewall" software="4000000" effect='' explored="true">
 			<Links>
@@ -46,7 +46,7 @@
 				<Link to="VPN4"/>
 			</Links>
 		</Node>
-		<Node name="VPN4" nodeType="VPN" software="2209900" effect='' explored="true">
+		<Node name="VPN4" nodeType="VPN" software="2209900" effect='die' explored="true">
 			<Links/>
 		</Node>
 		<Node name="VPN3" nodeType="VPN" software="7993700" effect='' explored="true">

@@ -160,8 +160,19 @@ namespace ConsoleControl
         /// <param name="args">The <see cref="ConsoleStreamEventArgs"/> instance containing the event data.</param>
         private void ProcessInterace_OnPromptChange(object sender, ConsoleStreamEventArgs args)
         {
-            Prompt = args.Content;
-            UpdatePrompt();
+
+            if (this.InvokeRequired)
+            {
+                Invoke((Action) (() =>
+                {
+                    Prompt = args.Content;
+                }));
+            }
+            else
+            {
+                Prompt = args.Content;
+            }
+
         }
 
         /// <summary>
@@ -183,6 +194,8 @@ namespace ConsoleControl
         /// <param name="e">The <see cref="System.Windows.Forms.KeyEventArgs"/> instance containing the event data.</param>
         void RichTextBoxConsole_KeyDown(object sender, KeyEventArgs e)
         {
+            bool resetInputHistoryIndex = true;
+            
             //  Are we sending keyboard commands to the process?
             if (SendKeyboardCommandsToProcess && IsProcessRunning)
             {
@@ -228,6 +241,46 @@ namespace ConsoleControl
                     e.SuppressKeyPress = true;
                 }
             }
+            else
+            {
+                //we are in input zone
+
+                //handle UpArrow to surf last inputs
+                if (e.KeyCode == Keys.Up)
+                {
+                    if (_lastInputIndex < recentInput.Count)
+                    {
+                        string input = recentInput[recentInput.Count - 1 - _lastInputIndex];
+
+                        richTextBoxConsole.SelectionStart = inputStart;
+                        richTextBoxConsole.SelectionLength = richTextBoxConsole.TextLength - inputStart;
+                        richTextBoxConsole.SelectedText = input;
+
+                        if (_lastInputIndex +1 != recentInput.Count)
+                            _lastInputIndex++;
+                    }
+
+                    resetInputHistoryIndex = false;
+                    e.Handled = true;
+                }
+                else if (e.KeyCode == Keys.Down)
+                {
+                    if (_lastInputIndex  < recentInput.Count)
+                    {
+                        string input = recentInput[recentInput.Count - 1 - _lastInputIndex];
+
+                        richTextBoxConsole.SelectionStart = inputStart;
+                        richTextBoxConsole.SelectionLength = richTextBoxConsole.TextLength - inputStart;
+                        richTextBoxConsole.SelectedText = input;
+
+                        if (_lastInputIndex -1 != -1)
+                           _lastInputIndex--;
+
+                    }
+                    resetInputHistoryIndex = false;
+                    e.Handled = true;
+                }
+            }
 
 
             if(e.KeyCode == Keys.Return && e.Shift)
@@ -256,6 +309,10 @@ namespace ConsoleControl
                 //Enter is already handled, don't give to the cotrol
                 e.SuppressKeyPress = true;
             }
+
+            if (resetInputHistoryIndex)
+                _lastInputIndex = 0;
+
         }
 
         /// <summary>
@@ -453,7 +510,7 @@ namespace ConsoleControl
             inputStart = richTextBoxConsole.SelectionStart;
 
             //restore caret
-            richTextBoxConsole.SelectionStart = caretPos+offset;
+            richTextBoxConsole.SelectionStart = inputStart;
         }
 
         public void Test(int start, int len)
@@ -499,6 +556,8 @@ namespace ConsoleControl
         /// Backing field for Prompt
         /// </summary>
         private string promptPrefix=">";
+
+        private int _lastInputIndex;
 
 
         /// <summary>

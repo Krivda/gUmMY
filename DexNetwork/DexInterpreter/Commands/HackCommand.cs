@@ -15,7 +15,6 @@ namespace DexNetwork.DexInterpreter.Commands
         private CommadState _delayedState;
         private Node _node;
         private Software _software;
-        private string _delayedInput;
 
         public HackCommand(IDexPromise promise) : base(promise)
         {

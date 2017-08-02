@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NLog;
 
 namespace DexNetwork.DexInterpreter.Commands
 {
@@ -23,6 +24,8 @@ namespace DexNetwork.DexInterpreter.Commands
     public abstract class CommandBase
     {
         protected IDexPromise Promise;
+
+        protected Logger Logger = LogManager.GetCurrentClassLogger();
 
 
         public string CommandName { get; protected set; }
@@ -96,7 +99,13 @@ namespace DexNetwork.DexInterpreter.Commands
         
 
         public abstract CommandResult OnCommandInput(string input);
-        public abstract CommandResult OnXmppMessageReceived(string message);
+
+        public virtual CommandResult OnXmppMessageReceived(string message)
+        {
+            Logger.Info("Session started");
+
+            return null;
+        }
 
         public virtual CommandResult Proceed()
         {

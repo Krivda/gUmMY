@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\Unit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleStream", "ConsoleStream\ConsoleStream.csproj", "{E0BD5B0D-8D7D-47D8-83EC-53CA5F0A96B4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphSharpDemo", "GraphSharpDemo\GraphSharpDemo.csproj", "{455C90CF-CB4E-41FB-8DB8-04AD1B104F64}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -118,6 +120,14 @@ Global
 		{E0BD5B0D-8D7D-47D8-83EC-53CA5F0A96B4}.Release|x64.Build.0 = Release|Any CPU
 		{E0BD5B0D-8D7D-47D8-83EC-53CA5F0A96B4}.Release|x86.ActiveCfg = Release|Any CPU
 		{E0BD5B0D-8D7D-47D8-83EC-53CA5F0A96B4}.Release|x86.Build.0 = Release|Any CPU
+		{455C90CF-CB4E-41FB-8DB8-04AD1B104F64}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{455C90CF-CB4E-41FB-8DB8-04AD1B104F64}.Debug|x64.ActiveCfg = Debug|x86
+		{455C90CF-CB4E-41FB-8DB8-04AD1B104F64}.Debug|x86.ActiveCfg = Debug|x86
+		{455C90CF-CB4E-41FB-8DB8-04AD1B104F64}.Debug|x86.Build.0 = Debug|x86
+		{455C90CF-CB4E-41FB-8DB8-04AD1B104F64}.Release|Any CPU.ActiveCfg = Release|x86
+		{455C90CF-CB4E-41FB-8DB8-04AD1B104F64}.Release|x64.ActiveCfg = Release|x86
+		{455C90CF-CB4E-41FB-8DB8-04AD1B104F64}.Release|x86.ActiveCfg = Release|x86
+		{455C90CF-CB4E-41FB-8DB8-04AD1B104F64}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
