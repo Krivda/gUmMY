@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using ConsoleControl;
 using ConsoleStream;
@@ -271,6 +272,16 @@ namespace gUmMYConsole
             net = Serializer.DeserializeNet(path);
         }
 
-        
+        private void cmdSoft_Click(object sender, EventArgs e)
+        {
+            Regex regex = new Regex("(#\\d+)", RegexOptions.Multiline);
+            Match match = regex.Match(txtStreamOutput.Text);
+
+            while (match.Success)
+            {
+                txtStreamInput.Text += $"\ninfo {match.Groups[0]} {txtStreamOutput.Lines[0]} {txtStreamOutput.Lines[1]}";
+                match = match.NextMatch();
+            }
+        }
     }
 }

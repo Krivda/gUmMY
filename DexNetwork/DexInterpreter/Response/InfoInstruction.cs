@@ -5,7 +5,7 @@ namespace DexNetwork.DexInterpreter.Response
 {
     public class InfoInstruction
     {
-        public int Code { get; set; } = 0;
+        public long Code { get; set; } = 0;
         public string Effect { get; set; } = "";
         public string InevitableEffect { get; set; } = "";
         public string SupportedNodes { get; set; } = "";
@@ -55,10 +55,10 @@ namespace DexNetwork.DexInterpreter.Response
                     {
                         result.Error = commandOuptut;
                     }
-                    else if (line.Contains("programm info"))
+                    else if (line.Contains("program info"))
                     {
-                        string codeStr = cmdLine.Replace("programm info:", "").Replace("#", "").Trim();
-                        result.Code = int.Parse(codeStr);
+                        string codeStr = cmdLine.Replace("program info:", "").Replace("#", "").Trim();
+                        result.Code = long.Parse(codeStr);
                     }
                     else if (cmdLine.StartsWith("Effect: "))
                     {
@@ -93,7 +93,7 @@ namespace DexNetwork.DexInterpreter.Response
                         InevitableEffect = result.InevitableEffect,
                         Effect = result.Effect,
                         NodeTypesString = result.SupportedNodes,
-                        SoftwareType = result.Duration==0? "protection" : "exploit"
+                        SoftwareType = result.Duration==0? "defence" : "exploit",
                 };
             }
             else
@@ -123,7 +123,7 @@ namespace DexNetwork.DexInterpreter.Response
                 durationStr = $"{Environment.NewLine}Duration: {duration}sec.";
 
             return $@"--------------------
-#{programm} programm info:
+#{programm} program info:
 Effect: {effect}{inevitableEffectString}
 Allowed node types:
 {nodes}{durationStr}

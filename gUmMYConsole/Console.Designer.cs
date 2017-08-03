@@ -34,6 +34,7 @@
             this.pnlConsole = new System.Windows.Forms.Panel();
             this.consConsole = new ConsoleControl.ConsoleControl();
             this.dbgStream = new System.Windows.Forms.Panel();
+            this.cmdDumpNet = new System.Windows.Forms.Button();
             this.cmdClear = new System.Windows.Forms.Button();
             this.lbDebg = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
@@ -42,7 +43,7 @@
             this.cmdSendFromApp = new System.Windows.Forms.Button();
             this.txtStreamOutput = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.cmdDumpNet = new System.Windows.Forms.Button();
+            this.cmdSoft = new System.Windows.Forms.Button();
             this.pnlConsole.SuspendLayout();
             this.dbgStream.SuspendLayout();
             this.SuspendLayout();
@@ -75,6 +76,7 @@
             // 
             // dbgStream
             // 
+            this.dbgStream.Controls.Add(this.cmdSoft);
             this.dbgStream.Controls.Add(this.cmdDumpNet);
             this.dbgStream.Controls.Add(this.cmdClear);
             this.dbgStream.Controls.Add(this.lbDebg);
@@ -88,6 +90,16 @@
             this.dbgStream.Name = "dbgStream";
             this.dbgStream.Size = new System.Drawing.Size(1317, 135);
             this.dbgStream.TabIndex = 5;
+            // 
+            // cmdDumpNet
+            // 
+            this.cmdDumpNet.Location = new System.Drawing.Point(997, 77);
+            this.cmdDumpNet.Name = "cmdDumpNet";
+            this.cmdDumpNet.Size = new System.Drawing.Size(59, 29);
+            this.cmdDumpNet.TabIndex = 10;
+            this.cmdDumpNet.Text = "dump net";
+            this.cmdDumpNet.UseVisualStyleBackColor = true;
+            this.cmdDumpNet.Click += new System.EventHandler(this.CmdDumpNet_Click);
             // 
             // cmdClear
             // 
@@ -162,15 +174,15 @@
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
-            // cmdDumpNet
+            // cmdSoft
             // 
-            this.cmdDumpNet.Location = new System.Drawing.Point(997, 77);
-            this.cmdDumpNet.Name = "cmdDumpNet";
-            this.cmdDumpNet.Size = new System.Drawing.Size(59, 29);
-            this.cmdDumpNet.TabIndex = 10;
-            this.cmdDumpNet.Text = "dump net";
-            this.cmdDumpNet.UseVisualStyleBackColor = true;
-            this.cmdDumpNet.Click += new System.EventHandler(this.CmdDumpNet_Click);
+            this.cmdSoft.Location = new System.Drawing.Point(897, 96);
+            this.cmdSoft.Name = "cmdSoft";
+            this.cmdSoft.Size = new System.Drawing.Size(75, 23);
+            this.cmdSoft.TabIndex = 11;
+            this.cmdSoft.Text = "Soft";
+            this.cmdSoft.UseVisualStyleBackColor = true;
+            this.cmdSoft.Click += new System.EventHandler(this.cmdSoft_Click);
             // 
             // ConsoleForm
             // 
@@ -204,6 +216,7 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button cmdClear;
         private System.Windows.Forms.Button cmdDumpNet;
+        private System.Windows.Forms.Button cmdSoft;
     }
 }
 

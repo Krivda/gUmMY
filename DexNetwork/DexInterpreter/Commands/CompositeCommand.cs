@@ -149,5 +149,4 @@ namespace DexNetwork.DexInterpreter.Commands
             return result;
         }
     }
-
 }

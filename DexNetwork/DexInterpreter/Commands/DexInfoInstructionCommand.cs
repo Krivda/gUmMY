@@ -7,12 +7,15 @@ namespace DexNetwork.DexInterpreter.Commands
     class DexInfoInstructionCommand : DexInstructionCommandBase
     {
         private long _softwareCode;
+        private string _softwareType;
+        public string _networkName;
         public const string CmdName = "info";
 
         public DexInfoInstructionCommand(Verbosity verbosity, IDexPromise promise) : base(CmdName, verbosity, promise)
         {
             CommandHelpString = "info #<software code>";
             MandatoryParamCount = 1;
+            OptionalParamCount = 2;
         }
 
         protected override string GetXmppInputForInstruction(string input)
@@ -66,8 +69,18 @@ namespace DexNetwork.DexInterpreter.Commands
 
             if (!Promise.SoftwareLib.All.TryGetValue(infoResultSoftware.Code, out libSoft))
             {
+                if (string.IsNullOrEmpty(_networkName))
+                {
+                    if (Promise.Network != null)
+                        _networkName = Promise.Network.Name;
+                }
+
+                if (!string.IsNullOrEmpty(_softwareType))
+                    infoResultSoftware.SoftwareType = _softwareType;
+
                 //new software found.
-                Promise.SoftwareLib.AddNewSoft(infoResultSoftware);
+                Promise.SoftwareLib.AddNewSoft(infoResultSoftware, _networkName);
+                Promise.SoftwareLib.DumpToFile();
 
                 result = new TextOutput(Verbosity, $"New {infoResultSoftware.SoftwareType} software added to Lib!");
                 return result;
@@ -118,16 +131,16 @@ namespace DexNetwork.DexInterpreter.Commands
             var baseRes = base.ParseArguments(command);
 
 
-            if (Parameters.Count == 1)
+            if (Parameters.Count >0 )
             {
                 try
                 {
                     //save software code
                     _softwareCode = long.Parse(Parameters[0].Replace("#", ""));
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    string errorMsg = $"Can't extract software code from param {Parameters[0]}";
+                    string errorMsg = $"Can't extract software code from param {Parameters[0]}\n{e}";
 
                     if (baseRes == null)
                     {
@@ -146,9 +159,26 @@ namespace DexNetwork.DexInterpreter.Commands
                             
                     }
                 }
+
+                
+                if (Parameters.Count > 1)
+                {
+                    if (! Parameters[1].Equals("?"))
+                    {
+                        _softwareType = Parameters[1];
+                    }
+                }
+
+                if (Parameters.Count > 2)
+                {
+                    _networkName = Parameters[2];
+                }
+
             }
 
             return baseRes;
         }
+
+        
     }
 }

@@ -43,7 +43,7 @@ namespace DexNetwork.Structure
             {
                 try
                 {
-                    AddNewSoft(software);
+                    AddNewSoft(software, "");
                 }
                 catch (ArgumentException e)
                 {
@@ -57,13 +57,53 @@ namespace DexNetwork.Structure
             }
         }
 
-        public void AddNewSoft(Software software)
+        public void AddNewSoft(Software software, string networkName)
         {
+            if (string.IsNullOrEmpty(software.SoftwareType))
+                software.SoftwareType = "";
+
+
+            if (string.IsNullOrEmpty(software.CodeStr))
+                software.CodeStr = "";
+
+            
+            if (software.Code==0)
+                software.Code = long.Parse(software.CodeStr);
+
+            if (software.Code != 0)
+            {
+                software.CodeStr = software.Code.ToString();
+            }
+
+            if (string.IsNullOrEmpty(software.Effect))
+                software.Effect = "";
+
+
+            if (string.IsNullOrEmpty(software.InevitableEffect))
+                software.InevitableEffect = "";
+
+            if (string.IsNullOrEmpty(software.NodeTypesString))
+                software.NodeTypesString = "";
+
+            if (string.IsNullOrEmpty(software.seenInNet))
+            {
+                software.seenInNet = "";
+            }
+
+            if (!string.IsNullOrEmpty(networkName))
+            {
+                if (!software.seenInNet.Contains(networkName))
+                {
+                    software.seenInNet += $",{networkName}";
+                }
+            }
+
             if (software.SoftwareType.Equals("exploit"))
             {
                 if (Exloits.ContainsKey(software.Code))
                     throw new ArgumentException($"Expolit #{software.Code} is duplicated in library.");
-                    
+
+                Software.Add(software);
                 Exloits.Add(software.Code, software);
             }
             else if (software.SoftwareType.Equals("defence"))
@@ -72,6 +112,7 @@ namespace DexNetwork.Structure
                     throw new ArgumentException($"Defence #{software.Code} is duplicated in library.");
 
                 Defences.Add(software.Code, software);
+                Software.Add(software);
             }
             else
             {
@@ -79,12 +120,16 @@ namespace DexNetwork.Structure
                     throw new ArgumentException($"Unknown soft #{software.Code} is duplicated in library.");
 
                 Unknown.Add(software.Code, software);
+                Software.Add(software);
             }
 
-            if (Unknown.ContainsKey(software.Code))
+            if (All.ContainsKey(software.Code))
                 throw new ArgumentException($"Software  #{software.Code} is duplicated in library.");
 
             All.Add(software.Code, software);
+
+            
+
         }
 
         public void DumpToFile()
@@ -148,7 +193,10 @@ namespace DexNetwork.Structure
         public string SoftwareType { get; set; }
 
         [XmlAttribute(AttributeName = "code")]
-        public int Code { get; set; }
+        public string CodeStr { get; set; }
+
+        [XmlIgnore]
+        public long Code { get; set; }
 
         [XmlAttribute(AttributeName = "effect")]
         public string Effect { get; set; }
@@ -161,6 +209,16 @@ namespace DexNetwork.Structure
 
         [XmlAttribute(AttributeName = "duration")]
         public int Duration { get; set; }
+
+        [XmlAttribute(AttributeName = "seenInNet")]
+        public string seenInNet { get; set; }
+
+        [XmlAttribute(AttributeName = "divisor")]
+        public long Divisor { get; set; }
+
+        [XmlAttribute(AttributeName = "broken")]
+        public bool Broken { get; set; }
+
 
     }
 }

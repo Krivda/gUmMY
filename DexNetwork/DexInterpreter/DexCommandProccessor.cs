@@ -21,6 +21,7 @@ namespace DexNetwork.DexInterpreter
         Form BaseForm { get; }
         IXMPPClient XmppClient { get; set; }
         WPFHostForm HostForm { get; set; }
+        CommandResolver CommandResolver { get; set; }
     }
 
     public class DexCommandProccessor : ConsoleStreamBase
@@ -34,7 +35,7 @@ namespace DexNetwork.DexInterpreter
         public IXMPPClient XmppClient { get; private set; }
         public CommandBase ActiveCommand { get; private set; }
         WPFHostForm HostForm { get; set; }
-
+        CommandResolver CommandResolver { get; set; }
         private readonly DexPromise _dexPromise;
 
         public ConcurrentQueue<String> XmppQueue = new ConcurrentQueue<string>();
@@ -72,8 +73,14 @@ namespace DexNetwork.DexInterpreter
                 set => _proccessor.HostForm = value;
             }
 
+            public CommandResolver CommandResolver
+            {
+                get => _proccessor.CommandResolver;
+                set => _proccessor.CommandResolver = value;
+            }
 
-            public Form BaseForm => _proccessor._baseForm;
+
+        public Form BaseForm => _proccessor._baseForm;
 
             public DexPromise(DexCommandProccessor proccessor)
             {
@@ -96,6 +103,8 @@ namespace DexNetwork.DexInterpreter
             {
                 SoftwareLib = Serializer.Deserialize<SoftwareLib>(softwareLibPath);
                 SoftwareLib.Init(softwareLibPath);
+
+                CommandResolver = new CommandResolver();
             }
             catch (Exception e)
             {
@@ -144,42 +153,7 @@ namespace DexNetwork.DexInterpreter
 
         private CommandBase GetCommand(string input)
         {
-            string[] split = input.Split(' ');
-
-            if (InitCommand.CmdName.Equals(split[0].ToLower()))
-                return new InitCommand(_dexPromise);
-
-            if (DexStatusInstructionCommand.CmdName.Equals(split[0].ToLower()))
-                return new DexStatusInstructionCommand(Verbosity.Critical, _dexPromise);
-
-            if (LoginCommand.CmdName.Equals(split[0].ToLower()))
-                return new LoginCommand(_dexPromise);
-
-            if (DexInfoInstructionCommand.CmdName.Equals(split[0].ToLower()))
-                return new DexInfoInstructionCommand(Verbosity.Critical, _dexPromise);
-
-            if (DexTargetInstructionCommand.CmdName.Equals(split[0].ToLower()))
-                return new DexTargetInstructionCommand(Verbosity.Critical, _dexPromise);
-
-            if (TargetCommand.CmdName.Equals(split[0].ToLower()))
-                return new TargetCommand(_dexPromise);
-
-            if (DexLookInstructionCommand.CmdName.Equals(split[0].ToLower()))
-                return new DexLookInstructionCommand(Verbosity.Critical,  _dexPromise);
-
-            if (HackCommand.CmdName.Equals(split[0].ToLower()))
-                return new HackCommand(_dexPromise);
-
-            if (ShowGraphUICommand.CmdName.Equals(split[0].ToLower()))
-                return new ShowGraphUICommand(_dexPromise);
-
-            if (split[0].ToLower().StartsWith("#"))
-                return new DexHackInstructionCommand(Verbosity.Critical, _dexPromise);
-
-            if (split[0].ToLower().StartsWith("!"))
-                return new DexDirectInstructionCommand( Verbosity.Critical, _dexPromise);
-
-            return null;
+            return CommandResolver.ResolveCommand(input, _dexPromise);
         }
 
         private void HandleResult(CommandResult result)
@@ -278,6 +252,5 @@ namespace DexNetwork.DexInterpreter
             }
 
         }
-
     }
 }
