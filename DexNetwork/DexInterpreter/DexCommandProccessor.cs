@@ -176,6 +176,9 @@ namespace DexNetwork.DexInterpreter
             if (split[0].ToLower().StartsWith("#"))
                 return new DexHackInstructionCommand(Verbosity.Critical, _dexPromise);
 
+            if (split[0].ToLower().StartsWith("!"))
+                return new DexDirectInstructionCommand( Verbosity.Critical, _dexPromise);
+
             return null;
         }
 
@@ -197,7 +200,7 @@ namespace DexNetwork.DexInterpreter
                     };
 
 
-                    XmppClient.OnMessageRecieved += OnXmppResponse;
+                    XmppClient.OnMessageReceived += OnXmppResponse;
                     PeriodicTaskFactory.Start(xmppTimerAction, 1000, 1, -1, -1, true);
                 }
             }

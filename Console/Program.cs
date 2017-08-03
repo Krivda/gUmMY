@@ -14,8 +14,8 @@ namespace Console
             Пароль: w8119*/
 
             string hostname = "cyberspace.alice.digital";
-            string username = "calvin276";
-            string password = "w8119";
+            string username = "gr8b"; //gr8b@cyberspace
+            string password = "639924"; //639924
 
             using (XmppClient client = new XmppClient(hostname, username, "cyberspace", password, tls:false))
             {
@@ -62,7 +62,7 @@ namespace Console
 
         private static void OnNewMessage(object sender, Sharp.Xmpp.Im.MessageEventArgs e)
         {
-            System.Console.WriteLine($"{e.Jid.Domain}: {e.Message}");
+            System.Console.WriteLine($"{e.Jid.Domain}: {e.Message.Body}");
         }
     }
 }

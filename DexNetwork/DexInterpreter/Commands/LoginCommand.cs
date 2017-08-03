@@ -28,7 +28,8 @@ namespace DexNetwork.DexInterpreter.Commands
             State = CommadState.NotStarted;
 
             _wellknownNames = new Dictionary<string, string>();
-            _wellknownNames.Add("calvin", "mypass");
+            _wellknownNames.Add("gr8b", "639924");
+
         }
 
         public override CommandResult OnCommandInput(string input)
@@ -50,13 +51,16 @@ namespace DexNetwork.DexInterpreter.Commands
                 Realm = Parameters[2];
 
 
+            string pwd;
+
+            if (!_wellknownNames.TryGetValue(Login, out pwd))
+                pwd = Password;
+
+
             if (Realm.Equals(REALM_LOCAL))
             {
-                Promise.XmppClient = new XmppLocal();
-                string pwd;
 
-                if (!_wellknownNames.TryGetValue(Login, out pwd))
-                    pwd = Password;
+                Promise.XmppClient = new XmppLocal();
                 try
                 {
                     Promise.XmppClient.Login(Login, Realm, pwd);
@@ -66,9 +70,17 @@ namespace DexNetwork.DexInterpreter.Commands
                     return CreateError($"Couldn't connect to realm '{Realm}'. Got exception {e}.");
                 }
             }
-            else //if (Realm.Equals(REALM_DARKNET))
+            else if (Realm.Equals(REALM_DARKNET))
             {
-                return CreateError($"Couldn't connect to realm '{Realm}'. It's not supported.");
+                Promise.XmppClient = new Cyberspace();
+                try
+                {
+                    Promise.XmppClient.Login(Login, Realm, pwd);
+                }
+                catch (Exception e)
+                {
+                    return CreateError($"Couldn't connect to realm '{Realm}'. Got exception {e}.");
+                }
             }
 
             result = CreateOutput(new TextOutput(Verbosity.Critical, $"Logged as user {Login} to realm {Realm}."), CommadState.Finished);

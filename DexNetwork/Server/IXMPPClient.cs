@@ -4,7 +4,7 @@ namespace DexNetwork.Server
     {
         void Login(string user, string domain, string password);
 
-        event XMPPEvent OnMessageRecieved;
+        event XMPPEvent OnMessageReceived;
 
         void SendMessage(string message);
     }

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using DexNetwork.Structure;
-using DexNetwork.Utils;
 
 namespace DexNetwork.DexInterpreter.Response
 {
@@ -17,6 +13,17 @@ namespace DexNetwork.DexInterpreter.Response
         public string Error { get; set; }
 
         public static string CommandName { get; }  = "status";
+
+        //--------------------
+        //gr8b status:
+        //Current target: not set
+        //Current administrating system: none
+        //Proxy level: 8 of 8
+        //Current proxy address: otaku8515 @tokyo
+        //Proxy rebuild ratio 1 per: 2700 sec
+        //END ----------------
+
+
 
         private const string REGEX =
             @"^(?<login>[\w@]+) status:
@@ -56,7 +63,12 @@ Current administrating system: (?<system>\w+)";
 
                 if (cmdLine.StartsWith("Proxy level: "))
                 {
-                    result.Proxy = int.Parse(cmdLine.Replace("Proxy level: ", "").Trim());
+                    //Proxy level: 8 of 8
+                    string strPrxData = cmdLine.Replace("Proxy level: ", "").Trim();
+                    string[] items = strPrxData.Split(new[] { " of " }, StringSplitOptions.None);
+
+                    result.Proxy = int.Parse(items[0]);
+                    //result.Proxy = int.Parse(items[0]);
                 }
                 else if (cmdLine.StartsWith("Warning: proxy not available"))
                 {

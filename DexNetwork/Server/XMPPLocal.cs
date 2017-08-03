@@ -37,11 +37,11 @@ namespace DexNetwork.Server
             //EmulateResponse($"Logged in to LOCAL XMPP Emulation. Software loaded from {softLib}");
         }
         
-        public event XMPPEvent OnMessageRecieved;
+        public event XMPPEvent OnMessageReceived;
 
         private void FireEventOnMessageRecieved(XMPPEventArgs e)
         {
-            OnMessageRecieved?.Invoke(this, e);
+            OnMessageReceived?.Invoke(this, e);
         }
 
         public void SendMessage(string message)
