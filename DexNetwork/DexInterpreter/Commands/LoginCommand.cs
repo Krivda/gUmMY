@@ -24,7 +24,7 @@ namespace DexNetwork.DexInterpreter.Commands
             MandatoryParamCount = 2;
             CommandName = CmdName;
             CommandHelpString = "login <user> <password> [realm->local]";
-            State = CommadState.NotStarted;
+            State = CommandState.NotStarted;
 
             _wellknownNames = new Dictionary<string, string> {{"gr8b", "639924"}};
 
@@ -32,7 +32,7 @@ namespace DexNetwork.DexInterpreter.Commands
 
         public override CommandResult OnCommandInput(string input)
         {
-            CommandResult result = EnsureState(CommadState.NotStarted);
+            CommandResult result = EnsureState(CommandState.NotStarted);
             if (result != null)
                 return result;
 
@@ -98,7 +98,7 @@ namespace DexNetwork.DexInterpreter.Commands
                 return result;
             }
 
-            result = CreateOutput(new TextOutput(Verbosity.Critical, $"Logged as user {Login} to realm {Realm}."), CommadState.Finished);
+            result = CreateOutput(new TextOutput(Verbosity.Critical, $"Logged as user {Login} to realm {Realm}."), CommandState.Finished);
             
             result.Prompt = new Dictionary<string, string> { { "realm", Realm } };
             result.XMPPConnected = true;

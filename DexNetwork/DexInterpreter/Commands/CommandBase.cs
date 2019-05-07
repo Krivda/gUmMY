@@ -5,7 +5,7 @@ using NLog;
 namespace DexNetwork.DexInterpreter.Commands
 {
 
-    public enum CommadState
+    public enum CommandState
     {
         Finished,
         AwaitInput,
@@ -33,7 +33,7 @@ namespace DexNetwork.DexInterpreter.Commands
         public int MandatoryParamCount { get; protected set; }
         public int OptionalParamCount { get; protected set; }
 
-        public CommadState State { get; protected set; }
+        public CommandState State { get; protected set; }
         public string CommandHelpString { get; protected set; }
         public List<string> Parameters { get; protected set; }
 
@@ -112,13 +112,13 @@ namespace DexNetwork.DexInterpreter.Commands
             return CreateError($"Task {CommandName} is not resumable");
         }
 
-        protected CommandResult EnsureState(CommadState state)
+        protected CommandResult EnsureState(CommandState state)
         {
             CommandResult result = null;
 
             if (State != state)
             {
-                result = CreateError($"Incorrect command state. Current state is '{Enum.GetName(typeof(CommadState), State)}',  expected state is '{Enum.GetName(typeof(CommadState), state)}'. Command terminated.");
+                result = CreateError($"Incorrect command state. Current state is '{Enum.GetName(typeof(CommandState), State)}',  expected state is '{Enum.GetName(typeof(CommandState), state)}'. Command terminated.");
             }
 
             return result;
@@ -129,14 +129,14 @@ namespace DexNetwork.DexInterpreter.Commands
             var result = new CommandResult();
 
             result.Error = new TextOutput(Verbosity.Critical, message);
-            result.State = CommadState.Finished;
+            result.State = CommandState.Finished;
             result.BlockInput = false;
 
             return result;
         }
 
 
-        protected CommandResult CreateOutput(TextOutput output, CommadState state)
+        protected CommandResult CreateOutput(TextOutput output, CommandState state)
         {
             var result = new CommandResult();
 

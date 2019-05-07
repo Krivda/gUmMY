@@ -43,7 +43,7 @@ namespace DexNetwork.DexInterpreter.Commands
             CommandResult result;
             if (message.ToLower().Equals(RESPONSE_OK.ToLower()))
             {
-                result = CreateOutput(new TextOutput(Verbosity, $"{message}"), CommadState.Finished);
+                result = CreateOutput(new TextOutput(Verbosity, $"{message}"), CommandState.Finished);
                 result.BlockInput = false;
 
                 string networkFileName = $"Networks//{_network}.xml";

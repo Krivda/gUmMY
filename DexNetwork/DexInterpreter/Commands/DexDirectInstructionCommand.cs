@@ -17,7 +17,7 @@ namespace DexNetwork.DexInterpreter.Commands
 
         protected override CommandResult ProcessXmppMesssage(string message)
         {
-            return CreateOutput(new TextOutput(Verbosity, message), CommadState.Finished);
+            return CreateOutput(new TextOutput(Verbosity, message), CommandState.Finished);
         }
     }
 }

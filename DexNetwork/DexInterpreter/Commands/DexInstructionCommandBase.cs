@@ -9,12 +9,12 @@ namespace DexNetwork.DexInterpreter.Commands
         {
             _instruction = instruction;
             Verbosity = verbosity;
-            State = CommadState.NotStarted;
+            State = CommandState.NotStarted;
         }
 
         public override CommandResult OnCommandInput(string input)
         {
-            CommandResult result = EnsureState(CommadState.NotStarted);
+            CommandResult result = EnsureState(CommandState.NotStarted);
             if (result != null)
                 return result;
 
@@ -24,11 +24,11 @@ namespace DexNetwork.DexInterpreter.Commands
 
             string xmppCommand = GetXmppInputForInstruction(input);
 
-            State = CommadState.AwaitXmpp;
+            State = CommandState.AwaitXmpp;
 
-            result = CreateOutput(new TextOutput(Verbosity, $">> {xmppCommand}"), CommadState.AwaitXmpp);
+            result = CreateOutput(new TextOutput(Verbosity, $">> {xmppCommand}"), CommandState.AwaitXmpp);
             result.XMPPCommand = xmppCommand;
-            result.State = CommadState.AwaitXmpp;
+            result.State = CommandState.AwaitXmpp;
 
             return result;
         }
@@ -42,7 +42,7 @@ namespace DexNetwork.DexInterpreter.Commands
         {
             base.OnXmppMessageReceived(message);
 
-            CommandResult result = EnsureState(CommadState.AwaitXmpp);
+            CommandResult result = EnsureState(CommandState.AwaitXmpp);
             if (result != null)
                 return result;
 

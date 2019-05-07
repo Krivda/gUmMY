@@ -26,7 +26,7 @@ namespace DexNetwork.DexInterpreter.Commands
                 return CreateError($"{CmdName} command resulted in error. {commadResult.Error}");
 
 
-            result = CreateOutput(new TextOutput(Verbosity, message), CommadState.Finished);
+            result = CreateOutput(new TextOutput(Verbosity, message), CommandState.Finished);
             result.UpdatedNetStatus = commadResult;
             return result;
         

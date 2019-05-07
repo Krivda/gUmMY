@@ -69,7 +69,7 @@
         /// Fires the process input event.
         /// </summary>
         /// <param name="content">The content.</param>
-        protected void FireProcessCommadExecute(string content)
+        protected void FireProcessCommandExecute(string content)
         {
             //  Get the event and fire it.
             var theEvent = OnCommandExecute;
@@ -119,7 +119,7 @@
         /// <param name="command">executed command</param>
         public virtual void ExecuteCommand(string command)
         {
-            FireProcessCommadExecute(command);
+            FireProcessCommandExecute(command);
         }
 
     }

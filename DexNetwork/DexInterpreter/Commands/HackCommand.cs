@@ -12,14 +12,14 @@ namespace DexNetwork.DexInterpreter.Commands
 
         private string _waitForInput = "";
 
-        private CommadState _delayedState;
+        private CommandState _delayedState;
         private Node _node;
         private Software _software;
 
         public HackCommand(IDexPromise promise) : base(promise)
         {
             CommandHelpString = $"{CmdName} <node> #<software>";
-            State = CommadState.NotStarted;
+            State = CommandState.NotStarted;
             CommandName = CmdName.ToLower();
             MandatoryParamCount = 2;
         }
@@ -30,7 +30,7 @@ namespace DexNetwork.DexInterpreter.Commands
             CommandResult result;
             if (_waitForInput.Equals("confirmHack"))
             {
-                result = EnsureState(CommadState.AwaitInput);
+                result = EnsureState(CommandState.AwaitInput);
                 if (result != null)
                     return result;
 
@@ -41,17 +41,17 @@ namespace DexNetwork.DexInterpreter.Commands
                 }
                 else
                 {
-                    result = CreateOutput(new TextOutput(Verbosity.Critical, "Ok, command terminated."), CommadState.Finished);
+                    result = CreateOutput(new TextOutput(Verbosity.Critical, "Ok, command terminated."), CommandState.Finished);
                     return result;
                 }
             }
 
 
-            result = EnsureState(CommadState.NotStarted);
+            result = EnsureState(CommandState.NotStarted);
             if (result != null)
                 return result;
 
-            if (State == CommadState.NotStarted)
+            if (State == CommandState.NotStarted)
             {
                 result = ParseArguments(input);
                 if (result != null)
@@ -160,10 +160,10 @@ namespace DexNetwork.DexInterpreter.Commands
                         result.Output.Add(new TextOutput(Verbosity.Critical, "\n Hack is UNSAFE. Proceed (y/n)?"));
                         _delayedState = result.State;
                         _waitForInput = "confirmHack";
-                        result.State = CommadState.AwaitInput;
+                        result.State = CommandState.AwaitInput;
                         result.BlockInput = false;
 
-                        State = CommadState.AwaitInput;
+                        State = CommandState.AwaitInput;
                     }
                 }
             }

@@ -218,12 +218,12 @@ namespace DexNetwork.DexInterpreter
             }
                 
             
-            if (result.State == CommadState.RequestResume)
+            if (result.State == CommandState.RequestResume)
             {
                 var newResult = ActiveCommand.Proceed();
                 HandleResult(newResult);
             }
-            else if (result.State == CommadState.Finished)
+            else if (result.State == CommandState.Finished)
             {
                 ActiveCommand = null;
             }

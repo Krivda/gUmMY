@@ -53,7 +53,7 @@ namespace DexNetwork.DexInterpreter.Commands
             }
 
 
-            CommandResult result = CreateOutput(new TextOutput(Verbosity, message), CommadState.Finished);
+            CommandResult result = CreateOutput(new TextOutput(Verbosity, message), CommandState.Finished);
             //result.Output.Add(updateResult);
 
             return result;

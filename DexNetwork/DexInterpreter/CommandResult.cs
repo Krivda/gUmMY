@@ -12,7 +12,7 @@ namespace DexNetwork.DexInterpreter
         public TextOutput Error { get; set; }
         public string XMPPCommand { get; set; }
 
-        public CommadState State { get; set; }
+        public CommandState State { get; set; }
 
 
         public Dictionary<string, string> Prompt { get; set; }
@@ -27,7 +27,7 @@ namespace DexNetwork.DexInterpreter
 
         public CommandResult()
         {
-            State = CommadState.Finished;
+            State = CommandState.Finished;
         }
     }
 

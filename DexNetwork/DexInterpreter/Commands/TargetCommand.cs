@@ -11,14 +11,14 @@ namespace DexNetwork.DexInterpreter.Commands
         public TargetCommand(IDexPromise promise) : base(promise)
         {
             CommandHelpString = $"{CmdName} <network>";
-            State = CommadState.NotStarted;
+            State = CommandState.NotStarted;
             CommandName = CmdName.ToLower();
             MandatoryParamCount = 1;
         }
 
         public override CommandResult OnCommandInput(string input)
         {
-            CommandResult result = EnsureState(CommadState.NotStarted);
+            CommandResult result = EnsureState(CommandState.NotStarted);
             if (result != null)
                 return result;
 

@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.IO;
 using System.Threading;
 using jabber.client;
 using jabber.protocol.client;
 using Sharp.Xmpp.Client;
+
 
 namespace Console
 {
@@ -158,10 +161,10 @@ namespace Console
             System.Console.WriteLine("PROT" + rp.InnerXml);
         }
 
-        private static void j_OnMessage(object sender, Message msg)
+        private static void j_OnMessage(object sender, Message message)
         {
-            if (msg.Body == " ") return; // ignore keep-alive spaces
-            System.Console.WriteLine("RECV: " + msg.Body);
+            if (message.Body == " ") return; // ignore keep-alive spaces
+            System.Console.WriteLine("RECV: " + message.Body);
         }
 
 

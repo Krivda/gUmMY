@@ -33,7 +33,7 @@ namespace DexNetwork.DexInterpreter.Commands
                 }
             }
 
-            return CreateOutput(new TextOutput(Verbosity.Critical, "Form is shown."), CommadState.Finished);
+            return CreateOutput(new TextOutput(Verbosity.Critical, "Form is shown."), CommandState.Finished);
         }
     }
 }

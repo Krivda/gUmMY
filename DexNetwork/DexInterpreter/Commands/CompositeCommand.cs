@@ -26,7 +26,7 @@ namespace DexNetwork.DexInterpreter.Commands
             if (Commands == null)
                 return CreateError("Commands array is null");
 
-            if (State == CommadState.NotStarted)
+            if (State == CommandState.NotStarted)
             {
                 result = ParseArguments(input);
                 if (result != null)
@@ -38,7 +38,7 @@ namespace DexNetwork.DexInterpreter.Commands
                 result = Proceed();
                 return result;
             }
-            else if (State == CommadState.AwaitInput)
+            else if (State == CommandState.AwaitInput)
             {
                 if (!(_commandIndex < Commands.Count))
                     return CreateError($"Command index is {_commandIndex} and it exceeds commads count {Commands.Count}");
@@ -58,14 +58,14 @@ namespace DexNetwork.DexInterpreter.Commands
 
             CommandResult result;
 
-            if (State == CommadState.AwaitXmpp)
+            if (State == CommandState.AwaitXmpp)
             {
                 if (Commands != null && _commandIndex < Commands.Count)
                 {
                     var command = Commands[_commandIndex];
 
                     //translate input to child command
-                    if (command.Command.State == CommadState.AwaitXmpp)
+                    if (command.Command.State == CommandState.AwaitXmpp)
                     {
                         result = command.Command.OnXmppMessageReceived(message);
 
@@ -80,7 +80,7 @@ namespace DexNetwork.DexInterpreter.Commands
                 return CreateError("_commands not set, or _commandIndex exceeds commands count.");
             }
 
-            result = CreateError($"Command {CommandName} is in the wrong state to accept XMPP messages. Command state is {Enum.GetName(typeof(CommadState), State)}. Message is '{message}'");
+            result = CreateError($"Command {CommandName} is in the wrong state to accept XMPP messages. Command state is {Enum.GetName(typeof(CommandState), State)}. Message is '{message}'");
 
             return result;
         }
@@ -100,7 +100,7 @@ namespace DexNetwork.DexInterpreter.Commands
                 var command = Commands[_commandIndex];
 
                 //translate input to child command
-                if (command.Command.State == CommadState.NotStarted)
+                if (command.Command.State == CommandState.NotStarted)
                 {
                     result = command.Command.OnCommandInput(command.CommandLine);
 
@@ -118,28 +118,28 @@ namespace DexNetwork.DexInterpreter.Commands
         private CommandResult HandleLast(CommandResult result)
         {
             //if child command finished
-            if (result.State == CommadState.Finished)
+            if (result.State == CommandState.Finished)
             {
                 //is last command?
                 if (_commandIndex + 1 == Commands.Count)
                 {
-                    State = CommadState.Finished;
+                    State = CommandState.Finished;
                     result.BlockInput = false;
                     return result;
                 }
 
                 _commandIndex++;
-                State = CommadState.RequestResume;
+                State = CommandState.RequestResume;
                 result.BlockInput = true;
 
                 if (result.Error != null)
                 {
                     //terminate all on error
-                    result.State = CommadState.Finished;
+                    result.State = CommandState.Finished;
                 }
                 else
                 {
-                    result.State = CommadState.RequestResume;
+                    result.State = CommandState.RequestResume;
                 }
                 return result;
             }

@@ -12,8 +12,8 @@ namespace DexNetwork.DexInterpreter.Commands
 
         public override CommandResult OnCommandInput(string input)
         {
-            if (State == CommadState.NotStarted)
-                return CreateOutput(new TextOutput(_verbosity, _text), CommadState.Finished);
+            if (State == CommandState.NotStarted)
+                return CreateOutput(new TextOutput(_verbosity, _text), CommandState.Finished);
 
             return CreateError($"Command {CommandName} should be in other state but NotStarted");
         }

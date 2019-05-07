@@ -87,7 +87,7 @@
     <Compile Include="DexInterpreter\Commands\MacroCommand.cs" />
     <Compile Include="DexInterpreter\Commands\ShowGraphUICommand.cs" />
     <Compile Include="DexInterpreter\Commands\TargetCommand.cs" />
-    <Compile Include="DexInterpreter\Commands\WellcomeCommand.cs" />
+    <Compile Include="DexInterpreter\Commands\WelcomeCommand.cs" />
     <Compile Include="DexInterpreter\Commands\DexStatusInstructionCommand.cs" />
     <Compile Include="DexInterpreter\Commands\TextOutBase.cs" />
     <Compile Include="DexInterpreter\DexCommandProccessor.cs" />

@@ -10,7 +10,7 @@ namespace DexNetwork.DexInterpreter.Commands
         public MacroCommand(IDexPromise promise) : base(promise)
         {
             CommandHelpString = $"<command>[newline][command][newline][command]";
-            State = CommadState.NotStarted;
+            State = CommandState.NotStarted;
             CommandName = CmdName.ToLower();
             MandatoryParamCount = 0;
             OptionalParamCount = 0;
@@ -19,7 +19,7 @@ namespace DexNetwork.DexInterpreter.Commands
 
         public override CommandResult OnCommandInput(string input)
         {
-            CommandResult result = EnsureState(CommadState.NotStarted);
+            CommandResult result = EnsureState(CommandState.NotStarted);
             if (result != null)
                 return result;
 
