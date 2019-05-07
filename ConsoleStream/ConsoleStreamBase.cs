@@ -5,10 +5,10 @@
     /// </summary>
     /// <param name="sender">The sender.</param>
     /// <param name="args">The <see cref="ConsoleStreamEventArgs"/> instance containing the event data.</param>
-    public delegate void ProcessEventHanlder(object sender, ConsoleStreamEventArgs args);
+    public delegate void ProcessEventHandler(object sender, ConsoleStreamEventArgs args);
 
     /// <summary>
-    /// Inerface between console-streaming backend and ConsoleContol
+    /// Interface between console-streaming backend and ConsoleControl
     /// </summary>
     public abstract class ConsoleStreamBase  
     {
@@ -20,29 +20,29 @@
         /// <summary>
         /// Occurs when process output is produced.
         /// </summary>
-        public event ProcessEventHanlder OnProcessOutput;
+        public event ProcessEventHandler OnProcessOutput;
 
         /// <summary>
         /// Occurs when process error output is produced.
         /// </summary>
-        public event ProcessEventHanlder OnProcessError;
+        public event ProcessEventHandler OnProcessError;
 
         /// <summary>
         /// Occurs when process input is produced.
         /// </summary>
-        public event ProcessEventHanlder OnCommandExecute;
+        public event ProcessEventHandler OnCommandExecute;
 
         /// <summary>
         /// Occurs when prompt change is requested
         /// </summary>
-        public event ProcessEventHanlder OnPromptChanged;
+        public event ProcessEventHandler OnPromptChanged;
 
 
-        //TODO: fixit, should be attachable to cotrol
+        //TODO: fixit, should be attachable to control
         /// <summary>
         /// Occurs when the process ends.
         /// </summary>
-        public event ProcessEventHanlder OnProcessExit;
+        public event ProcessEventHandler OnProcessExit;
 
         /// <summary>
         /// Fires the process output event.
@@ -51,9 +51,7 @@
         protected void FireProcessOutputEvent(string content)
         {
             //  Get the event and fire it.
-            var theEvent = OnProcessOutput;
-            if (theEvent != null)
-                theEvent(this, new ConsoleStreamEventArgs(content));
+            OnProcessOutput?.Invoke(this, new ConsoleStreamEventArgs(content));
         }
 
         /// <summary>
@@ -64,8 +62,7 @@
         {
             //  Get the event and fire it.
             var theEvent = OnProcessError;
-            if (theEvent != null)
-                theEvent(this, new ConsoleStreamEventArgs(content));
+            theEvent?.Invoke(this, new ConsoleStreamEventArgs(content));
         }
 
         /// <summary>
@@ -76,8 +73,7 @@
         {
             //  Get the event and fire it.
             var theEvent = OnCommandExecute;
-            if (theEvent != null)
-                theEvent(this, new ConsoleStreamEventArgs(content));
+            theEvent?.Invoke(this, new ConsoleStreamEventArgs(content));
         }
 
         /// <summary>
@@ -87,21 +83,17 @@
         protected void FireProcessExitEvent(int code)
         {
             //  Get the event and fire it.
-            var theEvent = OnProcessExit;
-            if (theEvent != null)
-                theEvent(this, new ConsoleStreamEventArgs(code));
+            OnProcessExit?.Invoke(this, new ConsoleStreamEventArgs(code));
         }
 
         /// <summary>
-        /// Fires the promt changed event
+        /// Fires the prompt changed event
         /// </summary>
-        /// <param name="content">new propmt value</param>
+        /// <param name="content">new prompt value</param>
         protected void FirePromptChangedEvent(string content)
         {
             //  Get the event and fire it.
-            var theEvent = OnPromptChanged;
-            if (theEvent != null)
-                theEvent(this, new ConsoleStreamEventArgs(content));
+            OnPromptChanged?.Invoke(this, new ConsoleStreamEventArgs(content));
         }
 
         #endregion
@@ -111,7 +103,7 @@
             //nothing
         }
 
-        //TODO: fixit, should be attachable to cotrol
+        //TODO: fixit, should be attachable to control
         /// <summary>
         /// Occurs when the process ends.
         /// </summary>
@@ -124,8 +116,8 @@
         /// <summary>
         /// Called by Console Control to pass input to console stream
         /// </summary>
-        /// <param name="command">executed commad</param>
-        public virtual void ExecuteCommad(string command)
+        /// <param name="command">executed command</param>
+        public virtual void ExecuteCommand(string command)
         {
             FireProcessCommadExecute(command);
         }

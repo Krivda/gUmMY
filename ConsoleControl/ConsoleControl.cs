@@ -18,7 +18,7 @@ namespace ConsoleControl
     /// </summary>
     /// <param name="sender">The sender.</param>
     /// <param name="args">The <see cref="ConsoleEventArgs"/> instance containing the event data.</param>
-    public delegate void ConsoleEventHanlder(object sender, ConsoleEventArgs args);
+    public delegate void ConsoleEventHandler(object sender, ConsoleEventArgs args);
 
 
     /// <summary>
@@ -72,25 +72,25 @@ namespace ConsoleControl
 
         private void AttachToStream(ConsoleStreamBase attachedStream)
         {
-            processInterace = attachedStream;
+            processInterface = attachedStream;
 
             //  Handle process events.
-            processInterace.OnProcessOutput += new ProcessEventHanlder(ProcessInterace_OnProcessOutput);
-            processInterace.OnProcessError += new ProcessEventHanlder(ProcessInterace_OnProcessError);
-            processInterace.OnCommandExecute += new ProcessEventHanlder(ProcessInterace_OnProcessCommand);
-            processInterace.OnProcessExit += new ProcessEventHanlder(ProcessInterace_OnProcessExit);
-            processInterace.OnPromptChanged += new ProcessEventHanlder(ProcessInterace_OnPromptChange);
+            processInterface.OnProcessOutput += new ProcessEventHandler(ProcessInterface_OnProcessOutput);
+            processInterface.OnProcessError += new ProcessEventHandler(ProcessInterface_OnProcessError);
+            processInterface.OnCommandExecute += new ProcessEventHandler(ProcessInterface_OnProcessCommand);
+            processInterface.OnProcessExit += new ProcessEventHandler(ProcessInterface_OnProcessExit);
+            processInterface.OnPromptChanged += new ProcessEventHandler(ProcessInterface_OnPromptChange);
 
-            processInterace.StartProcess("", "");
+            processInterface.StartProcess("", "");
 
         }
 
         /// <summary>
-        /// Handles the OnProcessError event of the processInterace control.
+        /// Handles the OnProcessError event of the processInterface control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="args">The <see cref="ConsoleStreamEventArgs"/> instance containing the event data.</param>
-        void ProcessInterace_OnProcessError(object sender, ConsoleStreamEventArgs args)
+        void ProcessInterface_OnProcessError(object sender, ConsoleStreamEventArgs args)
         {
             //  Write the output, in red
             WriteOutput(args.Content, Color.Red);
@@ -100,11 +100,11 @@ namespace ConsoleControl
         }
 
         /// <summary>
-        /// Handles the OnProcessOutput event of the processInterace control.
+        /// Handles the OnProcessOutput event of the processInterface control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="args">The <see cref="ConsoleStreamEventArgs"/> instance containing the event data.</param>
-        void ProcessInterace_OnProcessOutput(object sender, ConsoleStreamEventArgs args)
+        void ProcessInterface_OnProcessOutput(object sender, ConsoleStreamEventArgs args)
         {
             //  Write the output, in white
             WriteOutput(args.Content, Color.White);
@@ -114,11 +114,11 @@ namespace ConsoleControl
         }
 
         /// <summary>
-        /// Handles the OnCommandExecute event of the processInterace control.
+        /// Handles the OnCommandExecute event of the processInterface control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="args">The <see cref="ConsoleStreamEventArgs"/> instance containing the event data.</param>
-        void ProcessInterace_OnProcessCommand(object sender, ConsoleStreamEventArgs args)
+        void ProcessInterface_OnProcessCommand(object sender, ConsoleStreamEventArgs args)
         {
             if (Echo)
             {
@@ -134,16 +134,16 @@ namespace ConsoleControl
         }
 
         /// <summary>
-        /// Handles the OnProcessExit event of the processInterace control.
+        /// Handles the OnProcessExit event of the processInterface control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="args">The <see cref="ConsoleStreamEventArgs"/> instance containing the event data.</param>
-        void ProcessInterace_OnProcessExit(object sender, ConsoleStreamEventArgs args)
+        void ProcessInterface_OnProcessExit(object sender, ConsoleStreamEventArgs args)
         {
             //  Are we showing diagnostics?
             if (ShowDiagnostics)
             {
-                WriteOutput(System.Environment.NewLine + processInterace.ProcessFileName + " exited.", Color.FromArgb(255, 0, 255, 0));
+                WriteOutput(Environment.NewLine + processInterface.ProcessFileName + " exited.", Color.FromArgb(255, 0, 255, 0));
             }
 
             //  Read only again.
@@ -158,7 +158,7 @@ namespace ConsoleControl
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="args">The <see cref="ConsoleStreamEventArgs"/> instance containing the event data.</param>
-        private void ProcessInterace_OnPromptChange(object sender, ConsoleStreamEventArgs args)
+        private void ProcessInterface_OnPromptChange(object sender, ConsoleStreamEventArgs args)
         {
 
             if (this.InvokeRequired)
@@ -176,7 +176,7 @@ namespace ConsoleControl
         }
 
         /// <summary>
-        /// Initialises the key mappings.
+        /// Initializes the key mappings.
         /// </summary>
         private void InitialiseKeyMappings()
         {
@@ -213,7 +213,7 @@ namespace ConsoleControl
                 {
                     //SendKeysEx.SendKeys(CurrentProcessHwnd, mapping.SendKeysMapping);
                     //inputWriter.WriteLine(mapping.StreamMapping);
-//ExecuteCommad("\x3", Color.White, false);
+//ExecuteCommand("\x3", Color.White, false);
                 }
 
                 //  If we handled a mapping, we're done here.
@@ -306,7 +306,7 @@ namespace ConsoleControl
                 //  Write the input (without echoing).
                 WriteInput(input, Color.White, false);
 
-                //Enter is already handled, don't give to the cotrol
+                //Enter is already handled, don't give to the control
                 e.SuppressKeyPress = true;
             }
 
@@ -369,9 +369,9 @@ namespace ConsoleControl
                 recentInput.Add(input);
 
                 //  Write the input.
-                processInterace.ExecuteCommad(input);
+                processInterface.ExecuteCommand(input);
 
-                //remove the comand from current input
+                //remove the command from current input
                 richTextBoxConsole.SelectionStart = inputStart;
                 richTextBoxConsole.SelectionLength = richTextBoxConsole.TextLength - inputStart;
                 richTextBoxConsole.SelectedText = "";
@@ -399,7 +399,7 @@ namespace ConsoleControl
             }
 
             //  Start the process.
-            processInterace.StartProcess(fileName, arguments);
+            processInterface.StartProcess(fileName, arguments);
 
             //  If we enable input, make the control not read only.
             if (IsInputEnabled)
@@ -412,7 +412,7 @@ namespace ConsoleControl
         public void StopProcess()
         {
             //  Stop the interface.
-            processInterace.StopProcess();
+            processInterface.StopProcess();
         }
         
         /// <summary>
@@ -525,7 +525,7 @@ namespace ConsoleControl
         /// <summary>
         /// The internal process interface used to interface with the process.
         /// </summary>
-        private ConsoleStreamBase processInterace;
+        private ConsoleStreamBase processInterface;
         
         /// <summary>
         /// Current position that input starts at.
@@ -563,12 +563,12 @@ namespace ConsoleControl
         /// <summary>
         /// Occurs when console output is produced.
         /// </summary>
-        public event ConsoleEventHanlder OnConsoleOutput;
+        public event ConsoleEventHandler OnConsoleOutput;
 
         /// <summary>
         /// Occurs when console input is produced.
         /// </summary>
-        public event ConsoleEventHanlder OnConsoleInput;
+        public event ConsoleEventHandler OnConsoleInput;
 
         /// <summary>
         /// Gets or sets a value indicating whether to show diagnostics.
@@ -620,7 +620,7 @@ namespace ConsoleControl
                 richTextBoxConsole.ReadOnly = !value;
                 if (value!= isInputEnabled)
                 {
-                    //when enabling input - reset console input and promt to curren  text end
+                    //when enabling input - reset console input and tromp to curren  text end
                     if (value)
                     {
                         richTextBoxConsole.SelectionStart = richTextBoxConsole.TextLength;
@@ -638,7 +638,7 @@ namespace ConsoleControl
                         //bug: this don't work as expected - "" is not assigned
                         //richTextBoxConsole.SelectedText = "";
 
-                        //workaround: if text is only propmpt/input - reset the text
+                        //workaround: if text is only prompt/input - reset the text
                         if (richTextBoxConsole.SelectionStart == 0)
                             richTextBoxConsole.Text = "";
                         else
@@ -682,7 +682,7 @@ namespace ConsoleControl
         [Browsable(false)]
         public bool IsProcessRunning
         {
-            get { return processInterace.IsProcessRunning; }
+            get { return processInterface.IsProcessRunning; }
         }
 
         /// <summary>
@@ -722,7 +722,7 @@ namespace ConsoleControl
             get
             {
                 //  Return the base class font.
-                return processInterace;
+                return processInterface;
             }
             set
             {

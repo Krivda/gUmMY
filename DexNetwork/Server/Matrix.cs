@@ -2,7 +2,7 @@
 
 namespace DexNetwork.Server
 {
-    class Cyberspace : IXMPPClient
+    class Matrix : IXMPPClient
     {
         private XmppClient _client;
 
@@ -12,12 +12,13 @@ namespace DexNetwork.Server
             Логин: calvin276 @cyberspace
             Пароль: w8119*/
 
-            string hostname = "cyberspace.alice.digital";
-            string username = user;//"gr8b";
-            string pwd = password;//"639924";
+            string hostname = "xmpp.co";
+            //string hostname = "xabber.org";
+            string username = user;//"calvin";
+            string pwd = password;//"fraudfraudfraud";
 
 
-            _client = new XmppClient(hostname, username, "cyberspace", pwd, tls: true);
+            _client = new XmppClient(hostname, username, hostname, pwd, tls: true);
             
                 // Setup any event handlers.
                 // ...
@@ -29,7 +30,7 @@ namespace DexNetwork.Server
                 _client.StatusChanged += Client_StatusChanged;
 
                 _client.Hostname = hostname;
-                _client.Connect("cyberspace");
+                _client.Connect(null);
             }
 
         private void FireEventOnMessageReceived(XMPPEventArgs e)
@@ -54,7 +55,7 @@ namespace DexNetwork.Server
 
         public void SendMessage(string message)
         {
-            _client.SendMessage("darknet@cyberspace", message);
+            _client.SendMessage("backfire@xabber.org", message);
         }
     }
 }

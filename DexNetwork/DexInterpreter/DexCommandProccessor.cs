@@ -38,7 +38,7 @@ namespace DexNetwork.DexInterpreter
         CommandResolver CommandResolver { get; set; }
         private readonly DexPromise _dexPromise;
 
-        public ConcurrentQueue<String> XmppQueue = new ConcurrentQueue<string>();
+        public ConcurrentQueue<string> XmppQueue = new ConcurrentQueue<string>();
 
         class DexPromise : IDexPromise
         {
@@ -117,7 +117,7 @@ namespace DexNetwork.DexInterpreter
             base.StopProcess();
         }
 
-        public override void ExecuteCommad(string input)
+        public override void ExecuteCommand(string input)
         {
             Monitor.Enter(this);
             try

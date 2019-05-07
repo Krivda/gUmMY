@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using ConsoleControl;
 using ConsoleStream;
 using DexNetwork;
 using DexNetwork.DexInterpreter;
@@ -13,7 +10,7 @@ namespace gUmMYConsole
 {
     public partial class ConsoleForm : Form
     {
-        private DexCommandProccessor _consoleStream;
+        private readonly DexCommandProccessor _consoleStream;
 
 
         public ConsoleForm()

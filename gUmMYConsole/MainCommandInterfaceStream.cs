@@ -27,7 +27,7 @@ namespace gUmMYConsole
             IsProcessRunning = true;
         }
 
-        public override void ExecuteCommad(string command)
+        public override void ExecuteCommand(string command)
         {
             FireProcessCommadExecute(command);
 

@@ -100,6 +100,7 @@
     <Compile Include="DexInterpreter\LoggedUser.cs" />
     <Compile Include="netfx\System\Guard.cs" />
     <Compile Include="netfx\System\Windows\Input\DelegateCommand.cs" />
+    <Compile Include="Server\Matrix.cs" />
     <Compile Include="Server\Cyberspace.cs" />
     <Compile Include="UI\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

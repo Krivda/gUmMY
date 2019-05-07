@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using DexNetwork.Server;
-using NLog;
 
 namespace DexNetwork.DexInterpreter.Commands
 {
@@ -14,6 +12,7 @@ namespace DexNetwork.DexInterpreter.Commands
 
         private const string REALM_LOCAL = "local";
         private const string REALM_DARKNET = "darknet";
+        private const string REALM_MATRIX = "matrix";
 
         public string Password { get; private set; }
         public string Login { get; private set; }
@@ -27,8 +26,7 @@ namespace DexNetwork.DexInterpreter.Commands
             CommandHelpString = "login <user> <password> [realm->local]";
             State = CommadState.NotStarted;
 
-            _wellknownNames = new Dictionary<string, string>();
-            _wellknownNames.Add("gr8b", "639924");
+            _wellknownNames = new Dictionary<string, string> {{"gr8b", "639924"}};
 
         }
 
@@ -81,6 +79,23 @@ namespace DexNetwork.DexInterpreter.Commands
                 {
                     return CreateError($"Couldn't connect to realm '{Realm}'. Got exception {e}.");
                 }
+            }
+            else if (Realm.Equals(REALM_MATRIX))
+            {
+                Promise.XmppClient = new Matrix();
+                try
+                {
+                    Promise.XmppClient.Login(Login, Realm, pwd);
+                }
+                catch (Exception e)
+                {
+                    return CreateError($"Couldn't connect to realm '{Realm}'. Got exception {e}.");
+                }
+            }
+            else
+            {
+                result = CreateError($"Connection not available for  {Login} to realm {Realm}. Login format is {CommandHelpString}");
+                return result;
             }
 
             result = CreateOutput(new TextOutput(Verbosity.Critical, $"Logged as user {Login} to realm {Realm}."), CommadState.Finished);

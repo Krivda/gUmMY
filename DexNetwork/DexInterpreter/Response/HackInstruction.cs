@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using DexNetwork.Structure;
-using DexNetwork.Utils;
 
 namespace DexNetwork.DexInterpreter.Response
 {
