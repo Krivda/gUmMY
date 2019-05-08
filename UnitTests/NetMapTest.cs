@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace UnitTests
 {
-    public class NetMapTest
+    /*public class NetMapTest
     {
         [TestCase(new object[] { "single node", 1,  "-" })]
         [TestCase(new object[] { "two  nodes", 2, "┌┤└" })]
@@ -131,5 +131,5 @@ namespace UnitTests
             }
             return null;
         }
-    }
+    }*/
 }

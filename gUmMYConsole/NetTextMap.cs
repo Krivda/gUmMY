@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using DexNetwork.Structure;
 
 namespace gUmMYConsole
 {
-    public class NetTextMap
+   /* public class NetTextMap
     {
 
         /// <summary>
@@ -90,7 +89,7 @@ namespace gUmMYConsole
                                 {
                                     DrawNode(3 + maxLen * level + level, nodeFormat, maxLen, node, path[1], path, true);
                                 }*/
-                            }
+                   /*         }
                         }
                     }
                     else
@@ -303,5 +302,5 @@ namespace gUmMYConsole
 
             return linesBuf.ToString();
         }
-    }
+    }*/
 }

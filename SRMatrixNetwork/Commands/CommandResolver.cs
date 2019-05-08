@@ -1,22 +1,31 @@
-﻿namespace SRMatrixNetwork.Commands
+﻿using SRMatrixNetwork.Commands.ClientSide;
+using SRMatrixNetwork.Commands.ServerSide;
+
+namespace SRMatrixNetwork.Commands
 {
     public class CommandResolver
     {
         public CommandBase ResolveCommand(string input, IDexPromise dexPromise)
         {
-            /*if (input.Contains("\n"))
-                return new MacroCommand(dexPromise);
 
             string[] split = input.Split(' ');
+
+            if (split[0].ToLower().StartsWith("!"))
+                return new SRDirectInstructionCommand(Verbosity.Critical, dexPromise);
+            if (LoginCommand.CmdName.Equals(split[0].Trim().ToLower()))
+                return new LoginCommand(dexPromise);
+            
+            /*
+            if (input.Contains("\n"))
+                return new MacroCommand(dexPromise);
 
             if (InitCommand.CmdName.Equals(split[0].ToLower()))
                 return new InitCommand(dexPromise);
 
-            if (DexStatusInstructionCommand.CmdName.Equals(split[0].ToLower()))
-                return new DexStatusInstructionCommand(Verbosity.Critical, dexPromise);
+            if (SRStatusInstructionCommand.CmdName.Equals(split[0].ToLower()))
+                return new SRStatusInstructionCommand(Verbosity.Critical, dexPromise);
 
-            if (LoginCommand.CmdName.Equals(split[0].ToLower()))
-                return new LoginCommand(dexPromise);
+
 
             if (DexInfoInstructionCommand.CmdName.Equals(split[0].ToLower()))
                 return new DexInfoInstructionCommand(Verbosity.Critical, dexPromise);
@@ -37,10 +46,8 @@
                 return new ShowGraphUICommand(dexPromise);
 
             if (split[0].ToLower().StartsWith("#"))
-                return new DexHackInstructionCommand(Verbosity.Critical, dexPromise);
+                return new DexHackInstructionCommand(Verbosity.Critical, dexPromise);*/
 
-            if (split[0].ToLower().StartsWith("!"))
-                return new DexDirectInstructionCommand(Verbosity.Critical, dexPromise);*/
 
             return null;
         }

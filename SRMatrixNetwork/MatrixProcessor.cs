@@ -23,7 +23,7 @@ namespace SRMatrixNetwork
 
     public class MatrixProcessor : ConsoleStreamBase
     {
-        private static Logger logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private readonly Form _baseForm;
         //public Network Network { get; private set; }
@@ -135,7 +135,7 @@ namespace SRMatrixNetwork
         {
             //FireBlockInput(false)
 
-            if (result.XMPPConnected)
+            if (result.XmppConnected)
             {
                 if (XmppClient != null)
                 {
@@ -148,8 +148,10 @@ namespace SRMatrixNetwork
                         }
                     };
 
-
+                    //subscribe to incoming messages
                     XmppClient.OnMessageReceived += OnXmppResponse;
+
+                    //process outgoing messages (once per sec will deque and send 1 message)
                     PeriodicTaskFactory.Start(xmppTimerAction, 1000, 1, -1, -1, true);
                 }
             }
@@ -184,12 +186,12 @@ namespace SRMatrixNetwork
                 FirePromptChangedEvent(prompt);
             }
 
-            if (result.XMPPCommand != null)
+            if (result.XmppCommand != null)
             {
                 if (XmppClient == null)
                     throw new Exception("XMPP Connection is not set up, use login command to establish connection");
 
-                XmppQueue.Enqueue(result.XMPPCommand);
+                XmppQueue.Enqueue(result.XmppCommand);
             }
 
 
@@ -209,7 +211,7 @@ namespace SRMatrixNetwork
             Monitor.Enter(this);
             try
             {
-                logger.Info($"darknet@cyberspace:>>\n{args.Message}");
+                Logger.Info($"darknet@cyberspace:>>\n{args.Message}");
                 if (ActiveCommand == null)
                 {
                     FireProcessErrorEvent($"Got XMPP message {args.Message} when no ActiveCommand exists!");

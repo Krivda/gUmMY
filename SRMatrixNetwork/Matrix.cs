@@ -21,24 +21,20 @@ namespace SRMatrixNetwork
 
             _client = new XmppClient(hostname, username, hostname, pwd, tls: true);
             
-                // Setup any event handlers.
-                // ...
+            // Setup any event handlers.
+            // ...
 
 
-                // Setup any event handlers before connecting.
-                _client.Message += OnServerMessage;
+            // Setup any event handlers before connecting.
+            _client.Message += OnServerMessage;
 
-                _client.StatusChanged += Client_StatusChanged;
+            _client.StatusChanged += Client_StatusChanged;
 
-                _client.Hostname = hostname;
-                _client.Connect();
-            }
-
-        event XmppEvent IXmppClient.OnMessageReceived
-        {
-            add => throw new System.NotImplementedException();
-            remove => throw new System.NotImplementedException();
+            _client.Hostname = hostname;
+            _client.Connect();
         }
+
+        public event XmppEvent OnMessageReceived;
 
         private void FireEventOnMessageReceived(XmppEventArgs e)
         {
@@ -57,8 +53,6 @@ namespace SRMatrixNetwork
 
             FireEventOnMessageReceived(new XmppEventArgs(e.Message.Body, "message" ));
         }
-
-        public event XmppEvent OnMessageReceived;
 
         public void SendMessage(string message)
         {

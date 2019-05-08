@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using DexNetwork.DexInterpreter.Response;
 using StatusInstruction = SRMatrixNetwork.Commands.response.StatusInstruction;
 
 namespace SRMatrixNetwork.Commands
@@ -10,7 +9,7 @@ namespace SRMatrixNetwork.Commands
     {
         public List<TextOutput> Output { get; set; } = new List<TextOutput>();
         public TextOutput Error { get; set; }
-        public string XMPPCommand { get; set; }
+        public string XmppCommand { get; set; }
 
         public CommandState State { get; set; }
 
@@ -20,7 +19,7 @@ namespace SRMatrixNetwork.Commands
         public bool BlockInput { get; set; }
         public bool ClearScreen { get; set; }
 
-        public bool XMPPConnected { get; set; }
+        public bool XmppConnected { get; set; }
         public bool TargetSet { get; set; }
 
         public StatusInstruction UpdatedNetStatus { get; set; }

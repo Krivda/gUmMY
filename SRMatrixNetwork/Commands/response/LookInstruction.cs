@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using DexNetwork.Structure;
-using DexNetwork.Utils;
 
 namespace SRMatrixNetwork.Commands.response
 {
@@ -15,9 +13,9 @@ namespace SRMatrixNetwork.Commands.response
 
         public string NetName { get; private set; } = "";
         public string Error { get; private set; } = "";
-        public Node Node { get; set; }
+        //public Node Node { get; set; }
 
-        public static LookInstruction Parse(string commandOuptut)
+        public static LookInstruction Parse(string commandOutput)
         {
             LookInstruction result = new LookInstruction();
 
@@ -47,14 +45,14 @@ namespace SRMatrixNetwork.Commands.response
             //
             //END----------------
 
-            bool foundDisabled = false;
-            string[] lines = commandOuptut.Split(new [] { Environment.NewLine, "\n" }, StringSplitOptions.None);
+            /*bool foundDisabled = false;
+            string[] lines = commandOutput.Split(new [] { Environment.NewLine, "\n" }, StringSplitOptions.None);
 
             if (lines[0].StartsWith("Incorrect arguments"))
             {
-                result.Error = commandOuptut;
+                result.Error = commandOutput;
             }
-            else if (commandOuptut.Contains("------"))
+            else if (commandOutput.Contains("------"))
             {
                 bool seenChildNodesMarker = false;
 
@@ -68,7 +66,7 @@ namespace SRMatrixNetwork.Commands.response
                     }
                     if (cmdLine.Contains("not available"))
                     {
-                        result.Error = commandOuptut;
+                        result.Error = commandOutput;
                     }
                     else if (line.Contains("properties:"))
                     {
@@ -171,13 +169,13 @@ namespace SRMatrixNetwork.Commands.response
             }
             else
             {
-                result.Error = $"Unexpected reply: \n{commandOuptut}";
+                result.Error = $"Unexpected reply: \n{commandOutput}";
             }
-
+            */
             return result;
         }
 
-        public static string AssembleAccessible(string networkName, Node node)
+        /*public static string AssembleAccessible(string networkName, Node node)
         {
 
 
@@ -214,15 +212,15 @@ Node ""{networkName}/{node.Name}"" properties:
 Installed program: #{node.Software}
 Type: {node.NodeType}{disabledStr}{effectStr}{childrenStr}
 
-END ----------------";
+END ----------------";*/
         }
 
-        public static string AssembleNotAccessible(string networkName, Node node)
+        /*public static string AssembleNotAccessible(string networkName, Node node)
         {
-            return $@"--------------------
+           *return $@"--------------------
 {networkName} / {node.Name}: not available
 
 END ----------------";
-        }
-    }
+        }*/
+    
 }

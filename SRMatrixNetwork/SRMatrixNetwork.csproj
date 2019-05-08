@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SRMatrixNetwork</RootNamespace>
     <AssemblyName>SRMatrixNetwork</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -46,10 +47,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\CommandResult.cs" />
-    <Compile Include="Commands\LoginCommand.cs" />
-    <Compile Include="Commands\response\InfoInstruction.cs" />
+    <Compile Include="Commands\ClientSide\LoginCommand.cs" />
     <Compile Include="Commands\response\LookInstruction.cs" />
     <Compile Include="Commands\response\StatusInstruction.cs" />
+    <Compile Include="Commands\ServerSide\SRLookInstructionCommand.cs" />
+    <Compile Include="Commands\ServerSide\SRDirectInstructionCommand.cs" />
+    <Compile Include="Commands\ServerSide\SRInstructionCommandBase.cs" />
+    <Compile Include="Commands\ServerSide\SRStatusInstructionCommand.cs" />
     <Compile Include="Commands\TextOutput.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\CommandResolver.cs" />
@@ -66,16 +70,15 @@
       <Project>{e0bd5b0d-8d7d-47d8-83ec-53ca5f0a96b4}</Project>
       <Name>ConsoleStream</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DexNetwork\DexNetwork.csproj">
-      <Project>{1BF10C84-5AD5-41DB-BC5D-A9191175B441}</Project>
-      <Name>DexNetwork</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Sharp.Xmpp-master\Sharp.Xmpp.csproj">
       <Project>{9EA99E39-8C5C-4F69-9F3F-8E3074C518FA}</Project>
       <Name>Sharp.Xmpp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

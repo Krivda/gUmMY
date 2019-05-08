@@ -2,22 +2,21 @@
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using ConsoleStream;
-using DexNetwork;
-using DexNetwork.DexInterpreter;
-using DexNetwork.Structure;
+using SRMatrixNetwork;
+
 
 namespace gUmMYConsole
 {
     public partial class ConsoleForm : Form
     {
-        private readonly DexCommandProccessor _consoleStream;
+        private readonly MatrixProcessor _consoleStream;
 
 
         public ConsoleForm()
         {
             InitializeComponent();
-
-            _consoleStream = new DexCommandProccessor(this);
+                                 
+            _consoleStream = new MatrixProcessor(this);
 
             _consoleStream.OnCommandExecute += ConsoleStreamOnOnProcessInput;
             consConsole.ConsoleStream = new MainCommandInterfaceStream(this);
@@ -63,7 +62,13 @@ namespace gUmMYConsole
             consConsole.Prompt = "";
         }
 
+
         private void CmdDumpNet_Click(object sender, EventArgs e)
+        {
+            //stub for commented out method
+            throw new NotImplementedException();
+        }
+        /*private void CmdDumpNet_Click(object sender, EventArgs e)
         {
             Network net = new Network();
 
@@ -259,7 +264,7 @@ namespace gUmMYConsole
                     }
                 }
             };
-            */
+            
             string netName = "BlackMirror11";
             string path = $@"Networks/{netName}.xml";
             //_consoleStream.FeedOutput(Serializer.SerializeNetAndDump(net, path));
@@ -267,7 +272,7 @@ namespace gUmMYConsole
 
 
             net = Serializer.DeserializeNet(path);
-        }
+        }*/
 
         private void cmdSoft_Click(object sender, EventArgs e)
         {
@@ -280,5 +285,6 @@ namespace gUmMYConsole
                 match = match.NextMatch();
             }
         }
+
     }
 }
