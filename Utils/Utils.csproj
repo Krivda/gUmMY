@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D17C4EAB-B252-470A-B4B4-AB2A635AB022}</ProjectGuid>
+    <ProjectGuid>{7F8D83FC-0868-441E-9F88-132DEC5D347F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UnitTests</RootNamespace>
-    <AssemblyName>UnitTests</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <RootNamespace>me.krivda.utils</RootNamespace>
+    <AssemblyName>Utils</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,10 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=3.7.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.7.1\lib\net45\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,36 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NetGenerator.cs" />
-    <Compile Include="NetMapTest.cs" />
-    <Compile Include="NetPathsTest.cs" />
-    <Compile Include="NewTests\TestMatrixFormatting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestFinally.cs" />
-    <Compile Include="TestLibSerialize.cs" />
-    <Compile Include="NewTests\testStringExtensions.cs" />
-    <Compile Include="TestResponses.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DexNetwork\DexNetwork.csproj">
-      <Project>{1BF10C84-5AD5-41DB-BC5D-A9191175B441}</Project>
-      <Name>DexNetwork</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\gUmMYConsole\gUmMYConsole.csproj">
-      <Project>{D8E43459-3078-45B6-BF36-EDBE7B1B79EE}</Project>
-      <Name>gUmMYConsole</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SRMatrixNetwork\SRMatrixNetwork.csproj">
-      <Project>{B141F588-F009-4074-BC4F-4C8F45BD1DC6}</Project>
-      <Name>SRMatrixNetwork</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Utils\Utils.csproj">
-      <Project>{7F8D83FC-0868-441E-9F88-132DEC5D347F}</Project>
-      <Name>Utils</Name>
-    </ProjectReference>
+    <Compile Include="StringExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

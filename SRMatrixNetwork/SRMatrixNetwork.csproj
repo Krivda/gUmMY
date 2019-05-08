@@ -37,6 +37,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -57,8 +58,11 @@
     <Compile Include="Commands\TextOutput.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\CommandResolver.cs" />
+    <Compile Include="Data\DeckersRepository.cs" />
+    <Compile Include="Data\LoadDeckers.cs" />
     <Compile Include="LoggedUser.cs" />
     <Compile Include="Matrix.cs" />
+    <Compile Include="Formatter\MatrixFormatter.cs" />
     <Compile Include="Multithreading\PeriodicTaskFactory.cs" />
     <Compile Include="Server\IXmppClient.cs" />
     <Compile Include="MatrixProcessor.cs" />
@@ -74,12 +78,24 @@
       <Project>{9EA99E39-8C5C-4F69-9F3F-8E3074C518FA}</Project>
       <Name>Sharp.Xmpp</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{7F8D83FC-0868-441E-9F88-132DEC5D347F}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utils\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\deckers.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

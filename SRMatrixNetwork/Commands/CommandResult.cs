@@ -19,6 +19,9 @@ namespace SRMatrixNetwork.Commands
         public bool BlockInput { get; set; }
         public bool ClearScreen { get; set; }
 
+        /**
+         * Indicates, that Xmpp connectivity established as the result of command execution
+         */
         public bool XmppConnected { get; set; }
         public bool TargetSet { get; set; }
 

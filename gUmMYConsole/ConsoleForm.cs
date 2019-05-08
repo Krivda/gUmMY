@@ -19,7 +19,7 @@ namespace gUmMYConsole
             _consoleStream = new MatrixProcessor(this);
 
             _consoleStream.OnCommandExecute += ConsoleStreamOnOnProcessInput;
-            consConsole.ConsoleStream = new MainCommandInterfaceStream(this);
+            //consConsole.ConsoleStream = new MainCommandInterfaceStream(this);
         }
 
         private void ConsoleStreamOnOnProcessInput(object sender, ConsoleStreamEventArgs args)
@@ -35,7 +35,6 @@ namespace gUmMYConsole
 
         private void ConsoleForm_Load(object sender, EventArgs e)
         {
-            //consConsole.Prompt = "GoldenGate";
             consConsole.ConsoleStream = _consoleStream;
             //_consoleStream.StartFeed();
             consConsole.IsInputEnabled = true;

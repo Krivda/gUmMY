@@ -1,31 +1,22 @@
 using System;
 using System.Collections.Generic;
+using SRMatrixNetwork.Data;
 
 namespace SRMatrixNetwork.Commands.ClientSide
 {
     public class LoginCommand : CommandBase
     {
            
-        private readonly Dictionary<string, string> _wellknownNames;
         public const string CmdName = "login";
-
-        private const string REALM_LOCAL = "local";
-        private const string REALM_DARKNET = "darknet";
-        private const string REALM_MATRIX = "matrix";
-
-        public string Password { get; private set; }
-        public string Login { get; private set; }
-        public string Realm { get; private set; }
+        public const string DEFAULT_HOST = "xmpp.co";
 
         public LoginCommand(IDexPromise promise) : base(promise)
         {
             OptionalParamCount = 1;
-            MandatoryParamCount = 2;
+            MandatoryParamCount = 1;
             CommandName = CmdName;
-            CommandHelpString = "login <user> <password> [realm->local]";
+            CommandHelpString = "login <user> [password]";
             State = CommandState.NotStarted;
-
-            _wellknownNames = new Dictionary<string, string> {{"gr8b", "639924"}};
 
         }
 
@@ -39,45 +30,52 @@ namespace SRMatrixNetwork.Commands.ClientSide
             if (validateArgsResult != null)
                 throw new Exception(validateArgsResult.Error.Text);
 
-            Login = Parameters[0];
-            Password = Parameters[1];
 
-            if (String.IsNullOrEmpty(Parameters[2]))
-                Realm = REALM_LOCAL;
-            else
-                Realm = Parameters[2];
+            string name = Parameters[0];
+            string jid = "";
+            string pwd = "";
 
-
-            string pwd;
-
-            if (!_wellknownNames.TryGetValue(Login, out pwd))
-                pwd = Password;
-
-            if (Realm.Equals(REALM_MATRIX))
+            Dictionary<string, KnownDecker> deckers = DeckersRepository.LoadDeckers();
+            deckers.TryGetValue(name, out var knownDecker);
+            if (knownDecker != null)
             {
-                Promise.XmppClient = new Matrix();
-                try
-                {
-                    Promise.XmppClient.Login(Login, Realm, pwd);
-                }
-                catch (Exception e)
-                {
-                    return CreateError($"Couldn't connect to realm '{Realm}'. Got exception {e}.");
-                }
-            }
-            else
-            {
-                result = CreateError($"Connection not available for  {Login} to realm {Realm}. Login format is {CommandHelpString}");
-                return result;
+                jid = knownDecker.Jid;
+                pwd = knownDecker.Pwd;
             }
 
-            result = CreateOutput(new TextOutput(Verbosity.Critical, $"Logged as user {Login} to realm {Realm}."), CommandState.Finished);
+            //command param takes priority over stored data
+            if (Parameters.Count > 1 && !string.IsNullOrEmpty(Parameters[1]))
+            {
+                pwd = Parameters[1];
+            }
+
+            if (string.IsNullOrEmpty(pwd))
+            {
+                return CreateError($"Couldn't find password for user {name}. Please use specify it in data file or via command parameter.");
+            }
+
+            if (string.IsNullOrEmpty(jid))
+            {
+                jid = name;
+            }
+
+            Promise.XmppClient = new Matrix();
+            try
+            {
+                Promise.XmppClient.Login(jid, pwd, "matrix");
+            }
+            catch (Exception e)
+            {
+                return CreateError($"Couldn't connect to matrix. Got exception {e}.");
+            }
+
+
+            result = CreateOutput(new TextOutput(Verbosity.Critical, $"Connect to grid as persona {name}."), CommandState.Finished);
             
-            result.Prompt = new Dictionary<string, string> { { "realm", Realm } };
+            result.XmppCommand = "look";
             result.XmppConnected = true;
 
-
-            Logger.Info("Session started");
+            Logger.Info($"Session for {name} started");
 
             return result;
         }

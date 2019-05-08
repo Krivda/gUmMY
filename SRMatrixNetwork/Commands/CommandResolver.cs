@@ -10,10 +10,12 @@ namespace SRMatrixNetwork.Commands
 
             string[] split = input.Split(' ');
 
-            if (split[0].ToLower().StartsWith("!"))
-                return new SRDirectInstructionCommand(Verbosity.Critical, dexPromise);
             if (LoginCommand.CmdName.Equals(split[0].Trim().ToLower()))
                 return new LoginCommand(dexPromise);
+            else
+            {
+                return new SRDirectInstructionCommand(Verbosity.Critical, dexPromise);
+            }
             
             /*
             if (input.Contains("\n"))

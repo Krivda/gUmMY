@@ -2,7 +2,7 @@ namespace SRMatrixNetwork.Server
 {
     public interface IXmppClient
     {
-        void Login(string user, string domain, string password);
+        void Login(string user, string password, string realm);
 
         event XmppEvent OnMessageReceived;
 

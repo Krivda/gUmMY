@@ -1,3 +1,5 @@
+using System;
+
 namespace SRMatrixNetwork.Commands.ServerSide
 {
     public abstract class  SRInstructionCommandBase : CommandBase
@@ -22,13 +24,21 @@ namespace SRMatrixNetwork.Commands.ServerSide
             if (result != null)
                 return result;
 
-            string xmppCommand = GetXmppInputForInstruction(input);
-
             State = CommandState.AwaitXmpp;
 
-            result = CreateOutput(new TextOutput(Verbosity, $">> {xmppCommand}"), CommandState.AwaitXmpp);
-            result.XmppCommand = xmppCommand;
-            result.State = CommandState.AwaitXmpp;
+            string xmppCommand = GetXmppInputForInstruction(input);
+
+            if (string.IsNullOrEmpty(xmppCommand))
+            {
+
+                result = CreateOutput(new TextOutput(Verbosity, $">> {xmppCommand}"), State);
+                result.XmppCommand = xmppCommand;
+                result.State = State;
+            }
+            else
+            {
+                result = CreateOutput(new TextOutput(Verbosity, string.Empty), CommandState.Finished);
+            }
 
             return result;
         }

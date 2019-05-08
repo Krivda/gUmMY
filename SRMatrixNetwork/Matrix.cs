@@ -1,13 +1,17 @@
-﻿using Sharp.Xmpp.Client;
+﻿using System;
+using NLog;
+using Sharp.Xmpp.Client;
 using SRMatrixNetwork.Server;
     
 namespace SRMatrixNetwork
 {
     class Matrix : IXmppClient
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         private XmppClient _client;
 
-        public void Login(string user, string domain, string password)
+        public void Login(string user, string password, string realm)
         {
             /*Адрес сервера: cyberspace.alice.digital
             Логин: calvin276 @cyberspace
@@ -18,20 +22,34 @@ namespace SRMatrixNetwork
             string username = user;//"calvin";
             string pwd = password;//"fraudfraudfraud";
 
+            if (username.Contains("@"))
+            {
+                //override hostname with jid data
+                string[] split = username.Split('@');
+
+                username = split[0];
+                hostname = split[1];
+            }
+
 
             _client = new XmppClient(hostname, username, hostname, pwd, tls: true);
-            
+
             // Setup any event handlers.
             // ...
 
-
             // Setup any event handlers before connecting.
             _client.Message += OnServerMessage;
-
             _client.StatusChanged += Client_StatusChanged;
-
             _client.Hostname = hostname;
-            _client.Connect();
+            
+            try { 
+                _client.Connect();
+                Logger.Info($"Established connection for {username}@{hostname}.");
+            }
+            catch (System.Security.Authentication.AuthenticationException)
+            {
+                throw new Exception($"Account {username}@{hostname} not authorized by matrix server. Bad password?");
+            }
         }
 
         public event XmppEvent OnMessageReceived;

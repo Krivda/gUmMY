@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Forms;
 using ConsoleStream;
+using me.krivda.utils;
 using NLog;
 using SRMatrixNetwork.Commands;
+using SRMatrixNetwork.Formatter;
 using SRMatrixNetwork.Multithreading;
 using SRMatrixNetwork.Server;
 
@@ -76,14 +79,8 @@ namespace SRMatrixNetwork
 
         public override void StartProcess(string fileName, string arguments)
         {
-            //string softwareLibPath = @"Software/lib.xml";
-
             try
             {
-                /*
-                SoftwareLib = Serializer.Deserialize<SoftwareLib>(softwareLibPath);
-                SoftwareLib.Init(softwareLibPath);
-                */
                 CommandResolver = new CommandResolver();
             }
             catch (Exception e)
@@ -137,12 +134,14 @@ namespace SRMatrixNetwork
 
             if (result.XmppConnected)
             {
+                //this happens only after Login command runs.
                 if (XmppClient != null)
                 {
+                    // start xmpp listening and prepare to send
+
                     Action xmppTimerAction = () =>
                     {
-                        string command;
-                        if (XmppQueue.TryDequeue(out command))
+                        if (XmppQueue.TryDequeue(out var command))
                         {
                             XmppClient.SendMessage(command);
                         }
@@ -194,6 +193,11 @@ namespace SRMatrixNetwork
                 XmppQueue.Enqueue(result.XmppCommand);
             }
 
+            //todo: fixit
+            /*if (result.Prompt != null)
+            {
+                FirePromptChangedEvent(result.Prompt);
+            }*/
 
             if (result.State == CommandState.RequestResume)
             {
@@ -214,15 +218,19 @@ namespace SRMatrixNetwork
                 Logger.Info($"darknet@cyberspace:>>\n{args.Message}");
                 if (ActiveCommand == null)
                 {
-                    FireProcessErrorEvent($"Got XMPP message {args.Message} when no ActiveCommand exists!");
-                    return;
+                    FireProcessOutputEvent(args.Message);
+                }
+                else
+                {
+                    HandleResult(ActiveCommand.OnXmppMessageReceived(args.Message));
                 }
 
-                HandleResult(ActiveCommand.OnXmppMessageReceived(args.Message));
             }
             catch (Exception ex)
             {
-                //todo wtf?
+                string msg = $"Unexpected exception while processing {args.Message}. \n{ex}!";
+                Logger.Error(msg);
+                FireProcessErrorEvent(msg);
             }
             finally
             {
@@ -230,5 +238,25 @@ namespace SRMatrixNetwork
             }
 
         }
+
+
+        private string ProcessMarker(string marker)
+        {
+            string result = marker.Trim().ToLower();
+
+            
+
+            return marker;
+        }
+
+
+
+        protected override void FireProcessOutputEvent(string message)
+        {
+            message = MatrixFormatter.ApplyMatrixFormatting(message);
+
+            base.FireProcessOutputEvent(message);
+        }
+
     }
 }

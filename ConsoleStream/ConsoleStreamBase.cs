@@ -48,7 +48,7 @@
         /// Fires the process output event.
         /// </summary>
         /// <param name="content">The content.</param>
-        protected void FireProcessOutputEvent(string content)
+        protected virtual void FireProcessOutputEvent(string content)
         {
             //  Get the event and fire it.
             OnProcessOutput?.Invoke(this, new ConsoleStreamEventArgs(content));
@@ -58,7 +58,7 @@
         /// Fires the process error output event.
         /// </summary>
         /// <param name="content">The content.</param>
-        protected void FireProcessErrorEvent(string content)
+        protected virtual void FireProcessErrorEvent(string content)
         {
             //  Get the event and fire it.
             var theEvent = OnProcessError;
@@ -69,7 +69,7 @@
         /// Fires the process input event.
         /// </summary>
         /// <param name="content">The content.</param>
-        protected void FireProcessCommandExecute(string content)
+        protected virtual void FireProcessCommandExecute(string content)
         {
             //  Get the event and fire it.
             var theEvent = OnCommandExecute;
@@ -80,7 +80,7 @@
         /// Fires the process exit event.
         /// </summary>
         /// <param name="code">The code.</param>
-        protected void FireProcessExitEvent(int code)
+        protected virtual void FireProcessExitEvent(int code)
         {
             //  Get the event and fire it.
             OnProcessExit?.Invoke(this, new ConsoleStreamEventArgs(code));
@@ -90,7 +90,7 @@
         /// Fires the prompt changed event
         /// </summary>
         /// <param name="content">new prompt value</param>
-        protected void FirePromptChangedEvent(string content)
+        protected virtual void FirePromptChangedEvent(string content)
         {
             //  Get the event and fire it.
             OnPromptChanged?.Invoke(this, new ConsoleStreamEventArgs(content));
