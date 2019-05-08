@@ -22,7 +22,7 @@ namespace DexNetwork.DexInterpreter.Commands
             return $"{CmdName} {_nodeName}";
         }
 
-        protected override CommandResult ProcessXmppMesssage(string message)
+        protected override CommandResult ProcessXmppMessage(string message)
         {
             LookInstruction infoResult;
 

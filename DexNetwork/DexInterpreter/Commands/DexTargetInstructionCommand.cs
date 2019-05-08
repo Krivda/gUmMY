@@ -38,7 +38,7 @@ namespace DexNetwork.DexInterpreter.Commands
             return null;
         }
 
-        protected override CommandResult ProcessXmppMesssage(string message)
+        protected override CommandResult ProcessXmppMessage(string message)
         {
             CommandResult result;
             if (message.ToLower().Equals(RESPONSE_OK.ToLower()))

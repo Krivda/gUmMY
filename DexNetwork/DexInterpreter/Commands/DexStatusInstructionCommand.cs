@@ -15,7 +15,7 @@ namespace DexNetwork.DexInterpreter.Commands
         }
 
 
-        protected override CommandResult ProcessXmppMesssage(string message)
+        protected override CommandResult ProcessXmppMessage(string message)
         {
             CommandResult result;
             var commadResult = StatusInstruction.Parse(message);

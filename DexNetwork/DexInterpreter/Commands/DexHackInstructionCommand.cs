@@ -23,7 +23,7 @@ namespace DexNetwork.DexInterpreter.Commands
             return $"#{_sofware} {_nodeName}";
         }
 
-        protected override CommandResult ProcessXmppMesssage(string message)
+        protected override CommandResult ProcessXmppMessage(string message)
         {
             HackInstruction hackResult;
 

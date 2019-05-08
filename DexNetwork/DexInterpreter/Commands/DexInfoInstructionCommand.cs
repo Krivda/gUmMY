@@ -23,7 +23,7 @@ namespace DexNetwork.DexInterpreter.Commands
             return $"{CmdName} #{_softwareCode}";
         }
 
-        protected override CommandResult ProcessXmppMesssage(string message)
+        protected override CommandResult ProcessXmppMessage(string message)
         {
             InfoInstruction infoResult;
 

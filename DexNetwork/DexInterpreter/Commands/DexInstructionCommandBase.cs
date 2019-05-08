@@ -46,11 +46,11 @@ namespace DexNetwork.DexInterpreter.Commands
             if (result != null)
                 return result;
 
-            return ProcessXmppMesssage(message);
+            return ProcessXmppMessage(message);
 
         }
 
-        protected abstract CommandResult ProcessXmppMesssage(string message);
+        protected abstract CommandResult ProcessXmppMessage(string message);
 
     }
 }
