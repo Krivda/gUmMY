@@ -12,6 +12,8 @@ namespace SRMatrixNetwork.Commands
 
             if (LoginCommand.CmdName.Equals(split[0].Trim().ToLower()))
                 return new LoginCommand(dexPromise);
+            if (TestCommand.CmdName.Equals(split[0].Trim().ToLower()))
+                return new TestCommand(dexPromise);
             else
             {
                 return new SRDirectInstructionCommand(Verbosity.Critical, dexPromise);

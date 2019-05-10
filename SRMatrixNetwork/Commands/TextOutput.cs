@@ -2,7 +2,6 @@
 {
     public class TextOutput
     {
-        public bool IsRtf { get; set; } = false;
         public Verbosity Vebosity { get; set; } = 0;
         public string Text { get; set; }
 

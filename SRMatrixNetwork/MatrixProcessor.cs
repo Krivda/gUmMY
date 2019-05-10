@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Forms;
 using ConsoleStream;
-using me.krivda.utils;
 using NLog;
 using SRMatrixNetwork.Commands;
 using SRMatrixNetwork.Formatter;
@@ -150,8 +148,8 @@ namespace SRMatrixNetwork
                     //subscribe to incoming messages
                     XmppClient.OnMessageReceived += OnXmppResponse;
 
-                    //process outgoing messages (once per sec will deque and send 1 message)
-                    PeriodicTaskFactory.Start(xmppTimerAction, 1000, 1, -1, -1, true);
+                    //process outgoing messages (once per 500 m sec will deque and send 1 message)
+                    PeriodicTaskFactory.Start(xmppTimerAction, 500, 1, -1, -1, true);
                 }
             }
 

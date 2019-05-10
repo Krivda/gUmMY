@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using ConsoleStream;
@@ -9,17 +10,17 @@ namespace gUmMYConsole
 {
     public partial class ConsoleForm : Form
     {
-        private readonly MatrixProcessor _consoleStream;
+        private readonly ConsoleStreamBase _consoleStream;
 
 
         public ConsoleForm()
         {
             InitializeComponent();
-                                 
+
             _consoleStream = new MatrixProcessor(this);
+            //_consoleStream = new MainCommandInterfaceStream(this);
 
             _consoleStream.OnCommandExecute += ConsoleStreamOnOnProcessInput;
-            //consConsole.ConsoleStream = new MainCommandInterfaceStream(this);
         }
 
         private void ConsoleStreamOnOnProcessInput(object sender, ConsoleStreamEventArgs args)
@@ -30,7 +31,10 @@ namespace gUmMYConsole
 
         private void CmdSendFromApp_Click(object sender, EventArgs e)
         {
-            //_consoleStream.FeedOutput(txtStreamOutput.Text);
+            if (_consoleStream is MainCommandInterfaceStream stream)
+            {
+                stream.FeedOutput(txtStreamOutput.Text);
+            }
         }
 
         private void ConsoleForm_Load(object sender, EventArgs e)
@@ -47,12 +51,21 @@ namespace gUmMYConsole
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            consConsole.Test(0, 1);
+            int selstart = int.Parse(txtStreamInput.Text);
+
+            string s =
+                $"prefix text [color,{Color.Aqua.ToArgb()}: aqua text] other text [color,{Color.Lime.ToArgb()}: lime] of ending.";
+
+            consConsole.InternalRichTextBox.SelectionStart = selstart;
+            consConsole.InternalRichTextBox.SelectionLength = consConsole.InternalRichTextBox.Text.Length;
+            consConsole.InternalRichTextBox.SelectedText = "";
+
+            //consConsole.Test(0, 1);
         }
 
         private void Timer1_Tick(object sender, EventArgs e)
         {
-            lbDebg.Text = $"SelStrt={consConsole.InternalRichTextBox.SelectionStart}, SelStrt={consConsole.InternalRichTextBox.SelectionLength}, ps={consConsole.PromptStart}, is={consConsole.InputStart}";
+            lbDebg.Text = $"SelStrt={consConsole.InternalRichTextBox.SelectionStart}, SelLen={consConsole.InternalRichTextBox.SelectionLength}, ps={consConsole.PromptStart}, is={consConsole.InputStart}, os={consConsole.OutputStart}";
         }
 
         private void CmdClear_Click(object sender, EventArgs e)

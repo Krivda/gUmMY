@@ -72,7 +72,7 @@ namespace SRMatrixNetwork.Commands.ClientSide
 
             result = CreateOutput(new TextOutput(Verbosity.Critical, $"Connect to grid as persona {name}."), CommandState.Finished);
             
-            result.XmppCommand = "look";
+            result.XmppCommand = "status";
             result.XmppConnected = true;
 
             Logger.Info($"Session for {name} started");

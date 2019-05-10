@@ -27,7 +27,6 @@ namespace gUmMYConsole
 
         public override void ExecuteCommand(string command)
         {
-            FireProcessCommandExecute(command);
 
             string[] split = command.Split(' ');
 

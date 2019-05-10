@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using ConsoleStream;
+using me.krivda.utils;
 
 
 /**
@@ -13,6 +14,7 @@ using ConsoleStream;
  * **/
 namespace ConsoleControl
 {
+   
     /// <summary>
     /// The console event handler is used for console events.
     /// </summary>
@@ -37,6 +39,11 @@ namespace ConsoleControl
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public partial class ConsoleControl : UserControl
     {
+
+        private const string TAG_VALUE_DELIMITER = ": ";
+        private string TAG_COLOR= "color";
+
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ConsoleControl"/> class.
         /// </summary>
@@ -62,13 +69,8 @@ namespace ConsoleControl
             //  Wait for key down messages on the rich text box.
             richTextBoxConsole.KeyDown += new KeyEventHandler(RichTextBoxConsole_KeyDown);
 
-            richTextBoxConsole.TextChanged += RichTextBoxConsoleOnTextChanged;
         }
 
-        private void RichTextBoxConsoleOnTextChanged(object sender, EventArgs eventArgs)
-        {
-            
-        }
 
         private void AttachToStream(ConsoleStreamBase attachedStream)
         {
@@ -92,11 +94,18 @@ namespace ConsoleControl
         /// <param name="args">The <see cref="ConsoleStreamEventArgs"/> instance containing the event data.</param>
         void ProcessInterface_OnProcessError(object sender, ConsoleStreamEventArgs args)
         {
+            string output = args.Content;
+
+            if (!output.EndsWith("\n"))
+            {
+                output += "\n";
+            }
+
             //  Write the output, in red
-            WriteOutput(args.Content, Color.Red);
+            WriteOutput(output, Color.Red);
 
             //  Fire the output event.
-            FireConsoleOutputEvent(args.Content);
+            FireConsoleOutputEvent(output);
         }
 
         /// <summary>
@@ -106,11 +115,27 @@ namespace ConsoleControl
         /// <param name="args">The <see cref="ConsoleStreamEventArgs"/> instance containing the event data.</param>
         void ProcessInterface_OnProcessOutput(object sender, ConsoleStreamEventArgs args)
         {
-            //  Write the output, in white
-            WriteOutput(args.Content, Color.White);
+            string output = args.Content;
+
+            if (!output.EndsWith("\n"))
+            {
+                output += "\n";
+            }
+
+            Color defaultColor = Color.White;
+
+            if (args.Content.Contains("["))
+            {
+                output = WriteFormattedOutput(output, defaultColor);
+            }
+            else
+            {
+                //  Write the output, in white
+                WriteOutput(output, defaultColor);
+            }
 
             //  Fire the output event.
-            FireConsoleOutputEvent(args.Content);
+            FireConsoleOutputEvent(output);
         }
 
         /// <summary>
@@ -120,17 +145,7 @@ namespace ConsoleControl
         /// <param name="args">The <see cref="ConsoleStreamEventArgs"/> instance containing the event data.</param>
         void ProcessInterface_OnProcessCommand(object sender, ConsoleStreamEventArgs args)
         {
-            if (Echo)
-            {
-                string propmt = GetPrompt();
-                //handle 1-st line (prompt doesn't begin with crlf)
-                if (PromptStart != 0)
-                {
-                    propmt = propmt.Substring(1);
-                }
-                //  Write the output, in LightGray
-                WriteOutput(propmt + args.Content, Color.LightGray);
-            }
+            //nothing to do here
         }
 
         /// <summary>
@@ -217,7 +232,7 @@ namespace ConsoleControl
                 }
 
                 //  If we handled a mapping, we're done here.
-                if (mappings.Count() > 0)
+                if (mappings.Any())
                 {
                     e.SuppressKeyPress = true;
                     return;
@@ -304,7 +319,7 @@ namespace ConsoleControl
                 string input = richTextBoxConsole.Text.Substring(inputStart, inputLen);
 
                 //  Write the input (without echoing).
-                WriteInput(input, Color.White, false);
+                InputCommand(input);
 
                 //Enter is already handled, don't give to the control
                 e.SuppressKeyPress = true;
@@ -313,6 +328,94 @@ namespace ConsoleControl
             if (resetInputHistoryIndex)
                 _lastInputIndex = 0;
 
+        }
+
+        /// <summary>
+        /// Writes the output to the console control.
+        /// </summary>
+        /// <param name="output">The output string (formatted) to output to control.</param>
+        /// <param name="defaultColor">The default color.</param>
+        /// <returns>output content, stripped of formatting </returns>
+        private string WriteFormattedOutput(string output, Color defaultColor)
+        {
+            string clearString="";
+
+            List<Token> tokens = output.TokenizeAll("[", "]");
+
+            if (! tokens.Any())
+            {
+                WriteOutput(output, defaultColor);
+            }
+            else
+            {
+                int currentPos = 0;
+
+                Token lastToken = null;
+                foreach (var token in tokens)
+                {
+                    lastToken = token;
+
+                    //output before token
+                    string beforeToken = output.Slice(currentPos, token.Start);
+                    clearString += beforeToken;
+                    WriteOutput(beforeToken, defaultColor);
+                    currentPos = token.Start;
+
+                    //output token
+                    string tokenOutput = token.Content;
+                    Color tokenColor = defaultColor;
+
+                    int tagNameEnd = token.Content.IndexOf(TAG_VALUE_DELIMITER, StringComparison.Ordinal);
+                    if (tagNameEnd != -1)
+                    {
+                        string tagValue = token.Content.Substring(0, tagNameEnd);
+                        string tagContent = token.Content.Substring(tagNameEnd + TAG_VALUE_DELIMITER.Length);
+                        
+                        if (tagValue.Contains(TAG_COLOR))
+                        {
+                            tokenOutput = tagContent;
+                            tokenColor = DecodeColor(tagValue, defaultColor);
+                        }
+                        //if tag's unknown, we output it as is
+                    }
+
+                    clearString += tokenOutput;
+                    WriteOutput(tokenOutput, tokenColor);
+
+                    currentPos = token.End;
+                }
+
+                //output after last token
+                if (lastToken != null)
+                {
+                    string afterToken = output.Substring(lastToken.End);
+                    clearString += afterToken;
+                    WriteOutput(afterToken, defaultColor);
+                }
+            }
+
+            return clearString;
+        }
+
+        private Color DecodeColor(string tagValue, Color defaultColor)
+        {
+            Color result = defaultColor;
+
+            string[] split = tagValue.Split(',');
+
+            if (split.Length > 1)
+            {
+                try
+                {
+                    result = Color.FromArgb(int.Parse(split[1]));
+                }
+                catch (Exception ex)
+                {
+                    ; //swallow
+                }
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -346,7 +449,8 @@ namespace ConsoleControl
         {
             richTextBoxConsole.Clear();
             inputStart = 0;
-            propmtStart = 0;
+            promptStart = 0;
+            outputStart = 0;
 
             //force redraw prompt
             if (IsInputEnabled)
@@ -360,25 +464,34 @@ namespace ConsoleControl
         /// Writes the input to the console control.
         /// </summary>
         /// <param name="input">The input.</param>
-        /// <param name="color">The color.</param>
-        /// <param name="echo">if set to <c>true</c> echo the input.</param>
-        public void WriteInput(string input, Color color, bool echo)
+        public void InputCommand(string input)
         {
+            Color color = Color.LightGray;
+            recentInput.Add(input);
+
             Invoke((Action)(() =>
             {
-                recentInput.Add(input);
 
-                //  Write the input.
-                processInterface.ExecuteCommand(input);
-
-                //remove the command from current input
+                //clear input
+                inputStart = promptStart + GetPrompt().Length;
                 richTextBoxConsole.SelectionStart = inputStart;
-                richTextBoxConsole.SelectionLength = richTextBoxConsole.TextLength - inputStart;
+                richTextBoxConsole.SelectionLength = richTextBoxConsole.Text.Length;
                 richTextBoxConsole.SelectedText = "";
+                richTextBoxConsole.SelectionLength = 0;
 
-                //  Fire the event.
-                FireConsoleInputEvent(input);
+               if (Echo)
+               {
+                   string echoText = $"{GetPrompt()}{input}\n\n";
+                   WriteOutput(echoText, color);
+               }
+
             }));
+
+            //  Fire the event.
+            FireConsoleInputEvent(input);
+
+            //  Write the input.
+            processInterface.ExecuteCommand(input);
         }
 
         /// <summary>
@@ -441,11 +554,12 @@ namespace ConsoleControl
         /// <returns></returns>
         private string GetPrompt()
         {
-            string leadCrlf = "\n";
-            if (propmtStart == 0)
-                leadCrlf = "";
-            
-            return $"{leadCrlf}{Prompt}{PromptSuffix}";
+            /*string leadCrlf = "\n";
+            if (promptStart == 0)
+                leadCrlf = "";*/
+
+            //{leadCrlf}
+            return $"{Prompt}{PromptSuffix}";
         }
 
         /// <summary>
@@ -454,39 +568,57 @@ namespace ConsoleControl
         /// </summary>
         /// <param name="content"></param>
         /// <param name="color"></param>
-        private void WriteOutputUnsafe(string content, Color color)
+        /// <param name="newLine">indicates whether to put a newline after ouput </param>
+        private void WriteOutputUnsafe(string content, Color color, bool newLine = false)
         {
             if (content.Length==0)
                 return;
             
             //save caret
             int caretPos = richTextBoxConsole.SelectionStart;
-            int intputOffset = 0;
+            string savedInput = richTextBoxConsole.Text.Substring(Math.Min(richTextBoxConsole.Text.Length, inputStart));
+            int inputOffset = 0;
+
             if (caretPos > inputStart)
             {
                 //in input line 
-                intputOffset = caretPos - inputStart;
+                inputOffset = caretPos - inputStart;
             }
 
-            //manage crlf's
-            string contentPrefix = "\n";
-            string contentSuffix = "";
-            int inputOffset = 0;
-            //if is the first line
-            if (propmtStart == 0)
-            {
-                contentPrefix = "";
-                contentSuffix = "\n";
-                inputOffset = 1;
-            }
-            richTextBoxConsole.SelectionStart = propmtStart;
+            richTextBoxConsole.SelectionStart = outputStart;
             richTextBoxConsole.SelectionColor = color;
-            richTextBoxConsole.SelectedText += $"{contentPrefix}{content}{contentSuffix}";
-            propmtStart = richTextBoxConsole.SelectionStart- inputOffset;
-            inputStart = propmtStart + GetPrompt().Length;
+            richTextBoxConsole.SelectedText += content;
+            outputStart = richTextBoxConsole.SelectionStart + richTextBoxConsole.SelectionLength;
 
-            //restore caret
+            //move prompt to next line
+            if (!content.EndsWith("\n"))
+            {
+                //content already has newline, no need to move prompt further
+                richTextBoxConsole.SelectedText += "\n";
+                promptStart = outputStart + 1; //1 for \n
+            }
+            else
+            {
+                promptStart = outputStart;
+            }
+
+            //clear everything after prompt start
+            richTextBoxConsole.SelectionLength = richTextBoxConsole.Text.Length;
+            richTextBoxConsole.SelectedText = "";
+
+            //recalculate prompt
+            richTextBoxConsole.SelectionStart = promptStart;
+            richTextBoxConsole.SelectionLength = 0;
+            string prompt = GetPrompt();
+            richTextBoxConsole.SelectionColor = Color.White;
+            richTextBoxConsole.SelectionLength = richTextBoxConsole.TextLength;
+            richTextBoxConsole.SelectedText = prompt + savedInput;
+            richTextBoxConsole.SelectionLength = 0;
+
+            //restore input point
+            inputStart = promptStart + prompt.Length;
             richTextBoxConsole.SelectionStart = inputStart + inputOffset;
+            richTextBoxConsole.SelectionLength = 0;
         }
 
         private void UpdatePrompt()
@@ -496,15 +628,15 @@ namespace ConsoleControl
             int caretPos = richTextBoxConsole.SelectionStart;
             int offset = 0;
 
-            //check where to resore carret after manupulating with prompt
+            //check where to restore caret after manipulating with prompt
             if (caretPos > inputStart)
             {
                 //we are in input, we'll need to adjust it after change
                 offset = caretPos - inputStart;
             }
             
-            richTextBoxConsole.SelectionStart = propmtStart;
-            richTextBoxConsole.SelectionLength = inputStart-propmtStart;
+            richTextBoxConsole.SelectionStart = promptStart;
+            richTextBoxConsole.SelectionLength = inputStart-promptStart;
 
             richTextBoxConsole.SelectedText = GetPrompt();
             inputStart = richTextBoxConsole.SelectionStart;
@@ -531,11 +663,16 @@ namespace ConsoleControl
         /// Current position that input starts at.
         /// </summary>
         int inputStart = 0;
-        
+
+        /// <summary>
+        /// Current position that output starts at.
+        /// </summary>
+        int outputStart = 0;
+
         /// <summary>
         /// Text position where readonly part of the console ends and prompt is started
         /// </summary>
-        private int propmtStart = 0;
+        private int promptStart = 0;
 
         /// <summary>
         /// The is input enabled flag.
@@ -624,16 +761,16 @@ namespace ConsoleControl
                     if (value)
                     {
                         richTextBoxConsole.SelectionStart = richTextBoxConsole.TextLength;
-                        propmtStart = richTextBoxConsole.SelectionStart;
-                        inputStart = propmtStart;
+                        promptStart = richTextBoxConsole.SelectionStart;
+                        inputStart = promptStart;
                         //will update inputStart
                         UpdatePrompt();
                         richTextBoxConsole.SelectionStart = inputStart;
                     }
                     else
                     {
-                        richTextBoxConsole.SelectionStart = propmtStart;
-                        richTextBoxConsole.SelectionLength = richTextBoxConsole.TextLength - propmtStart;
+                        richTextBoxConsole.SelectionStart = promptStart;
+                        richTextBoxConsole.SelectionLength = richTextBoxConsole.TextLength - promptStart;
 
                         //bug: this don't work as expected - "" is not assigned
                         //richTextBoxConsole.SelectedText = "";
@@ -643,7 +780,7 @@ namespace ConsoleControl
                             richTextBoxConsole.Text = "";
                         else
                         { 
-                            //workaround: if text is NOT only propmpt/input increase selection by 1 left and replace it with that symbol
+                            //workaround: if text is NOT only prompt/input increase selection by 1 left and replace it with that symbol
                             richTextBoxConsole.SelectionStart = richTextBoxConsole.SelectionStart -1;
                             richTextBoxConsole.SelectionLength=1;
                             string newSelText = richTextBoxConsole.SelectedText.Substring(0, 1);
@@ -651,7 +788,7 @@ namespace ConsoleControl
                             richTextBoxConsole.SelectedText = newSelText;
                         }
 
-                        propmtStart = richTextBoxConsole.TextLength; 
+                        promptStart = richTextBoxConsole.TextLength; 
                         inputStart = richTextBoxConsole.TextLength; 
                     }
                 }
@@ -746,7 +883,7 @@ namespace ConsoleControl
         [Browsable(false)]
         public int PromptStart
         {
-            get { return propmtStart; }
+            get { return promptStart; }
         }
 
         /// <summary>
@@ -758,6 +895,15 @@ namespace ConsoleControl
             get { return inputStart; }
         }
 
+
+        /// <summary>
+        /// output start position
+        /// </summary>
+        [Browsable(false)]
+        public int OutputStart
+        {
+            get { return outputStart; }
+        }
 
 
         /// <summary>

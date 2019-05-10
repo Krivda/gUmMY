@@ -18,8 +18,12 @@ namespace SRMatrixNetwork.Formatter
             new Tuple<string, Color> ( "icon,API", Color.Khaki),
             new Tuple<string, Color> ( "icon,livingPersona", Color.Blue),
             new Tuple<string, Color> ( "icon", Color.Yellow),
-            new Tuple<string, Color> ( "persona", Color.Aqua),
+            new Tuple<string, Color> ( "persona", Color.Magenta),
             new Tuple<string, Color> ( "IC", Color.Red),
+            new Tuple<string, Color> ( "node", Color.Cyan),
+            new Tuple<string, Color> ( "datatrail,closed", Color.Red),
+            new Tuple<string, Color> ( "datatrail,open", Color.DarkGreen),
+                                        
         };
 
         public static string ProcessMarker(string marker)

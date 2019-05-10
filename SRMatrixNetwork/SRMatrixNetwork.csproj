@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\ClientSide\TestCommand.cs" />
     <Compile Include="Commands\CommandResult.cs" />
     <Compile Include="Commands\ClientSide\LoginCommand.cs" />
     <Compile Include="Commands\response\LookInstruction.cs" />

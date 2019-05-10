@@ -149,6 +149,10 @@
       <Project>{E0BD5B0D-8D7D-47D8-83EC-53CA5F0A96B4}</Project>
       <Name>ConsoleStream</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{7f8d83fc-0868-441e-9f88-132dec5d347f}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

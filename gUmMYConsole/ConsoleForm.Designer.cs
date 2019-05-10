@@ -32,8 +32,8 @@
             ConsoleControl.DummyStream dummyStream1 = new ConsoleControl.DummyStream();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConsoleForm));
             this.pnlConsole = new System.Windows.Forms.Panel();
-            this.consConsole = new ConsoleControl.ConsoleControl();
             this.dbgStream = new System.Windows.Forms.Panel();
+            this.cmdSoft = new System.Windows.Forms.Button();
             this.cmdDumpNet = new System.Windows.Forms.Button();
             this.cmdClear = new System.Windows.Forms.Button();
             this.lbDebg = new System.Windows.Forms.Label();
@@ -43,7 +43,7 @@
             this.cmdSendFromApp = new System.Windows.Forms.Button();
             this.txtStreamOutput = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.cmdSoft = new System.Windows.Forms.Button();
+            this.consConsole = new ConsoleControl.ConsoleControl();
             this.pnlConsole.SuspendLayout();
             this.dbgStream.SuspendLayout();
             this.SuspendLayout();
@@ -56,23 +56,6 @@
             this.pnlConsole.Name = "pnlConsole";
             this.pnlConsole.Size = new System.Drawing.Size(1317, 559);
             this.pnlConsole.TabIndex = 1;
-            // 
-            // consConsole
-            // 
-            dummyStream1.IsProcessRunning = false;
-            dummyStream1.ProcessFileName = null;
-            this.consConsole.ConsoleStream = dummyStream1;
-            this.consConsole.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.consConsole.Echo = true;
-            this.consConsole.IsInputEnabled = false;
-            this.consConsole.Location = new System.Drawing.Point(0, 0);
-            this.consConsole.Name = "consConsole";
-            this.consConsole.Prompt = "";
-            this.consConsole.PromptSuffix = ">";
-            this.consConsole.SendKeyboardCommandsToProcess = false;
-            this.consConsole.ShowDiagnostics = true;
-            this.consConsole.Size = new System.Drawing.Size(1317, 559);
-            this.consConsole.TabIndex = 0;
             // 
             // dbgStream
             // 
@@ -91,9 +74,19 @@
             this.dbgStream.Size = new System.Drawing.Size(1317, 135);
             this.dbgStream.TabIndex = 5;
             // 
+            // cmdSoft
+            // 
+            this.cmdSoft.Location = new System.Drawing.Point(1152, 101);
+            this.cmdSoft.Name = "cmdSoft";
+            this.cmdSoft.Size = new System.Drawing.Size(75, 23);
+            this.cmdSoft.TabIndex = 11;
+            this.cmdSoft.Text = "Soft";
+            this.cmdSoft.UseVisualStyleBackColor = true;
+            this.cmdSoft.Click += new System.EventHandler(this.cmdSoft_Click);
+            // 
             // cmdDumpNet
             // 
-            this.cmdDumpNet.Location = new System.Drawing.Point(997, 77);
+            this.cmdDumpNet.Location = new System.Drawing.Point(1233, 98);
             this.cmdDumpNet.Name = "cmdDumpNet";
             this.cmdDumpNet.Size = new System.Drawing.Size(59, 29);
             this.cmdDumpNet.TabIndex = 10;
@@ -125,7 +118,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 7;
-            this.button1.Text = "button1";
+            this.button1.Text = "test?";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
@@ -174,15 +167,22 @@
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
-            // cmdSoft
+            // consConsole
             // 
-            this.cmdSoft.Location = new System.Drawing.Point(897, 96);
-            this.cmdSoft.Name = "cmdSoft";
-            this.cmdSoft.Size = new System.Drawing.Size(75, 23);
-            this.cmdSoft.TabIndex = 11;
-            this.cmdSoft.Text = "Soft";
-            this.cmdSoft.UseVisualStyleBackColor = true;
-            this.cmdSoft.Click += new System.EventHandler(this.cmdSoft_Click);
+            dummyStream1.IsProcessRunning = false;
+            dummyStream1.ProcessFileName = null;
+            this.consConsole.ConsoleStream = dummyStream1;
+            this.consConsole.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.consConsole.Echo = true;
+            this.consConsole.IsInputEnabled = false;
+            this.consConsole.Location = new System.Drawing.Point(0, 0);
+            this.consConsole.Name = "consConsole";
+            this.consConsole.Prompt = "";
+            this.consConsole.PromptSuffix = ">";
+            this.consConsole.SendKeyboardCommandsToProcess = false;
+            this.consConsole.ShowDiagnostics = true;
+            this.consConsole.Size = new System.Drawing.Size(1317, 559);
+            this.consConsole.TabIndex = 0;
             // 
             // ConsoleForm
             // 

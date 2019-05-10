@@ -28,16 +28,19 @@ namespace SRMatrixNetwork.Commands.ServerSide
 
             string xmppCommand = GetXmppInputForInstruction(input);
 
-            if (string.IsNullOrEmpty(xmppCommand))
+            if (!string.IsNullOrEmpty(xmppCommand))
             {
+                result = new CommandResult
+                    { XmppCommand = xmppCommand,
+                        State = State};
 
-                result = CreateOutput(new TextOutput(Verbosity, $">> {xmppCommand}"), State);
-                result.XmppCommand = xmppCommand;
-                result.State = State;
             }
             else
             {
-                result = CreateOutput(new TextOutput(Verbosity, string.Empty), CommandState.Finished);
+                result = result = new CommandResult
+                {
+                    State = CommandState.Finished
+                }; ;
             }
 
             return result;
