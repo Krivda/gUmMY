@@ -90,9 +90,7 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Utils\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Data\deckers.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
