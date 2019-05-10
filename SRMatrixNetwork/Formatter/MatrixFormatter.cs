@@ -14,10 +14,11 @@ namespace SRMatrixNetwork.Formatter
         private static readonly List<Tuple<string, Color>> colors = new List<Tuple<string, Color>>()
         {
             new Tuple<string, Color> ( "icon,persona", Color.BlueViolet),
-            new Tuple<string, Color> ( "icon,file", Color.Green),
-            new Tuple<string, Color> ( "icon,API", Color.Khaki),
+            new Tuple<string, Color> ( "icon,file", Color.Yellow),
+            new Tuple<string, Color> ( "icon,API", Color.Orange),
             new Tuple<string, Color> ( "icon,livingPersona", Color.Blue),
-            new Tuple<string, Color> ( "icon", Color.Yellow),
+            new Tuple<string, Color> ( "icon,portal", Color.CornflowerBlue),
+            new Tuple<string, Color> ( "icon", Color.Lime),
             new Tuple<string, Color> ( "persona", Color.Magenta),
             new Tuple<string, Color> ( "IC", Color.Red),
             new Tuple<string, Color> ( "node", Color.Cyan),
