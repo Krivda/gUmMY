@@ -63,7 +63,7 @@ namespace ConsoleControl
             //  Disable special commands by default.
             SendKeyboardCommandsToProcess = false;
 
-            //  Initialise the keymappings.
+            //  Initialise the key mappings.
             InitialiseKeyMappings();
 
             //  Wait for key down messages on the rich text box.
@@ -96,9 +96,9 @@ namespace ConsoleControl
         {
             string output = args.Content;
 
-            if (!output.EndsWith("\n"))
+            if (!output.EndsWith("\n\n"))
             {
-                output += "\n";
+                output += "\n\n";
             }
 
             //  Write the output, in red
@@ -117,9 +117,9 @@ namespace ConsoleControl
         {
             string output = args.Content;
 
-            if (!output.EndsWith("\n"))
+            if (!output.EndsWith("\n\n"))
             {
-                output += "\n";
+                output += "\n\n";
             }
 
             Color defaultColor = Color.White;
