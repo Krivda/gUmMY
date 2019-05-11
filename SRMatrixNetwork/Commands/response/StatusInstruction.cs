@@ -7,7 +7,7 @@ namespace SRMatrixNetwork.Commands.response
     {
         public string Login { get; set; }
         public string Target { get; set; }
-        public string AdminSystem { get; set; }
+        public string Host { get; set; }
         public int Proxy { get; set; }
         public string VisibleAs { get; set; }
         public string Error { get; set; }
@@ -42,7 +42,7 @@ Current administrating system: (?<system>\w+)";
             {
                 result.Login = match.Groups["login"].Value;
                 result.Target = match.Groups["target"].Value;
-                result.AdminSystem = match.Groups["system"].Value;
+                result.Host = match.Groups["system"].Value;
                 result.VisibleAs = match.Groups["visibleLogin"].Value;
                
             }
@@ -80,7 +80,7 @@ Current administrating system: (?<system>\w+)";
             return result;
         }
 
-        public static string Assemble(string login, string target, string amdinSystem, int proxyLevel, string visibleAs)
+        public static string Assemble(string login, string target, string adminSystem, int proxyLevel, string visibleAs)
         {
             string prxStr = "";
 
@@ -91,7 +91,7 @@ Current administrating system: (?<system>\w+)";
 
             return $@"{login} status:
 Current target: {target}
-Current administrating system: {amdinSystem}
+Current administrating system: {adminSystem}
 {prxStr}";
         }
     }

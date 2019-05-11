@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using ConsoleStream;
 using NLog;
 using SRMatrixNetwork.Commands;
+using SRMatrixNetwork.Commands.ClientSide;
 using SRMatrixNetwork.Formatter;
 using SRMatrixNetwork.Multithreading;
 using SRMatrixNetwork.Server;
@@ -129,7 +130,6 @@ namespace SRMatrixNetwork
         private void HandleResult(CommandResult result)
         {
             //FireBlockInput(false)
-
             if (result.XmppConnected)
             {
                 //this happens only after Login command runs.
@@ -172,13 +172,13 @@ namespace SRMatrixNetwork
                     realm = $"@{result.Prompt["realm"]}";
 
                 User.Login = result.UpdatedNetStatus.Login;
-                User.AdminSystem = result.UpdatedNetStatus.AdminSystem;
-                User.Proxy = result.UpdatedNetStatus.Proxy;
+                User.Host = result.UpdatedNetStatus.Host;
+                User.MatrixCondition = result.UpdatedNetStatus.Proxy;
                 User.Target = result.UpdatedNetStatus.Target;
                 User.VisibleAs = result.UpdatedNetStatus.VisibleAs;
 
 
-                string prompt = $"{User.Login}{realm}# prx:{User.Proxy} :{User.VisibleAs} $$ {User.Target}";
+                string prompt = $"{User.Login}{realm}# prx:{User.MatrixCondition} :{User.VisibleAs} $$ {User.Target}";
 
                 FirePromptChangedEvent(prompt);
             }
@@ -191,11 +191,14 @@ namespace SRMatrixNetwork
                 XmppQueue.Enqueue(result.XmppCommand);
             }
 
-            //todo: fixit
-            /*if (result.Prompt != null)
+            if (result.Prompt != null)
             {
-                FirePromptChangedEvent(result.Prompt);
-            }*/
+                if (result.Prompt.TryGetValue(LoginCommand.PROMPT_KEY_LOGIN, out var login))
+                {
+                    User.Login = login;
+                    FirePromptChangedEvent(GetPrompt());
+                }
+            }
 
             if (result.State == CommandState.RequestResume)
             {
@@ -213,9 +216,10 @@ namespace SRMatrixNetwork
             Monitor.Enter(this);
             try
             {
-                Logger.Info($"darknet@cyberspace:>>\n{args.Message}");
+                Logger.Info($"{Matrix.MATRIX_JID}:>>{args.Message}");
                 if (ActiveCommand == null)
                 {
+                    string message = ProcessMatrixResponse(args.Message);
                     FireProcessOutputEvent(args.Message);
                 }
                 else
@@ -234,26 +238,45 @@ namespace SRMatrixNetwork
             {
                 Monitor.Exit(this);
             }
+        }
 
+        private string ProcessMatrixResponse(string argsMessage)
+        {
+            //todo: some processing, i.e. prompts
+            return argsMessage;
         }
 
 
         private string ProcessMarker(string marker)
         {
             string result = marker.Trim().ToLower();
-
-            
-
             return marker;
         }
-
-
 
         protected override void FireProcessOutputEvent(string message)
         {
             message = MatrixFormatter.ApplyMatrixFormatting(message);
 
             base.FireProcessOutputEvent(message);
+        }
+
+        protected String GetPrompt()
+        {
+            //witness 4mc DT:NESW>
+
+            string userPart = "";
+            if (!string.IsNullOrEmpty(User.Login))
+            {
+                userPart = $"@{User.Login}";
+            }
+
+            string matrixConditionPart = "";
+            if (User.MatrixCondition != int.MinValue && User.MaxMatrixCondition != int.MinValue)
+            {
+                matrixConditionPart = MatrixFormatter.ApplyMatrixConditionFormat(User.MatrixCondition, User.MaxMatrixCondition);
+            }
+
+            return $"{userPart} {matrixConditionPart}".Trim();
         }
 
     }

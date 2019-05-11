@@ -24,8 +24,14 @@ namespace SRMatrixNetwork.Formatter
             new Tuple<string, Color> ( "node", Color.Cyan),
             new Tuple<string, Color> ( "datatrail,closed", Color.Red),
             new Tuple<string, Color> ( "datatrail,open", Color.DarkGreen),
-                                        
+            new Tuple<string, Color> ( "exception", Color.Red),
+
         };
+
+        private static readonly Color SHAPE_PERFECT = Color.DarkGreen;
+        private static readonly Color SHAPE_GOOD = Color.Lime;
+        private static readonly Color SHAPE_WOUNDED = Color.DarkRed;
+        private static readonly Color SHAPE_DEAD = Color.Red;
 
         public static string ProcessMarker(string marker)
         {
@@ -49,14 +55,14 @@ namespace SRMatrixNetwork.Formatter
 
             int pos = 0;
             Token formatInjection = result.Tokenize(MATRIX_FORMATTING_START,
-                MatrixFormatter.MATRIX_FORMATTING_END, pos);
+                MATRIX_FORMATTING_END, pos);
 
             while (formatInjection != null)
             {
                 Token tagName = formatInjection.Content.Tokenize("", MATRIX_FORMATTING_MARKER_END);
                 if (tagName != null)
                 {
-                    string newTagName = MatrixFormatter.ProcessMarker(tagName.Content);
+                    string newTagName = ProcessMarker(tagName.Content);
 
                     if (!string.Equals(newTagName, tagName.Content))
                     {
@@ -71,11 +77,35 @@ namespace SRMatrixNetwork.Formatter
                     pos = formatInjection.End;
                 }
 
-                formatInjection = result.Tokenize(MatrixFormatter.MATRIX_FORMATTING_START,
+                formatInjection = result.Tokenize(MATRIX_FORMATTING_START,
                     MatrixFormatter.MATRIX_FORMATTING_END, pos);
             }
 
             return result;
-        }   
+        }
+
+        public static string ApplyMatrixConditionFormat(int current, int max)
+        {
+            Color healthColor;
+
+            if (current < 1)
+            {
+                healthColor = SHAPE_DEAD;
+            }
+            else if (current == max)
+            {
+                healthColor = SHAPE_PERFECT;
+            }
+            else if (current * 2 > max)
+            {
+                healthColor = SHAPE_GOOD;
+            }
+            else
+            {
+                healthColor = SHAPE_WOUNDED;
+            }
+
+            return $"[color,{healthColor.ToArgb()}: {current}mc]";
+        }
     }
 }

@@ -25,7 +25,7 @@ Current proxy address: kenguru2157@sydney";
 
             Assert.AreEqual("calvin276", statusResponse.Login, "Login");
             Assert.AreEqual("BlackMirror11", statusResponse.Target, "Target");
-            Assert.AreEqual("none", statusResponse.AdminSystem, "AdminSystem");
+            Assert.AreEqual("none", statusResponse.AdminSystem, "Host");
             Assert.AreEqual(6, statusResponse.Proxy, "Proxy");
             Assert.AreEqual("kenguru2157@sydney", statusResponse.VisibleAs, "VisibleAs");
 

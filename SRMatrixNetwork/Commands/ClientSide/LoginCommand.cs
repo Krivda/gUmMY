@@ -6,7 +6,8 @@ namespace SRMatrixNetwork.Commands.ClientSide
 {
     public class LoginCommand : CommandBase
     {
-           
+        public const string PROMPT_KEY_LOGIN = "login";
+
         public const string CmdName = "login";
         public const string DEFAULT_HOST = "xmpp.co";
 
@@ -28,8 +29,9 @@ namespace SRMatrixNetwork.Commands.ClientSide
 
             var validateArgsResult = ParseArguments(input);
             if (validateArgsResult != null)
-                throw new Exception(validateArgsResult.Error.Text);
-
+            {
+                return validateArgsResult;
+            }
 
             string name = Parameters[0];
             string jid = "";
@@ -66,6 +68,12 @@ namespace SRMatrixNetwork.Commands.ClientSide
             }
             catch (Exception e)
             {
+                if (e.Message.Contains("not authorized by matrix server. Bad password?"))
+                {
+                    //more convenient output
+                    return CreateError(e.Message);
+                }
+
                 return CreateError($"Couldn't connect to matrix. Got exception {e}.");
             }
 
@@ -74,6 +82,7 @@ namespace SRMatrixNetwork.Commands.ClientSide
             
             result.XmppCommand = "status";
             result.XmppConnected = true;
+            result.Prompt = new Dictionary<string, string> {[PROMPT_KEY_LOGIN] = name};
 
             Logger.Info($"Session for {name} started");
 

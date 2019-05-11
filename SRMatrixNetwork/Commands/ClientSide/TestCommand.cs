@@ -18,6 +18,7 @@ namespace SRMatrixNetwork.Commands.ClientSide
         public override CommandResult OnCommandInput(string input)
         {
             CommandResult result = EnsureState(CommandState.NotStarted);
+            if (result != null) return result;
 
             result = CreateOutput(new TextOutput(Verbosity.Critical, $"prefix text [color,{Color.Aqua.ToArgb()}: aqua text] other text [color,{Color.Lime.ToArgb()}: lime] of ending."), CommandState.Finished);
 
