@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using ConsoleStream;
@@ -51,16 +50,7 @@ namespace gUmMYConsole
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            int selstart = int.Parse(txtStreamInput.Text);
-
-            string s =
-                $"prefix text [color,{Color.Aqua.ToArgb()}: aqua text] other text [color,{Color.Lime.ToArgb()}: lime] of ending.";
-
-            consConsole.InternalRichTextBox.SelectionStart = selstart;
-            consConsole.InternalRichTextBox.SelectionLength = consConsole.InternalRichTextBox.Text.Length;
-            consConsole.InternalRichTextBox.SelectedText = "";
-
-            //consConsole.Test(0, 1);
+            TestConsole();
         }
 
         private void Timer1_Tick(object sender, EventArgs e)
@@ -297,6 +287,92 @@ namespace gUmMYConsole
                 match = match.NextMatch();
             }
         }
+
+
+        private void TestConsole()
+        {
+            SimpleTest();
+            consConsole.ClearOutput();
+
+            SimpleTestWithPrompt();
+            consConsole.ClearOutput();
+
+            SimpleTestWithPromptWithOutput();
+            consConsole.ClearOutput();
+
+            FormatTestWithPromptWithOutput();
+        }
+
+        private void SimpleTest()
+        {
+            string cmd = "login";
+
+            InputCommand(cmd);
+            string expect = $">{cmd}\n>";
+            if (!expect.Equals(consConsole.InternalRichTextBox.Text)) throw new Exception("простой ввод");
+
+            InputCommand(cmd);
+            expect = $">{cmd}\n>{cmd}\n>";
+            if (!expect.Equals(consConsole.InternalRichTextBox.Text)) throw new Exception("простой ввод-2");
+        }
+
+        private void SimpleTestWithPrompt()
+        {
+            if (_consoleStream is MainCommandInterfaceStream stream)
+            {
+
+                string cmd = "login";
+                string prompt = "myprompt";
+
+                stream.ChangePrompt(prompt);
+                InputCommand(cmd);
+
+                if (!$"{prompt}>{cmd}\n{prompt}>".Equals(consConsole.InternalRichTextBox.Text))
+                    throw new Exception("простой ввод");
+            }
+        }
+
+        private void SimpleTestWithPromptWithOutput()
+        {
+            if (_consoleStream is MainCommandInterfaceStream stream)
+            {
+                string cmd = "login";
+                string prompt = "myprompt";
+                stream.ChangePrompt(prompt);
+                InputCommand(cmd);
+
+                stream.FeedOutput("test");
+                string expect = $"{prompt}>{cmd}\ntest\n\n{prompt}>";
+
+                if (!expect.Equals(consConsole.InternalRichTextBox.Text)) throw new Exception("простой ввод");
+            }
+        }
+
+        private void FormatTestWithPromptWithOutput()
+        {
+            if (_consoleStream is MainCommandInterfaceStream stream)
+            {
+                string cmd = "login";
+                string prompt = "myprompt";
+                stream.ChangePrompt(prompt);
+                InputCommand(cmd);
+
+                stream.FeedOutput("[color,-16711936: a] b[color,-16711936: c]\nd");
+                string expect = $"{prompt}>{cmd}\na bc\nd\n\n{prompt}>";
+
+                if (!expect.Equals(consConsole.InternalRichTextBox.Text)) throw new Exception("форматированный ввод");
+            }
+        }
+
+
+        private void InputCommand(string command)
+        {
+            consConsole.InternalRichTextBox.SelectedText += command;
+            consConsole.Focus();
+            consConsole.InputCommand(command);
+        }
+
+
 
     }
 }

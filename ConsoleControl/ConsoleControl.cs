@@ -96,9 +96,9 @@ namespace ConsoleControl
         {
             string output = args.Content;
 
-            if (!output.EndsWith("\n\n"))
+            if (!output.EndsWith("\n"))
             {
-                output += "\n\n";
+                output += "\n";
             }
 
             //  Write the output, in red
@@ -117,10 +117,11 @@ namespace ConsoleControl
         {
             string output = args.Content;
 
-            if (!output.EndsWith("\n\n"))
+            /*if (!output.EndsWith("\n"))
             {
-                output += "\n\n";
-            }
+                output += "\n";
+            }*/
+            output += "\n";
 
             Color defaultColor = Color.White;
 
@@ -428,7 +429,8 @@ namespace ConsoleControl
             //todo: some crappy echo-prevention
             /*if (string.IsNullOrEmpty(recentInput) == false && 
                 (output == recentInput || output.Replace("\r\n", "") == recentInput))
-                return;*/
+                return;
+                */
 
             if (this.InvokeRequired)
             {
@@ -451,6 +453,7 @@ namespace ConsoleControl
             inputStart = 0;
             promptStart = 0;
             outputStart = 0;
+            Prompt = "";
 
             //force redraw prompt
             if (IsInputEnabled)
@@ -471,9 +474,28 @@ namespace ConsoleControl
 
             Invoke((Action)(() =>
             {
+                //move cursor to next line
+                richTextBoxConsole.SelectedText += "\n";
+                //next command output will start on this next line
+                outputStart = richTextBoxConsole.SelectionStart;
+                //prompt also start here
+                promptStart = outputStart;
 
+                //output prompt
+                richTextBoxConsole.SelectionColor = Color.White;
+                richTextBoxConsole.SelectedText = GetPrompt();
+
+                //input will start after prompt
+                inputStart = richTextBoxConsole.TextLength; // why bother? input starts at the end
+
+                //move cursor to input position
+                richTextBoxConsole.SelectionStart = inputStart;
+
+                /*
                 //clear input
-                inputStart = promptStart + GetPrompt().Length;
+                inputStart = richTextBoxConsole.SelectionStart;
+
+
                 richTextBoxConsole.SelectionStart = inputStart;
                 richTextBoxConsole.SelectionLength = richTextBoxConsole.Text.Length;
                 richTextBoxConsole.SelectedText = "";
@@ -481,16 +503,17 @@ namespace ConsoleControl
 
                if (Echo)
                {
-                   string echoText = $"{GetPrompt()}{input}\n\n";
+                   string echoText = $"\n\n{GetPrompt()}{input}\n";
                    WriteOutput(echoText, color);
-               }
+               }*/
+
 
             }));
 
             //  Fire the event.
             FireConsoleInputEvent(input);
 
-            //  Write the input.
+            // run command in process 
             processInterface.ExecuteCommand(input);
         }
 
@@ -568,8 +591,7 @@ namespace ConsoleControl
         /// </summary>
         /// <param name="content"></param>
         /// <param name="color"></param>
-        /// <param name="newLine">indicates whether to put a newline after ouput </param>
-        private void WriteOutputUnsafe(string content, Color color, bool newLine = false)
+        private void WriteOutputUnsafe(string content, Color color )
         {
             if (content.Length==0)
                 return;
@@ -578,37 +600,28 @@ namespace ConsoleControl
             int caretPos = richTextBoxConsole.SelectionStart;
             string savedInput = richTextBoxConsole.Text.Substring(Math.Min(richTextBoxConsole.Text.Length, inputStart));
             int inputOffset = 0;
-
             if (caretPos > inputStart)
             {
                 //in input line 
                 inputOffset = caretPos - inputStart;
             }
 
+            //todo: i think, if input don't contain \n - we can skip moving prompt, but i'm too lazy for it
             richTextBoxConsole.SelectionStart = outputStart;
+            //clear everything
+            richTextBoxConsole.SelectionLength = richTextBoxConsole.TextLength;
             richTextBoxConsole.SelectionColor = color;
-            richTextBoxConsole.SelectedText += content;
-            outputStart = richTextBoxConsole.SelectionStart + richTextBoxConsole.SelectionLength;
+            richTextBoxConsole.SelectedText = content;
+            outputStart = richTextBoxConsole.SelectionStart;
 
-            //move prompt to next line
-            if (!content.EndsWith("\n"))
-            {
-                //content already has newline, no need to move prompt further
-                richTextBoxConsole.SelectedText += "\n";
-                promptStart = outputStart + 1; //1 for \n
-            }
-            else
-            {
-                promptStart = outputStart;
-            }
+            //done output text, now restore prompt
+            richTextBoxConsole.SelectionLength = 0;
+            richTextBoxConsole.SelectedText = "\n";
 
-            //clear everything after prompt start
-            richTextBoxConsole.SelectionLength = richTextBoxConsole.Text.Length;
-            richTextBoxConsole.SelectedText = "";
+            //now prompt starts two lines below input
+            promptStart = outputStart + 1;
 
             //recalculate prompt
-            richTextBoxConsole.SelectionStart = promptStart;
-            richTextBoxConsole.SelectionLength = 0;
             string prompt = GetPrompt();
             richTextBoxConsole.SelectionColor = Color.White;
             richTextBoxConsole.SelectionLength = richTextBoxConsole.TextLength;
@@ -616,7 +629,7 @@ namespace ConsoleControl
             richTextBoxConsole.SelectionLength = 0;
 
             //restore input point
-            inputStart = promptStart + prompt.Length;
+            inputStart = promptStart + prompt.Length; //next char
             richTextBoxConsole.SelectionStart = inputStart + inputOffset;
             richTextBoxConsole.SelectionLength = 0;
         }

@@ -220,7 +220,7 @@ namespace SRMatrixNetwork
                 if (ActiveCommand == null)
                 {
                     string message = ProcessMatrixResponse(args.Message);
-                    FireProcessOutputEvent(args.Message);
+                    FireProcessOutputEvent(message);
                 }
                 else
                 {

@@ -20,6 +20,11 @@ namespace gUmMYConsole
             FireProcessOutputEvent(content);
         }
 
+        public void ChangePrompt(string prompt)
+        {
+            FirePromptChangedEvent(prompt);
+        }
+
         public void StartFeed()
         {
             IsProcessRunning = true;

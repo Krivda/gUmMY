@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace ConsoleStream
 {
@@ -18,6 +19,7 @@ namespace ConsoleStream
     /// Initializes a new instance of the <see cref="ConsoleStreamEventArgs"/> class.
     /// </summary>
     /// <param name="content">The content.</param>
+    [DebuggerStepThrough]
     public ConsoleStreamEventArgs(string content)
     {
         //  Set the content and code.
