@@ -8,8 +8,17 @@ namespace SRMatrixNetwork
     class Matrix : IXmppClient
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        public const string MATRIX_JID = "backfire@xabber.org";
-        private const string DEFAULT_HOST = "xmpp.co";
+        //public const string MATRIX_JID = "backfire@xabber.org";
+        //public const string MATRIX_JID = "matrix@parfenow.ru";
+        public const string MATRIX_JID = "matrix@matrix.evarun.ru";
+
+        public const string MATRIX_RC_JID = "rc-matrix@matrix.evarun.ru";
+        public const string MATRIX_DEV_JID = "dev-matrix@matrix.evarun.ru";
+
+        //private const string DEFAULT_HOST = "xmpp.co";
+        private const string DEFAULT_HOST = "matrix.evarun.ru";
+        private string _destination = MATRIX_JID;
+        
         private XmppClient _client;
 
         public void Login(string user, string password, string realm)
@@ -17,8 +26,18 @@ namespace SRMatrixNetwork
 
             string hostname = DEFAULT_HOST;
 
-            string username = user;;
-            string pwd = password;;
+            string username = user;
+            string pwd = password;
+
+            if ("rc".Equals(realm))
+            {
+                _destination = MATRIX_RC_JID;
+            }
+            else if ("dev".Equals(MATRIX_DEV_JID))
+            {
+                _destination = MATRIX_DEV_JID;
+            }
+            
 
             if (username.Contains("@"))
             {
@@ -29,7 +48,7 @@ namespace SRMatrixNetwork
                 hostname = split[1];
             }
 
-            _client = new XmppClient(hostname, username, hostname, pwd, tls: true);
+            _client = new XmppClient(hostname, username, pwd);
 
             // Setup any event handlers.
             // ...
@@ -67,7 +86,7 @@ namespace SRMatrixNetwork
 
         private static void Client_StatusChanged(object sender, Sharp.Xmpp.Im.StatusEventArgs e)
         {
-            System.Console.WriteLine($"<{e.Jid.Domain}: {e.Status}");
+            Console.WriteLine($"<{e.Jid.Domain}: {e.Status}");
         }
 
         private void OnServerMessage(object sender, Sharp.Xmpp.Im.MessageEventArgs e)
@@ -82,7 +101,7 @@ namespace SRMatrixNetwork
         {
             try
             {
-                _client.SendMessage(MATRIX_JID, message);
+                _client.SendMessage(_destination, message);
             }
             catch (Exception ex)
             {

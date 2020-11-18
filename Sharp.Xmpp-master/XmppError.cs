@@ -82,7 +82,7 @@ namespace Sharp.Xmpp
             {
                 var text = Data["text"];
                 if (text != null)
-                    return string.IsNullOrEmpty(text.InnerText) ? null : text.InnerText;
+                    return String.IsNullOrEmpty(text.InnerText) ? null : text.InnerText;
                 return null;
             }
         }

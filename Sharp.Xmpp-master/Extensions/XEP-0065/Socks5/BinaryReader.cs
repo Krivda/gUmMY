@@ -22,10 +22,10 @@ namespace Sharp.Xmpp.Extensions.Socks5
             if (!bigEndian)
                 return reader.ReadUInt32();
             int ret = 0;
-            ret |= reader.ReadByte() << 24;
-            ret |= reader.ReadByte() << 16;
-            ret |= reader.ReadByte() << 8;
-            ret |= reader.ReadByte() << 0;
+            ret |= (reader.ReadByte() << 24);
+            ret |= (reader.ReadByte() << 16);
+            ret |= (reader.ReadByte() << 8);
+            ret |= (reader.ReadByte() << 0);
             return (uint)ret;
         }
 
@@ -43,8 +43,8 @@ namespace Sharp.Xmpp.Extensions.Socks5
             if (!bigEndian)
                 return reader.ReadUInt16();
             int ret = 0;
-            ret |= reader.ReadByte() << 8;
-            ret |= reader.ReadByte() << 0;
+            ret |= (reader.ReadByte() << 8);
+            ret |= (reader.ReadByte() << 0);
             return (ushort)ret;
         }
 
@@ -62,8 +62,8 @@ namespace Sharp.Xmpp.Extensions.Socks5
             if (!bigEndian)
                 return reader.ReadInt16();
             int ret = 0;
-            ret |= reader.ReadByte() << 8;
-            ret |= reader.ReadByte() << 0;
+            ret |= (reader.ReadByte() << 8);
+            ret |= (reader.ReadByte() << 0);
             return (short)ret;
         }
     }

@@ -77,7 +77,7 @@ namespace Sharp.Xmpp.Core.Sasl
         {
             try
             {
-                byte[] data = string.IsNullOrEmpty(challenge) ? new byte[0] :
+                byte[] data = String.IsNullOrEmpty(challenge) ? new byte[0] :
                     Convert.FromBase64String(challenge);
                 byte[] response = ComputeResponse(data);
                 return Convert.ToBase64String(response);

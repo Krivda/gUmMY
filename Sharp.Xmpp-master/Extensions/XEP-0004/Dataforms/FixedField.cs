@@ -20,23 +20,23 @@ namespace Sharp.Xmpp.Extensions.Dataforms
         {
             get
             {
-                var v = Element["value"];
+                var v = element["value"];
                 return v != null ? v.InnerText : null;
             }
 
             private set
             {
-                if (Element["value"] != null)
+                if (element["value"] != null)
                 {
                     if (value == null)
-                        Element.RemoveChild(Element["value"]);
+                        element.RemoveChild(element["value"]);
                     else
-                        Element["value"].InnerText = value;
+                        element["value"].InnerText = value;
                 }
                 else
                 {
                     if (value != null)
-                        Element.Child(Xml.Element("value").Text(value));
+                        element.Child(Xml.Element("value").Text(value));
                 }
             }
         }

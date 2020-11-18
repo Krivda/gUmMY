@@ -144,7 +144,7 @@ namespace Sharp.Xmpp.Core.Sasl.Mechanisms
         public SaslScramSha1(string username, string password)
         {
             username.ThrowIfNull("username");
-            if (username == string.Empty)
+            if (username == String.Empty)
                 throw new ArgumentException("The username must not be empty.");
             password.ThrowIfNull("password");
 
@@ -163,7 +163,7 @@ namespace Sharp.Xmpp.Core.Sasl.Mechanisms
         {
             // Precondition: Ensure username and password are not null and
             // username is not empty.
-            if (string.IsNullOrEmpty(Username) || Password == null)
+            if (String.IsNullOrEmpty(Username) || Password == null)
             {
                 throw new SaslException("The username must not be null or empty and " +
                     "the password must not be null.");

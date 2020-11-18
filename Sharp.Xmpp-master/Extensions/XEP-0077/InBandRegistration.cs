@@ -53,8 +53,8 @@ namespace Sharp.Xmpp.Extensions
         /// </summary>
         public override void Initialize()
         {
-            ecapa = IM.GetExtension<EntityCapabilities>();
-            bob = IM.GetExtension<BitsOfBinary>();
+            ecapa = im.GetExtension<EntityCapabilities>();
+            bob = im.GetExtension<BitsOfBinary>();
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Sharp.Xmpp.Extensions
         public void Register(RegistrationCallback callback)
         {
             callback.ThrowIfNull("callback");
-            Iq iq = IM.IqRequest(IqType.Get, null, null,
+            Iq iq = im.IqRequest(IqType.Get, null, null,
                 Xml.Element("query", "jabber:iq:register"));
             if (iq.Type == IqType.Error)
                 throw new NotSupportedException("The XMPP server does not support the " +
@@ -114,7 +114,7 @@ namespace Sharp.Xmpp.Extensions
                         field.Values.FirstOrDefault()));
                 }
             }
-            iq = IM.IqRequest(IqType.Set, null, null, xml);
+            iq = im.IqRequest(IqType.Set, null, null, xml);
             if (iq.Type == IqType.Error)
                 throw Util.ExceptionFromError(iq, "The registration could not be " +
                     "completed.");
@@ -122,7 +122,7 @@ namespace Sharp.Xmpp.Extensions
         }
 
         /// <summary>
-        /// Changes the current password of the specified new password.
+        /// Changes the current password to the specified new password.
         /// </summary>
         /// <param name="newPassword">The new password to use.</param>
         /// <exception cref="ArgumentNullException">The newPassword parameter
@@ -136,9 +136,9 @@ namespace Sharp.Xmpp.Extensions
         public void ChangePassword(string newPassword)
         {
             newPassword.ThrowIfNull("newPassword");
-            Iq iq = IM.IqRequest(IqType.Set, null, null,
+            Iq iq = im.IqRequest(IqType.Set, null, null,
                 Xml.Element("query", "jabber:iq:register")
-                    .Child(Xml.Element("username").Text(IM.Username))
+                    .Child(Xml.Element("username").Text(im.Username))
                     .Child(Xml.Element("password").Text(newPassword)));
             if (iq.Type == IqType.Error)
             {

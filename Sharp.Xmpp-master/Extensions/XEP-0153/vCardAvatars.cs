@@ -29,11 +29,10 @@ namespace Sharp.Xmpp.Extensions
         {
             get
             {
-                return new string[]
-                {
-                     "vcard-temp:x:update",
-                     "vcard-temp"
-                };
+                return new string[] {
+					 "vcard-temp:x:update" ,
+					 "vcard-temp"
+				};
             }
         }
 
@@ -54,7 +53,7 @@ namespace Sharp.Xmpp.Extensions
         /// </summary>
         public override void Initialize()
         {
-            ecapa = IM.GetExtension<EntityCapabilities>();
+            ecapa = im.GetExtension<EntityCapabilities>();
         }
 
         /// <summary>
@@ -70,7 +69,7 @@ namespace Sharp.Xmpp.Extensions
             var vcard = stanza.Data["vCard "];
             if (vcard == null || vcard.NamespaceURI != "vcard-temp")
                 return false;
-            IM.IqResult(stanza);
+            im.IqResult(stanza);
             // We took care of this IQ request, so intercept it and don't pass it
             // on to other handlers.
             return true;
@@ -87,24 +86,24 @@ namespace Sharp.Xmpp.Extensions
 
             string mimeType = "image/png";
 
-            string hash = string.Empty, base64Data = string.Empty;
+            string hash = String.Empty, base64Data = String.Empty;
             MemoryStream ms = new MemoryStream();
             stream.CopyTo(ms);
             using (ms)
             {
-                //                    // Calculate the SHA-1 hash of the image data.
+                //					// Calculate the SHA-1 hash of the image data.
                 byte[] data = ms.ToArray();
                 hash = Hash(data);
-                //                    // Convert the binary data into a BASE64-string.
+                //					// Convert the binary data into a BASE64-string.
                 base64Data = Convert.ToBase64String(data);
             }
             var xml = Xml.Element("vCard", "vcard-temp").Child(Xml.Element("Photo").Child(Xml.Element("Type").Text(mimeType)).Child(Xml.Element("BINVAL").Text(base64Data)));
-            IM.IqRequestAsync(IqType.Set, null, IM.Jid, xml, null, (id, iq) =>
+            im.IqRequestAsync(IqType.Set, null, im.Jid, xml, null, (id, iq) =>
             {
                 if (iq.Type == IqType.Result)
                 {
                     // Result must contain a 'feature' element.
-                    IM.SendPresence(new Sharp.Xmpp.Im.Presence(null, null, PresenceType.Available, null, null, Xml.Element("x", "vcard-temp:x:update").Child(Xml.Element("photo").Text(hash))));
+                    im.SendPresence(new Sharp.Xmpp.Im.Presence(null, null, PresenceType.Available, null, null, Xml.Element("x", "vcard-temp:x:update").Child(Xml.Element("photo").Text(hash))));
                 }
             });
         }
@@ -147,15 +146,15 @@ namespace Sharp.Xmpp.Extensions
             var xml = Xml.Element("vCard", "vcard-temp");
 
             //The Request is Async
-            IM.IqRequestAsync(IqType.Get, jid, IM.Jid, xml, null, (id, iq) =>
+            im.IqRequestAsync(IqType.Get, jid, im.Jid, xml, null, (id, iq) =>
             {
                 XmlElement query = iq.Data["vCard"];
                 if (iq.Data["vCard"].NamespaceURI == "vcard-temp")
                 {
                     XElement root = XElement.Parse(iq.Data.OuterXml);
                     XNamespace aw = "vcard-temp"; //SOS the correct namespace
-                    IEnumerable<string> b64collection = from el in root.Descendants(aw + "BINVAL")
-                                                        select (string)el;
+                    IEnumerable<string> b64collection = (from el in root.Descendants(aw + "BINVAL")
+                                                         select (string)el);
                     string b64 = null;
                     if (b64collection != null)
                     {

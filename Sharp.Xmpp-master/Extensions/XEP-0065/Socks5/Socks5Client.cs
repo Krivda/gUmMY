@@ -285,7 +285,7 @@ namespace Sharp.Xmpp.Extensions.Socks5
         private ServerGreeting PerformGreeting()
         {
             var methods = new HashSet<AuthMethod>() { AuthMethod.None };
-            if (!string.IsNullOrEmpty(Username))
+            if (!String.IsNullOrEmpty(Username))
                 methods.Add(AuthMethod.Username);
             byte[] bytes = new ClientGreeting(methods).Serialize();
 

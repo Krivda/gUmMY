@@ -46,7 +46,7 @@ namespace Sharp.Xmpp.Extensions
         /// </summary>
         public override void Initialize()
         {
-            ecapa = IM.GetExtension<EntityCapabilities>();
+            ecapa = im.GetExtension<EntityCapabilities>();
         }
 
         /// <summary>
@@ -62,12 +62,12 @@ namespace Sharp.Xmpp.Extensions
         /// unspecified XMPP error occurred.</exception>
         public IPAddress GetExternalAddress()
         {
-            if (!ecapa.Supports(IM.Jid.Domain, Extension.ServerIpCheck))
+            if (!ecapa.Supports(im.Jid.Domain, Extension.ServerIpCheck))
             {
                 throw new NotSupportedException("The XMPP server does not support " +
                     "the 'Server IP Check' extension.");
             }
-            Iq iq = IM.IqRequest(IqType.Get, null, IM.Jid,
+            Iq iq = im.IqRequest(IqType.Get, null, im.Jid,
                 Xml.Element("address", "urn:xmpp:sic:1"));
             if (iq.Type == IqType.Error)
                 throw Util.ExceptionFromError(iq, "The external IP address could not " +

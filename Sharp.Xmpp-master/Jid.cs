@@ -45,8 +45,8 @@ namespace Sharp.Xmpp
         {
             get
             {
-                return !string.IsNullOrEmpty(Node) &&
-                    !string.IsNullOrEmpty(Domain) && string.IsNullOrEmpty(Resource);
+                return !String.IsNullOrEmpty(Node) &&
+                    !String.IsNullOrEmpty(Domain) && String.IsNullOrEmpty(Resource);
             }
         }
 
@@ -58,8 +58,8 @@ namespace Sharp.Xmpp
         {
             get
             {
-                return !string.IsNullOrEmpty(Node) &&
-                    !string.IsNullOrEmpty(Domain) && !string.IsNullOrEmpty(Resource);
+                return !String.IsNullOrEmpty(Node) &&
+                    !String.IsNullOrEmpty(Domain) && !String.IsNullOrEmpty(Resource);
             }
         }
 
@@ -80,10 +80,10 @@ namespace Sharp.Xmpp
                 throw new ArgumentException("The argument is not a valid JID.");
             Domain = m.Groups["domain"].Value;
             Node = m.Groups["node"].Value;
-            if (Node == string.Empty)
+            if (Node == String.Empty)
                 Node = null;
             Resource = m.Groups["resource"].Value;
-            if (Resource == string.Empty)
+            if (Resource == String.Empty)
                 Resource = null;
         }
 
@@ -132,10 +132,10 @@ namespace Sharp.Xmpp
         public override string ToString()
         {
             StringBuilder b = new StringBuilder();
-            if (!string.IsNullOrEmpty(Node))
+            if (!String.IsNullOrEmpty(Node))
                 b.Append(Node + "@");
             b.Append(Domain);
-            if (!string.IsNullOrEmpty(Resource))
+            if (!String.IsNullOrEmpty(Resource))
                 b.Append("/" + Resource);
             return b.ToString();
         }

@@ -24,11 +24,10 @@ namespace Sharp.Xmpp.Extensions
         {
             get
             {
-                return new string[]
-                {
-                    "http://jabber.org/protocol/tune",
-                    "http://jabber.org/protocol/tune+notify"
-                };
+                return new string[] {
+					"http://jabber.org/protocol/tune",
+					"http://jabber.org/protocol/tune+notify"
+				};
             }
         }
 
@@ -67,8 +66,8 @@ namespace Sharp.Xmpp.Extensions
         /// </summary>
         public override void Initialize()
         {
-            pep = IM.GetExtension<Pep>();
-            pep.Subscribe("http://jabber.org/protocol/tune", OnTune);
+            pep = im.GetExtension<Pep>();
+            pep.Subscribe("http://jabber.org/protocol/tune", onTune);
         }
 
         /// <summary>
@@ -102,19 +101,19 @@ namespace Sharp.Xmpp.Extensions
             length.ThrowIfOutOfRange(0, Int16.MaxValue);
             rating.ThrowIfOutOfRange(0, 10);
             var tune = Xml.Element("tune", "http://jabber.org/protocol/tune");
-            if (!string.IsNullOrEmpty(title))
+            if (!String.IsNullOrEmpty(title))
                 tune.Child(Xml.Element("title").Text(title));
-            if (!string.IsNullOrEmpty(artist))
+            if (!String.IsNullOrEmpty(artist))
                 tune.Child(Xml.Element("artist").Text(artist));
-            if (!string.IsNullOrEmpty(track))
+            if (!String.IsNullOrEmpty(track))
                 tune.Child(Xml.Element("track").Text(track));
             if (length > 0)
                 tune.Child(Xml.Element("length").Text(length.ToString()));
             if (rating > 0)
                 tune.Child(Xml.Element("rating").Text(rating.ToString()));
-            if (!string.IsNullOrEmpty(source))
+            if (!String.IsNullOrEmpty(source))
                 tune.Child(Xml.Element("source").Text(source));
-            if (!string.IsNullOrEmpty(uri))
+            if (!String.IsNullOrEmpty(uri))
                 tune.Child(Xml.Element("uri").Text(uri));
             pep.Publish("http://jabber.org/protocol/tune", null, tune);
         }
@@ -159,7 +158,7 @@ namespace Sharp.Xmpp.Extensions
         /// information.</param>
         /// <param name="item">The 'item' Xml element of the pubsub publish
         /// event.</param>
-        private void OnTune(Jid jid, XmlElement item)
+        private void onTune(Jid jid, XmlElement item)
         {
             if (item == null || item["tune"] == null)
                 return;
@@ -173,10 +172,10 @@ namespace Sharp.Xmpp.Extensions
             // Parse 'tune' element.
             int length = 0;
             if (tune["length"] != null)
-                length = Int32.Parse(tune["length"].InnerText);
+                length = int.Parse(tune["length"].InnerText);
             int rating = 0;
             if (tune["rating"] != null)
-                rating = Int32.Parse(tune["rating"].InnerText);
+                rating = int.Parse(tune["rating"].InnerText);
             TuneInformation info = new TuneInformation(
                 GetField(tune, "title"), GetField(tune, "artist"), GetField(tune, "track"),
                 length, rating, GetField(tune, "source"), GetField(tune, "uri"));

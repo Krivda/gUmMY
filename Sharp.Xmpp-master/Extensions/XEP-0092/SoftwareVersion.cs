@@ -55,7 +55,7 @@ namespace Sharp.Xmpp.Extensions
         /// </summary>
         public override void Initialize()
         {
-            ecapa = IM.GetExtension<EntityCapabilities>();
+            ecapa = im.GetExtension<EntityCapabilities>();
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Sharp.Xmpp.Extensions
                 Xml.Element("name").Text(Version.Name)).Child(
                 Xml.Element("version").Text(Version.Version)).Child(
                 Xml.Element("os").Text(Version.Os));
-            IM.IqResult(stanza, xml);
+            im.IqResult(stanza, xml);
             // We took care of this IQ request, so intercept it and don't pass it
             // on to other handlers.
             return true;
@@ -107,7 +107,7 @@ namespace Sharp.Xmpp.Extensions
                 throw new NotSupportedException("The XMPP entity does not support the " +
                     "'Software Version' extension.");
             }
-            Iq response = IM.IqRequest(IqType.Get, jid, IM.Jid,
+            Iq response = im.IqRequest(IqType.Get, jid, im.Jid,
                 Xml.Element("query", "jabber:iq:version"));
             if (response.Type == IqType.Error)
                 throw Util.ExceptionFromError(response, "The version could not be retrieved.");
@@ -131,12 +131,12 @@ namespace Sharp.Xmpp.Extensions
             : base(im)
         {
             // Collect name and version attributes from the assembly's metadata.
-            Attribute attr = Assembly.GetExecutingAssembly()
-                .GetCustomAttribute(typeof(AssemblyProductAttribute));
+            Attribute attr = Assembly.GetExecutingAssembly().
+                GetCustomAttribute(typeof(AssemblyProductAttribute));
             string name = attr != null ? ((AssemblyProductAttribute)attr).Product :
                 "Sharp.Xmpp";
-            string version = Assembly.GetExecutingAssembly().GetName()
-                .Version.ToString();
+            string version = Assembly.GetExecutingAssembly().GetName().
+                Version.ToString();
             Version = new VersionInformation(name, version,
                 Environment.OSVersion.ToString());
         }

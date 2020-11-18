@@ -159,7 +159,7 @@ namespace Sharp.Xmpp.Core
                         {
                             // Remember the default language communicated by the server.
                             string lang = reader.GetAttribute("xml:lang");
-                            if (!string.IsNullOrEmpty(lang))
+                            if (!String.IsNullOrEmpty(lang))
                                 Language = new CultureInfo(lang);
                             return;
                         }

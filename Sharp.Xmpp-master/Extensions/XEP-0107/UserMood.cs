@@ -25,11 +25,10 @@ namespace Sharp.Xmpp.Extensions
         {
             get
             {
-                return new string[]
-                {
-                    "http://jabber.org/protocol/mood",
-                    "http://jabber.org/protocol/mood+notify"
-                };
+                return new string[] {
+					"http://jabber.org/protocol/mood",
+					"http://jabber.org/protocol/mood+notify"
+				};
             }
         }
 
@@ -68,8 +67,8 @@ namespace Sharp.Xmpp.Extensions
         /// </summary>
         public override void Initialize()
         {
-            pep = IM.GetExtension<Pep>();
-            pep.Subscribe("http://jabber.org/protocol/mood", OnMood);
+            pep = im.GetExtension<Pep>();
+            pep.Subscribe("http://jabber.org/protocol/mood", onMood);
         }
 
         /// <summary>
@@ -105,7 +104,7 @@ namespace Sharp.Xmpp.Extensions
         /// mood information.</param>
         /// <param name="item">The 'item' Xml element of the pubsub publish
         /// event.</param>
-        private void OnMood(Jid jid, XmlElement item)
+        private void onMood(Jid jid, XmlElement item)
         {
             if (item == null || item["mood"] == null)
                 return;

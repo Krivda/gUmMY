@@ -182,6 +182,22 @@ namespace Sharp.Xmpp.Im
         }
 
         /// <summary>
+        /// Print XML stanzas for debugging purposes
+        /// </summary>
+        public bool DebugStanzas
+        {
+            get
+            {
+                return core.DebugStanzas;
+            }
+
+            set
+            {
+                core.DebugStanzas = value;
+            }
+        }
+
+        /// <summary>
         /// Determines whether the instance is connected to the XMPP server.
         /// </summary>
         public bool Connected
@@ -235,11 +251,6 @@ namespace Sharp.Xmpp.Im
         public event EventHandler<MessageEventArgs> Message;
 
         /// <summary>
-        /// The event that is raised when an error message is received.
-        /// </summary>
-        public event EventHandler<MessageEventArgs> ErrorMessage;
-
-        /// <summary>
         /// The event that is raised when a subscription request made by the JID
         /// associated with this instance has been approved.
         /// </summary>
@@ -291,13 +302,6 @@ namespace Sharp.Xmpp.Im
             int port = 5222, bool tls = true, RemoteCertificateValidationCallback validate = null)
         {
             core = new XmppCore(hostname, username, password, port, tls, validate);
-            SetupEventHandlers();
-        }
-
-        public XmppIm(string hostname, string username, string domain, string password,
-            int port = 5222, bool tls = true, RemoteCertificateValidationCallback validate = null)
-        {
-            core = new XmppCore(hostname, username, domain ,password, port, tls, validate);
             SetupEventHandlers();
         }
 
@@ -435,12 +439,12 @@ namespace Sharp.Xmpp.Im
         /// disposed.</exception>
         public void SendMessage(Jid to, string body, string subject = null,
             string thread = null, MessageType type = MessageType.Normal,
-		                        CultureInfo language = null, MediaItem mediaItem = null)
+            CultureInfo language = null)
         {
             AssertValid();
             to.ThrowIfNull("to");
             body.ThrowIfNullOrEmpty("body");
-			Message m = new Message(to, body, subject, thread, type, language, mediaItem);
+            Message m = new Message(to, body, subject, thread, type, language);
             SendMessage(m);
         }
 
@@ -470,12 +474,12 @@ namespace Sharp.Xmpp.Im
         /// disposed.</exception>
         public void SendMessage(Jid to, IDictionary<string, string> bodies,
             IDictionary<string, string> subjects = null, string thread = null,
-		                        MessageType type = MessageType.Normal, CultureInfo language = null, MediaItem mediaItem = null)
+            MessageType type = MessageType.Normal, CultureInfo language = null)
         {
             AssertValid();
             to.ThrowIfNull("to");
             bodies.ThrowIfNull("bodies");
-			Message m = new Message(to, bodies, subjects, thread, type, language, mediaItem);
+            Message m = new Message(to, bodies, subjects, thread, type, language);
             SendMessage(m);
         }
 
@@ -510,7 +514,6 @@ namespace Sharp.Xmpp.Im
         /// <summary>
         /// Sends a request to subscribe to the presence of the contact with the
         /// specified JID.
-        ///
         /// </summary>
         /// <param name="jid">The JID of the contact to request a subscription
         /// from.</param>
@@ -643,13 +646,12 @@ namespace Sharp.Xmpp.Im
             List<XmlElement> elems = new List<XmlElement>();
             if (availability != Availability.Online)
             {
-                var states = new Dictionary<Availability, string>()
-                {
-                    { Availability.Away, "away" },
-                    { Availability.DoNotDisturb, "dnd" },
-                    { Availability.ExtendedAway, "xa" },
-                    { Availability.Chat, "chat" }
-                };
+                var states = new Dictionary<Availability, string>() {
+						{ Availability.Away, "away" },
+						{ Availability.Dnd, "dnd" },
+						{ Availability.Xa, "xa" },
+						{ Availability.Chat, "chat" }
+					};
                 elems.Add(Xml.Element("show").Text(states[availability]));
             }
             if (priority != 0)
@@ -690,13 +692,12 @@ namespace Sharp.Xmpp.Im
             List<XmlElement> elems = new List<XmlElement>();
             if (availability != Availability.Online)
             {
-                var states = new Dictionary<Availability, string>()
-                {
-                    { Availability.Away, "away" },
-                    { Availability.DoNotDisturb, "dnd" },
-                    { Availability.ExtendedAway, "xa" },
-                    { Availability.Chat, "chat" }
-                };
+                var states = new Dictionary<Availability, string>() {
+						{ Availability.Away, "away" },
+						{ Availability.Dnd, "dnd" },
+						{ Availability.Xa, "xa" },
+						{ Availability.Chat, "chat" }
+					};
                 elems.Add(Xml.Element("show").Text(states[availability]));
             }
             if (priority != 0)
@@ -788,7 +789,7 @@ namespace Sharp.Xmpp.Im
             AssertValid();
             item.ThrowIfNull("item");
             var xml = Xml.Element("item").Attr("jid", item.Jid.ToString());
-            if (!string.IsNullOrEmpty(item.Name))
+            if (!String.IsNullOrEmpty(item.Name))
                 xml.Attr("name", item.Name);
             foreach (string group in item.Groups)
                 xml.Child(Xml.Element("group").Text(group));
@@ -883,7 +884,7 @@ namespace Sharp.Xmpp.Im
             foreach (XmlElement list in query.GetElementsByTagName("list"))
             {
                 string name = list.GetAttribute("name");
-                if (!string.IsNullOrEmpty(name))
+                if (!String.IsNullOrEmpty(name))
                     lists.Add(GetPrivacyList(name));
             }
             return lists;
@@ -911,8 +912,8 @@ namespace Sharp.Xmpp.Im
         {
             AssertValid();
             name.ThrowIfNull("name");
-            var query = Xml.Element("query", "jabber:iq:privacy")
-                .Child(Xml.Element("list").Attr("name", name));
+            var query = Xml.Element("query", "jabber:iq:privacy").
+                Child(Xml.Element("list").Attr("name", name));
             Iq iq = IqRequest(IqType.Get, null, Jid, query);
             if (iq.Type == IqType.Error)
                 throw Util.ExceptionFromError(iq, "The privacy list could not be retrieved.");
@@ -1074,7 +1075,7 @@ namespace Sharp.Xmpp.Im
             if (active == null)
                 return null;
             string name = active.GetAttribute("name");
-            if (string.IsNullOrEmpty(name))
+            if (String.IsNullOrEmpty(name))
                 return null;
             return name;
         }
@@ -1145,7 +1146,7 @@ namespace Sharp.Xmpp.Im
             if (active == null)
                 return null;
             string name = active.GetAttribute("name");
-            if (string.IsNullOrEmpty(name))
+            if (String.IsNullOrEmpty(name))
                 return null;
             return name;
         }
@@ -1524,7 +1525,7 @@ namespace Sharp.Xmpp.Im
             Iq ret = IqRequest(IqType.Set, Hostname, null,
                 Xml.Element("session", "urn:ietf:params:xml:ns:xmpp-session"));
             if (ret.Type == IqType.Error)
-                throw Util.ExceptionFromError(ret, "Session establishment failed.");
+                throw Util.ExceptionFromError(ret, "Session establishment failed for Hostname: " + Hostname);
         }
 
         /// <summary>
@@ -1657,14 +1658,10 @@ namespace Sharp.Xmpp.Im
                 }
             }
 
-            if (message.Type == MessageType.Error)
-            {
-                ErrorMessage.Raise(this, new MessageEventArgs(message.From, message));
-            }
-            else if (message.Data["body"] != null)
-            {
+            // Only raise the Message event, if the message stanza actually contains
+            // a body.
+            if (message.Data["body"] != null)
                 Message.Raise(this, new MessageEventArgs(message.From, message));
-            }
         }
 
         /// <summary>
@@ -1684,7 +1681,7 @@ namespace Sharp.Xmpp.Im
             // availability status from it.
             if (offline == false)
             {
-                if (e != null && !string.IsNullOrEmpty(e.InnerText))
+                if (e != null && !String.IsNullOrEmpty(e.InnerText))
                 {
                     string show = e.InnerText.Capitalize();
                     availability = (Availability)Enum.Parse(
@@ -1694,12 +1691,12 @@ namespace Sharp.Xmpp.Im
             sbyte prio = 0;
             // Parse the optional 'priority' element.
             e = presence.Data["priority"];
-            if (e != null && !string.IsNullOrEmpty(e.InnerText))
+            if (e != null && !String.IsNullOrEmpty(e.InnerText))
                 prio = sbyte.Parse(e.InnerText);
             // Parse optional 'status' element(s).
             string lang = presence.Data.GetAttribute("xml:lang");
             var dict = new Dictionary<string, string>();
-            if (string.IsNullOrEmpty(lang))
+            if (String.IsNullOrEmpty(lang))
                 lang = core.Language.Name;
             foreach (XmlNode node in presence.Data.GetElementsByTagName("status"))
             {
@@ -1707,9 +1704,9 @@ namespace Sharp.Xmpp.Im
                 if (element == null)
                     continue;
                 string l = element.GetAttribute("xml:lang");
-                if (string.IsNullOrEmpty(l))
+                if (String.IsNullOrEmpty(l))
                     l = lang;
-                dict[l] = element.InnerText;
+                dict.Add(l, element.InnerText);
             }
             Status status = new Status(availability, dict, prio);
             // Raise Status event.
@@ -1718,17 +1715,15 @@ namespace Sharp.Xmpp.Im
 
         /// <summary>
         /// Processes a presence stanza containing a subscription request.
+        /// It does not automatically accept or reject a subscription.
+        /// Explicit invocation of ApproveSubscriptionRequest(presence.From) or
+        /// RefuseSubscriptionRequest(presence.From) must take placed
         /// </summary>
         /// <param name="presence">The presence stanza to process.</param>
         private void ProcessSubscriptionRequest(Presence presence)
         {
-            /////New Addition in order to be able to handle it via an event
             if (SubscriptionRequest != null)
                 SubscriptionRequest.Invoke(presence.From);
-            //        == true)
-            //    ApproveSubscriptionRequest(presence.From);
-            //else
-            //    RefuseSubscriptionRequest(presence.From);
         }
 
         /// <summary>
@@ -1771,21 +1766,20 @@ namespace Sharp.Xmpp.Im
         private Roster ParseRoster(XmlElement query)
         {
             Roster roster = new Roster();
-            var states = new Dictionary<string, SubscriptionState>()
-            {
-                { "none", SubscriptionState.None },
-                { "to", SubscriptionState.To },
-                { "from", SubscriptionState.From },
-                { "both", SubscriptionState.Both }
-            };
+            var states = new Dictionary<string, SubscriptionState>() {
+				{ "none", SubscriptionState.None },
+				{ "to", SubscriptionState.To },
+				{ "from", SubscriptionState.From },
+				{ "both", SubscriptionState.Both }
+			};
             var items = query.GetElementsByTagName("item");
             foreach (XmlElement item in items)
             {
                 string jid = item.GetAttribute("jid");
-                if (string.IsNullOrEmpty(jid))
+                if (String.IsNullOrEmpty(jid))
                     continue;
                 string name = item.GetAttribute("name");
-                if (name == string.Empty)
+                if (name == String.Empty)
                     name = null;
                 List<string> groups = new List<string>();
                 foreach (XmlElement group in item.GetElementsByTagName("group"))
@@ -1807,13 +1801,12 @@ namespace Sharp.Xmpp.Im
         /// <param name="iq">The IQ stanza to process.</param>
         private void ProcessRosterIq(Iq iq)
         {
-            var states = new Dictionary<string, SubscriptionState>()
-            {
-                { "none", SubscriptionState.None },
-                { "to", SubscriptionState.To },
-                { "from", SubscriptionState.From },
-                { "both", SubscriptionState.Both }
-            };
+            var states = new Dictionary<string, SubscriptionState>() {
+				{ "none", SubscriptionState.None },
+				{ "to", SubscriptionState.To },
+				{ "from", SubscriptionState.From },
+				{ "both", SubscriptionState.Both }
+			};
             // Ensure roster push is from a trusted source.
             bool trusted = iq.From == null || iq.From == Jid || iq.From
                 == Jid.GetBareJid();
@@ -1823,10 +1816,10 @@ namespace Sharp.Xmpp.Im
             {
                 XmlElement item = items.Item(0) as XmlElement;
                 string jid = item.GetAttribute("jid");
-                if (!string.IsNullOrEmpty(jid))
+                if (!String.IsNullOrEmpty(jid))
                 {
                     string name = item.GetAttribute("name");
-                    if (name == string.Empty)
+                    if (name == String.Empty)
                         name = null;
                     List<string> groups = new List<string>();
                     foreach (XmlElement group in item.GetElementsByTagName("group"))
@@ -1872,16 +1865,15 @@ namespace Sharp.Xmpp.Im
                 granularity |= PrivacyGranularity.PresenceOut;
             string type = item.GetAttribute("type");
             string value = item.GetAttribute("value");
-            var states = new Dictionary<string, SubscriptionState>()
+            var states = new Dictionary<string, SubscriptionState>() {
+				{ "none", SubscriptionState.None },
+				{ "to", SubscriptionState.To },
+				{ "from", SubscriptionState.From },
+				{ "both", SubscriptionState.Both }
+			};
+            if (!String.IsNullOrEmpty(type))
             {
-                { "none", SubscriptionState.None },
-                { "to", SubscriptionState.To },
-                { "from", SubscriptionState.From },
-                { "both", SubscriptionState.Both }
-            };
-            if (!string.IsNullOrEmpty(type))
-            {
-                if (string.IsNullOrEmpty(value))
+                if (String.IsNullOrEmpty(value))
                     throw new ArgumentException("Missing value attribute.");
                 switch (type)
                 {

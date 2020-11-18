@@ -184,10 +184,10 @@ namespace Sharp.Xmpp.Extensions
         /// </summary>
         public override void Initialize()
         {
-            ecapa = IM.GetExtension<EntityCapabilities>();
-            siFileTransfer = IM.GetExtension<SIFileTransfer>();
-            sdisco = IM.GetExtension<ServiceDiscovery>();
-            serverIpCheck = IM.GetExtension<ServerIpCheck>();
+            ecapa = im.GetExtension<EntityCapabilities>();
+            siFileTransfer = im.GetExtension<SIFileTransfer>();
+            sdisco = im.GetExtension<ServiceDiscovery>();
+            serverIpCheck = im.GetExtension<ServerIpCheck>();
         }
 
         /// <summary>
@@ -207,12 +207,12 @@ namespace Sharp.Xmpp.Extensions
             // Verify the sid attribute of the query element.
             if (!VerifySession(stanza, sid))
             {
-                IM.IqError(stanza, ErrorType.Modify, ErrorCondition.NotAcceptable);
+                im.IqError(stanza, ErrorType.Modify, ErrorCondition.NotAcceptable);
                 return true;
             }
             if (query.GetAttribute("mode") == "udp")
             {
-                IM.IqError(stanza, ErrorType.Modify, ErrorCondition.FeatureNotImplemented,
+                im.IqError(stanza, ErrorType.Modify, ErrorCondition.FeatureNotImplemented,
                     "UDP-mode is not supported.");
                 return true;
             }
@@ -220,7 +220,7 @@ namespace Sharp.Xmpp.Extensions
             var hosts = ParseStreamhosts(query);
             if (hosts.Count() == 0)
             {
-                IM.IqError(stanza, ErrorType.Modify, ErrorCondition.BadRequest,
+                im.IqError(stanza, ErrorType.Modify, ErrorCondition.BadRequest,
                     "No streamhosts advertised.");
                 return true;
             }
@@ -253,7 +253,7 @@ namespace Sharp.Xmpp.Extensions
             Proxies = new HashSet<Streamhost>();
             UseUPnP = false;
 #if WINDOWSPLATFORM
-            UseUPnP = true;
+			UseUPnP = true;
 #endif
         }
 
@@ -362,9 +362,9 @@ namespace Sharp.Xmpp.Extensions
         /// false.</returns>
         private bool VerifySession(Iq stanza, string sid)
         {
-            if (string.IsNullOrEmpty(sid))
+            if (String.IsNullOrEmpty(sid))
                 return false;
-            var session = siFileTransfer.GetSession(sid, stanza.From, IM.Jid);
+            var session = siFileTransfer.GetSession(sid, stanza.From, im.Jid);
             return session != null;
         }
 
@@ -386,7 +386,7 @@ namespace Sharp.Xmpp.Extensions
                     string jid = e.GetAttribute("jid"),
                         host = e.GetAttribute("host"), p = e.GetAttribute("port");
                     // The 'port' attribute is optional.
-                    int port = string.IsNullOrEmpty(p) ? defaultPort : Int32.Parse(p);
+                    int port = String.IsNullOrEmpty(p) ? defaultPort : int.Parse(p);
                     list.Add(new Streamhost(jid, host, port));
                 }
                 catch
@@ -428,10 +428,11 @@ namespace Sharp.Xmpp.Extensions
                     if (reply.Status != ReplyStatus.Succeeded)
                         throw new Socks5Exception("SOCKS5 Connect request failed.");
                     // Send acknowledging IQ-result.
-                    IM.IqResult(stanza,
+                    im.IqResult(stanza,
                         Xml.Element("query", "http://jabber.org/protocol/bytestreams")
                         .Attr("sid", sid).Child(Xml.Element("streamhost-used")
-                        .Attr("jid", host.Jid.ToString())));
+                        .Attr("jid", host.Jid.ToString()))
+                    );
                     return client;
                 }
                 catch
@@ -443,7 +444,7 @@ namespace Sharp.Xmpp.Extensions
             }
             // Still here means we couldn't connect to any of the streamhosts or
             // an error occurred during SOCKS5 negotiation.
-            IM.IqError(stanza, ErrorType.Cancel, ErrorCondition.ItemNotFound);
+            im.IqError(stanza, ErrorType.Cancel, ErrorCondition.ItemNotFound);
             // Error out.
             throw new XmppException("Couldn't connect to streamhost.");
         }
@@ -512,7 +513,7 @@ namespace Sharp.Xmpp.Extensions
         private Streamhost GetNetworkAddress(Jid jid)
         {
             jid.ThrowIfNull("jid");
-            var iq = IM.IqRequest(Core.IqType.Get, jid, IM.Jid,
+            var iq = im.IqRequest(Core.IqType.Get, jid, im.Jid,
                 Xml.Element("query", "http://jabber.org/protocol/bytestreams"));
             if (iq.Type == Core.IqType.Error)
             {
@@ -547,7 +548,7 @@ namespace Sharp.Xmpp.Extensions
         private IEnumerable<Streamhost> GetProxyList()
         {
             ISet<Streamhost> set = new HashSet<Streamhost>();
-            foreach (var item in sdisco.GetItems(IM.Jid.Domain))
+            foreach (var item in sdisco.GetItems(im.Jid.Domain))
             {
                 // Query each item for its identities and look for a 'proxy' identity.
                 foreach (var ident in sdisco.GetIdentities(item.Jid))
@@ -591,11 +592,11 @@ namespace Sharp.Xmpp.Extensions
             {
 #if WINDOWSPLATFORM
                 try {
-                    foreach (var address in UPnP.GetExternalAddresses())
-                        set.Add(address);
-                } catch (Exception) {
-                    // Fall through in case any device querying goes wrong.
-                }
+					foreach (var address in UPnP.GetExternalAddresses())
+						set.Add(address);
+				} catch (Exception) {
+					// Fall through in case any device querying goes wrong.
+				}
 #endif
             }
             // Finally, perform a STUN query.
@@ -771,14 +772,14 @@ namespace Sharp.Xmpp.Extensions
                 // Check if we might need to forward the server port.
 #if WINDOWSPLATFORM
                 if (externalAddresses.Any(addr => BehindNAT(addr)) && UseUPnP) {
-                    try {
-                        UPnP.ForwardPort(socks5Server.Port, ProtocolType.Tcp,
-                            "XMPP SOCKS5 File-transfer");
-                    } catch (InvalidOperationException) {
-                        // If automatic port forwarding failed for whatever reason, just
-                        // go on normally. The user can still configure forwarding manually.
-                    }
-                }
+					try {
+						UPnP.ForwardPort(socks5Server.Port, ProtocolType.Tcp,
+							"XMPP SOCKS5 File-transfer");
+					} catch (InvalidOperationException) {
+						// If automatic port forwarding failed for whatever reason, just
+						// go on normally. The user can still configure forwarding manually.
+					}
+				}
 #endif
             }
             catch (NotSupportedException)
@@ -812,12 +813,12 @@ namespace Sharp.Xmpp.Extensions
             foreach (var ip in ips)
             {
                 xml.Child(Xml.Element("streamhost")
-                    .Attr("jid", IM.Jid.ToString())
+                    .Attr("jid", im.Jid.ToString())
                     .Attr("host", ip.ToString())
                     .Attr("port", socks5Server.Port.ToString()));
             }
             // Send IQ with streamhosts to the target.
-            var iq = IM.IqRequest(IqType.Set, session.To, IM.Jid, xml);
+            var iq = im.IqRequest(IqType.Set, session.To, im.Jid, xml);
             if (iq.Type == IqType.Error)
             {
                 throw Util.ExceptionFromError(iq, "The SOCKS5 connection could not " +
@@ -852,7 +853,7 @@ namespace Sharp.Xmpp.Extensions
                 var xml = Xml.Element("query", "http://jabber.org/protocol/bytestreams")
                     .Attr("sid", session.Sid).Child(
                     Xml.Element("activate").Text(session.To.ToString()));
-                Iq iq = IM.IqRequest(IqType.Set, proxy.Jid, IM.Jid, xml);
+                Iq iq = im.IqRequest(IqType.Set, proxy.Jid, im.Jid, xml);
                 if (iq.Type == IqType.Error)
                     throw Util.ExceptionFromError(iq, "Could not activate the bytestream.");
                 // Finally, go ahead and send the data to the proxy.
@@ -885,7 +886,7 @@ namespace Sharp.Xmpp.Extensions
                     .Attr("port", proxy.Port.ToString()));
             }
             // Wait for the other site to tell us which proxy server it selected.
-            var iq = IM.IqRequest(IqType.Set, session.To, IM.Jid, xml);
+            var iq = im.IqRequest(IqType.Set, session.To, im.Jid, xml);
             if (iq.Type == IqType.Error)
                 throw Util.ExceptionFromError(iq, "The SOCKS5 negotiation failed.");
             var query = iq.Data["query"];
@@ -967,7 +968,7 @@ namespace Sharp.Xmpp.Extensions
                 throw new Socks5Exception("Unexpected ATyp: " + request.ATyp);
             string hash = (string)request.Destination;
             // Calculate the SHA-1 hash and compare it with the one in the request.
-            string calculated = Sha1(session.Sid + IM.Jid + session.To);
+            string calculated = Sha1(session.Sid + im.Jid + session.To);
             if (calculated != hash)
                 throw new Socks5Exception("Hostname hash mismatch.");
             // We're good to go.

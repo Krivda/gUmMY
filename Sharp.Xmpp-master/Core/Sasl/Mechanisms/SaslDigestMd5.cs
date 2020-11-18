@@ -131,7 +131,7 @@ namespace Sharp.Xmpp.Core.Sasl.Mechanisms
         public SaslDigestMd5(string username, string password)
         {
             username.ThrowIfNull("username");
-            if (username == string.Empty)
+            if (username == String.Empty)
                 throw new ArgumentException("The username must not be empty.");
             password.ThrowIfNull("password");
 
@@ -163,7 +163,7 @@ namespace Sharp.Xmpp.Core.Sasl.Mechanisms
         {
             // Precondition: Ensure username and password are not null and
             // username is not empty.
-            if (string.IsNullOrEmpty(Username) || Password == null)
+            if (String.IsNullOrEmpty(Username) || Password == null)
             {
                 throw new SaslException("The username must not be null or empty and " +
                     "the password must not be null.");
@@ -176,20 +176,19 @@ namespace Sharp.Xmpp.Core.Sasl.Mechanisms
                 Username, Password);
 
             // Create the challenge-response string.
-            string[] directives = new string[]
-            {
-                // We don't use UTF-8 in the current implementation.
-                //"charset=utf-8",
-                "username=" + Dquote(Username),
-                "realm=" + Dquote(fields["realm"]),
-                "nonce=" + Dquote(fields["nonce"]),
-                "nc=00000001",
-                "cnonce=" + Dquote(Cnonce),
-                "digest-uri=" + Dquote(digestUri),
-                "response=" + responseValue,
-                "qop=" + fields["qop"]
-            };
-            string challengeResponse = string.Join(",", directives);
+            string[] directives = new string[] {
+				// We don't use UTF-8 in the current implementation.
+				//"charset=utf-8",
+				"username=" + UsernameBackslashEscapeXep106(Dquote(Username)),
+				"realm=" + Dquote(fields["realm"]),
+				"nonce="+ Dquote(fields["nonce"]),
+				"nc=00000001",
+				"cnonce=" + Dquote(Cnonce),
+				"digest-uri=" + Dquote(digestUri),
+				"response=" + responseValue,
+				"qop=" + fields["qop"]
+			};
+            string challengeResponse = String.Join(",", directives);
             // Finally, return the response as a byte array.
             return Encoding.ASCII.GetBytes(challengeResponse);
         }
@@ -294,6 +293,20 @@ namespace Sharp.Xmpp.Core.Sasl.Mechanisms
         private static string Dquote(string s)
         {
             return "\"" + s + "\"";
+        }
+
+        /// <summary>
+        /// Add an additional backslash, if any backslashes are found in the username
+        /// For XEP106 jid nodes, Openfire seems that it needs to escape the backslash
+        /// within the user name. See discussion at https://community.igniterealtime.org/message/254096#254096
+        /// It is not clear if this is an Openfire bug or a Sharp.Xmpp issue, so please treat this
+        /// as experimental
+        /// </summary>
+        /// <param name="s">String to escape in order to resolve https://community.igniterealtime.org/message/254096#254096 issue</param>
+        /// <returns>String with backslashes escaped</returns>
+        private static string UsernameBackslashEscapeXep106(string s)
+        {
+            return s.Replace("\\", "\\\\");
         }
 
         /// <summary>

@@ -15,7 +15,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
         {
             get
             {
-                var v = Element["value"];
+                var v = element["value"];
                 if (v == null)
                     return null;
                 return ParseValue(v.InnerText);
@@ -23,17 +23,17 @@ namespace Sharp.Xmpp.Extensions.Dataforms
 
             private set
             {
-                if (Element["value"] != null)
+                if (element["value"] != null)
                 {
                     if (value == null)
-                        Element.RemoveChild(Element["value"]);
+                        element.RemoveChild(element["value"]);
                     else
-                        Element["value"].InnerText = value.ToString().ToLower();
+                        element["value"].InnerText = value.ToString().ToLower();
                 }
                 else
                 {
                     if (value != null)
-                        Element.Child(Xml.Element("value").Text(value.ToString().ToLower()));
+                        element.Child(Xml.Element("value").Text(value.ToString().ToLower()));
                 }
             }
         }

@@ -25,11 +25,10 @@ namespace Sharp.Xmpp.Extensions
         {
             get
             {
-                return new string[]
-                {
-                    "http://jabber.org/protocol/activity",
-                    "http://jabber.org/protocol/activity+notify"
-                };
+                return new string[] {
+					"http://jabber.org/protocol/activity",
+					"http://jabber.org/protocol/activity+notify"
+				};
             }
         }
 
@@ -68,8 +67,8 @@ namespace Sharp.Xmpp.Extensions
         /// </summary>
         public override void Initialize()
         {
-            pep = IM.GetExtension<Pep>();
-            pep.Subscribe("http://jabber.org/protocol/activity", OnActivity);
+            pep = im.GetExtension<Pep>();
+            pep.Subscribe("http://jabber.org/protocol/activity", onActivity);
         }
 
         /// <summary>
@@ -111,7 +110,7 @@ namespace Sharp.Xmpp.Extensions
         /// activity information.</param>
         /// <param name="item">The 'item' Xml element of the pubsub publish
         /// event.</param>
-        private void OnActivity(Jid jid, XmlElement item)
+        private void onActivity(Jid jid, XmlElement item)
         {
             if (item == null || item["activity"] == null)
                 return;

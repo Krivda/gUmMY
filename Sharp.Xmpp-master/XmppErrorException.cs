@@ -7,7 +7,7 @@ namespace Sharp.Xmpp
     /// The exception that is thrown when a recoverable XMPP error condition
     /// has been encountered.
     /// </summary>
-    [Serializable]
+    [Serializable()]
     public class XmppErrorException : Exception
     {
         /// <summary>

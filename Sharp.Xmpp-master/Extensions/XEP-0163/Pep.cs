@@ -75,7 +75,7 @@ namespace Sharp.Xmpp.Extensions
         /// </summary>
         public override void Initialize()
         {
-            ecapa = IM.GetExtension<EntityCapabilities>();
+            ecapa = im.GetExtension<EntityCapabilities>();
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Sharp.Xmpp.Extensions
             if (items == null)
                 return false;
             string nodeId = items.GetAttribute("node");
-            if (string.IsNullOrEmpty(nodeId))
+            if (String.IsNullOrEmpty(nodeId))
                 return false;
             // FIXME: Should we let the callback decide whether the message stanza
             // should be swallowed or passed on?
@@ -145,7 +145,7 @@ namespace Sharp.Xmpp.Extensions
                 if (!item.IsEmpty)
                     xml["publish"].Child(item);
             }
-            Iq iq = IM.IqRequest(IqType.Set, null, IM.Jid, xml);
+            Iq iq = im.IqRequest(IqType.Set, null, im.Jid, xml);
             if (iq.Type == IqType.Error)
                 throw Util.ExceptionFromError(iq, "The data could not be published.");
         }
@@ -201,7 +201,7 @@ namespace Sharp.Xmpp.Extensions
             node.ThrowIfNull("node");
             var xml = Xml.Element("pubsub", "http://jabber.org/protocol/pubsub")
                 .Child(Xml.Element("items").Attr("node", node));
-            Iq iq = IM.IqRequest(IqType.Get, jid, IM.Jid, xml);
+            Iq iq = im.IqRequest(IqType.Get, jid, im.Jid, xml);
             if (iq.Type == IqType.Error)
                 throw Util.ExceptionFromError(iq, "The items could not be retrieved.");
             var pubsub = iq.Data["pubsub"];
@@ -238,8 +238,9 @@ namespace Sharp.Xmpp.Extensions
             itemId.ThrowIfNull("itemId");
             var xml = Xml.Element("pubsub", "http://jabber.org/protocol/pubsub").Child(
                 Xml.Element("items").Attr("node", node).Child(
-                Xml.Element("item").Attr("id", itemId)));
-            Iq iq = IM.IqRequest(IqType.Get, jid, IM.Jid, xml);
+                Xml.Element("item").Attr("id", itemId))
+            );
+            Iq iq = im.IqRequest(IqType.Get, jid, im.Jid, xml);
             if (iq.Type == IqType.Error)
                 throw Util.ExceptionFromError(iq, "The item could not be retrieved.");
             var pubsub = iq.Data["pubsub"];
@@ -271,7 +272,7 @@ namespace Sharp.Xmpp.Extensions
         private bool QueryServer()
         {
             // See if our own server advertises the pubsub identity.
-            foreach (var ident in ecapa.GetIdentities(IM.Jid.GetBareJid()))
+            foreach (var ident in ecapa.GetIdentities(im.Jid.GetBareJid()))
             {
                 if (ident.Type == "pep" && ident.Category == "pubsub")
                     supported = true;

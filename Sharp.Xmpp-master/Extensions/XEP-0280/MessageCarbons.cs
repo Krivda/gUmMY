@@ -22,17 +22,17 @@ namespace Sharp.Xmpp.Extensions
 
         public override void Initialize()
         {
-            ecapa = IM.GetExtension<EntityCapabilities>();
+            ecapa = im.GetExtension<EntityCapabilities>();
         }
 
         public void EnableCarbons(bool enable = true)
         {
-            if (!ecapa.Supports(IM.Jid.Domain, Extension.MessageCarbons))
+            if (!ecapa.Supports(im.Jid.Domain, Extension.MessageCarbons))
             {
                 throw new NotSupportedException("The XMPP server does not support " +
                     "the 'Message Carbons' extension.");
             }
-            var iq = IM.IqRequest(IqType.Set, null, IM.Jid,
+            var iq = im.IqRequest(IqType.Set, null, im.Jid,
                 Xml.Element(enable ? "enable" : "disable", _namespaces[0]));
             if (iq.Type == IqType.Error)
                 throw Util.ExceptionFromError(iq, "Message Carbons could not " +
@@ -42,6 +42,7 @@ namespace Sharp.Xmpp.Extensions
         public MessageCarbons(XmppIm im) :
             base(im)
         {
+            ;
         }
     }
 }

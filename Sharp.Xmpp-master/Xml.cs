@@ -85,7 +85,7 @@ namespace Sharp.Xmpp
             // a prefix, i.e. stream:stream (What it does is probably correct, but just
             // not what we need for XMPP).
             StringBuilder b = new StringBuilder("<" + e.Name);
-            if (!string.IsNullOrEmpty(e.NamespaceURI))
+            if (!String.IsNullOrEmpty(e.NamespaceURI))
                 b.Append(" xmlns='" + e.NamespaceURI + "'");
             foreach (XmlAttribute a in e.Attributes)
             {

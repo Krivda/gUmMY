@@ -47,11 +47,10 @@ namespace Sharp.Xmpp.Extensions
         /// An array of data-stream methods that we support. As per specification,
         /// we must support SOCKS5 and In-Band Bytestreams.
         /// </summary>
-        private static readonly Type[] supportedMethods = new Type[]
-        {
-            typeof(Socks5Bytestreams),
-            typeof(InBandBytestreams)
-        };
+        private static readonly Type[] supportedMethods = new Type[] {
+			typeof(Socks5Bytestreams),
+			typeof(InBandBytestreams)
+		};
 
         /// <summary>
         /// An enumerable collection of XMPP namespaces the extension implements.
@@ -62,10 +61,9 @@ namespace Sharp.Xmpp.Extensions
         {
             get
             {
-                return new string[]
-                {
-                    "http://jabber.org/protocol/si/profile/file-transfer"
-                };
+                return new string[] {
+					"http://jabber.org/protocol/si/profile/file-transfer"
+				};
             }
         }
 
@@ -118,18 +116,18 @@ namespace Sharp.Xmpp.Extensions
         /// </summary>
         public override void Initialize()
         {
-            streamInitiation = IM.GetExtension<StreamInitiation>();
+            streamInitiation = im.GetExtension<StreamInitiation>();
             // Register the 'file-transfer' profile.
             streamInitiation.RegisterProfile(
                 "http://jabber.org/protocol/si/profile/file-transfer",
-                OnStreamInitiationRequest);
-
-            ecapa = IM.GetExtension<EntityCapabilities>();
+                OnStreamInitiationRequest
+            );
+            ecapa = im.GetExtension<EntityCapabilities>();
             // Sign up for the 'BytesTransferred' and 'TransferAborted' events of each
             // data-stream extension that we support.
             foreach (var type in supportedMethods)
             {
-                var ext = IM.GetExtension(type);
+                var ext = im.GetExtension(type);
                 if (ext == null || !(ext is IDataStream))
                     throw new XmppException("Invalid data-stream type: " + type);
                 IDataStream dataStream = ext as IDataStream;
@@ -291,12 +289,9 @@ namespace Sharp.Xmpp.Extensions
                 to);
             if (session == null)
             {
-                throw new ArgumentException("The specified transfer instance does not " +
-                    "represent an active data-transfer operation.");
+                throw new ArgumentException(String.Format("The specified transfer instance does not " +
+                    "represent an active data-transfer operation.:sid {0}, file {1}, from {2}, to {3}", session.Sid, session.Stream.ToString(), session.From, session.To));
             }
-            //#if DEBUG
-            //System.Diagnostics.Debug.WriteLine("SI File Transfer CancelFileTransfer, sid {0}, file {1}, from {2}, to {3}", session.Sid, session.Stream.ToString(), session.From, session.To);
-            //#endif
 
             session.Extension.CancelTransfer(session);
         }
@@ -348,14 +343,14 @@ namespace Sharp.Xmpp.Extensions
                 string method = SelectStreamMethod(si["feature"]);
                 // If the session-id is already in use, we cannot process the request.
                 string sid = si.GetAttribute("id");
-                if (string.IsNullOrEmpty(sid) || siSessions.ContainsKey(sid))
+                if (String.IsNullOrEmpty(sid) || siSessions.ContainsKey(sid))
                     return new XmppError(ErrorType.Cancel, ErrorCondition.Conflict).Data;
                 // Extract file information and hand to user.
                 var file = si["file"];
                 string desc = file["desc"] != null ? file["desc"].InnerText : null,
                     name = file.GetAttribute("name");
-                int size = Int32.Parse(file.GetAttribute("size"));
-                FileTransfer transfer = new FileTransfer(from, IM.Jid, name, size,
+                int size = int.Parse(file.GetAttribute("size"));
+                FileTransfer transfer = new FileTransfer(from, im.Jid, name, size,
                     sid, desc);
                 string savePath = TransferRequest.Invoke(transfer);
                 // User has rejected the request.
@@ -363,7 +358,7 @@ namespace Sharp.Xmpp.Extensions
                     return new XmppError(ErrorType.Cancel, ErrorCondition.NotAcceptable).Data;
                 // Create an SI session instance.
                 SISession session = new SISession(sid, File.OpenWrite(savePath),
-                    size, true, from, IM.Jid, IM.GetExtension(method) as IDataStream);
+                    size, true, from, im.Jid, im.GetExtension(method) as IDataStream);
                 siSessions.TryAdd(sid, session);
                 // Store the file's meta data.
                 metaData.TryAdd(sid, new FileMetaData(name, desc));
@@ -390,7 +385,7 @@ namespace Sharp.Xmpp.Extensions
         private bool SupportsNamespace(string @namespace)
         {
             @namespace.ThrowIfNull("namespace");
-            foreach (var ext in IM.Extensions)
+            foreach (var ext in im.Extensions)
             {
                 foreach (string ns in ext.Namespaces)
                 {
@@ -415,11 +410,10 @@ namespace Sharp.Xmpp.Extensions
             DataForm form = FeatureNegotiation.Parse(feature);
             ListField field = form.Fields["stream-method"] as ListField;
             // Order of preference: Socks5, Ibb.
-            string[] methods = new string[]
-            {
-                "http://jabber.org/protocol/bytestreams",
-                "http://jabber.org/protocol/ibb"
-            };
+            string[] methods = new string[] {
+				"http://jabber.org/protocol/bytestreams",
+				"http://jabber.org/protocol/ibb"
+			};
             for (int i = 0; i < methods.Length; i++)
             {
                 if (ForceInBandBytestreams &&
@@ -445,7 +439,7 @@ namespace Sharp.Xmpp.Extensions
                 // If forcing IBB, only advertise IBB to the other site.
                 if (ForceInBandBytestreams && t != typeof(InBandBytestreams))
                     continue;
-                var ext = IM.GetExtension(t);
+                var ext = im.GetExtension(t);
                 if (ext != null)
                 {
                     foreach (string ns in ext.Namespaces)
@@ -515,16 +509,16 @@ namespace Sharp.Xmpp.Extensions
         private void OnInitiationResult(InitiationResult result, Jid to, string name,
             Stream stream, long size, string description, Action<bool, FileTransfer> cb)
         {
-            FileTransfer transfer = new FileTransfer(IM.Jid, to, name, size, null,
+            FileTransfer transfer = new FileTransfer(im.Jid, to, name, size, null,
                 description);
             try
             {
                 // Get the instance of the data-stream extension that the other site has
                 // selected.
-                IDataStream ext = IM.GetExtension(result.Method) as IDataStream;
+                IDataStream ext = im.GetExtension(result.Method) as IDataStream;
                 // Register the session.
                 SISession session = new SISession(result.SessionId, stream, size, false,
-                    IM.Jid, to, ext);
+                    im.Jid, to, ext);
                 siSessions.TryAdd(result.SessionId, session);
                 // Store the file's meta data.
                 metaData.TryAdd(result.SessionId, new FileMetaData(name, description));

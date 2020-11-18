@@ -46,9 +46,15 @@ namespace SRMatrixNetwork.Commands.ClientSide
             }
 
             //command param takes priority over stored data
+            String realm = "matrix";
             if (Parameters.Count > 1 && !string.IsNullOrEmpty(Parameters[1]))
             {
-                pwd = Parameters[1];
+                realm = Parameters[1];
+            }
+
+            if (Parameters.Count > 2 && !string.IsNullOrEmpty(Parameters[2]))
+            {
+                pwd = Parameters[2];
             }
 
             if (string.IsNullOrEmpty(pwd))
@@ -64,7 +70,7 @@ namespace SRMatrixNetwork.Commands.ClientSide
             Promise.XmppClient = new Matrix();
             try
             {
-                Promise.XmppClient.Login(jid, pwd, "matrix");
+                Promise.XmppClient.Login(jid, pwd, realm);
             }
             catch (Exception e)
             {

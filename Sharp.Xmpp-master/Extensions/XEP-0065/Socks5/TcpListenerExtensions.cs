@@ -27,7 +27,7 @@ namespace Sharp.Xmpp.Extensions.Socks5
         {
             if (timeout == -1)
                 return listener.AcceptTcpClient();
-            timeout.ThrowIfOutOfRange("timeout", 0, Int32.MaxValue);
+            timeout.ThrowIfOutOfRange("timeout", 0, int.MaxValue);
             IAsyncResult ar = listener.BeginAcceptTcpClient(null, null);
             bool signalled = ar.AsyncWaitHandle.WaitOne(TimeSpan.FromMilliseconds(timeout));
             if (signalled)

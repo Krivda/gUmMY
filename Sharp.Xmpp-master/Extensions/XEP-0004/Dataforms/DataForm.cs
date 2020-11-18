@@ -9,8 +9,6 @@ namespace Sharp.Xmpp.Extensions.Dataforms
     /// </summary>
     public abstract class DataForm
     {
-        private const string xmlns = "jabber:x:data";
-
         /// <summary>
         /// The fields contained in the data-form.
         /// </summary>
@@ -19,11 +17,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
         /// <summary>
         /// The underlying XML element representing the data-form.
         /// </summary>
-        protected XmlElement Element
-        {
-            get;
-            set;
-        }
+        protected XmlElement element;
 
         /// <summary>
         /// The title of the data-form.
@@ -32,25 +26,25 @@ namespace Sharp.Xmpp.Extensions.Dataforms
         {
             get
             {
-                if (Element["title"] != null)
-                    return Element["title"].InnerText;
+                if (element["title"] != null)
+                    return element["title"].InnerText;
                 return null;
             }
 
             set
             {
-                var e = Element["title"];
+                var e = element["title"];
                 if (e != null)
                 {
                     if (value == null)
-                        Element.RemoveChild(e);
+                        element.RemoveChild(e);
                     else
                         e.InnerText = value;
                 }
                 else
                 {
                     if (value != null)
-                        Element.Child(Xml.Element("title").Text(value));
+                        element.Child(Xml.Element("title").Text(value));
                 }
             }
         }
@@ -63,25 +57,25 @@ namespace Sharp.Xmpp.Extensions.Dataforms
         {
             get
             {
-                if (Element["instructions"] != null)
-                    return Element["instructions"].InnerText;
+                if (element["instructions"] != null)
+                    return element["instructions"].InnerText;
                 return null;
             }
 
             set
             {
-                var e = Element["instructions"];
+                var e = element["instructions"];
                 if (e != null)
                 {
                     if (value == null)
-                        Element.RemoveChild(e);
+                        element.RemoveChild(e);
                     else
                         e.InnerText = value;
                 }
                 else
                 {
                     if (value != null)
-                        Element.Child(Xml.Element("instructions").Text(value));
+                        element.Child(Xml.Element("instructions").Text(value));
                 }
             }
         }
@@ -100,7 +94,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
 
             protected set
             {
-                Element.SetAttribute("type", value.ToString().ToLower());
+                element.SetAttribute("type", value.ToString().ToLower());
             }
         }
 
@@ -122,7 +116,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
         /// data-form.</returns>
         public override string ToString()
         {
-            return Element.ToXmlString();
+            return element.ToXmlString();
         }
 
         /// <summary>
@@ -131,7 +125,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
         /// <returns>An XML element representing the data-form.</returns>
         public XmlElement ToXmlElement()
         {
-            return Element;
+            return element;
         }
 
         /// <summary>
@@ -147,10 +141,10 @@ namespace Sharp.Xmpp.Extensions.Dataforms
         internal DataForm(string title = null, string instructions = null,
             bool readOnly = false, params DataField[] fields)
         {
-            Element = Xml.Element("x", xmlns);
+            element = Xml.Element("x", "jabber:x:data");
             Title = title;
             Instructions = instructions;
-            this.fields = new FieldList(Element, readOnly);
+            this.fields = new FieldList(element, readOnly);
             if (fields != null)
             {
                 foreach (var f in fields)
@@ -174,7 +168,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
         internal DataForm(XmlElement element, bool readOnly = false)
         {
             element.ThrowIfNull("element");
-            this.Element = element;
+            this.element = element;
             try
             {
                 fields = new FieldList(element, readOnly);
@@ -213,7 +207,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
         {
             try
             {
-                string t = Element.GetAttribute("type");
+                string t = element.GetAttribute("type");
                 return Util.ParseEnum<DataFormType>(t);
             }
             catch (Exception e)
@@ -221,88 +215,6 @@ namespace Sharp.Xmpp.Extensions.Dataforms
                 throw new XmlException("The 'type' attribute of the underlying " +
                     "XML element is invalid.", e);
             }
-        }
-
-        /// <summary>
-        /// Add a boolean value to this form
-        /// </summary>
-        /// <param name="name">The name of the value</param>
-        /// <param name="value">The value to add</param>
-        /// <returns>This data form</returns>
-        public DataForm AddValue(string name, bool value)
-        {
-            Element.Child(new BooleanField(name, value).ToXmlElement());
-
-            return this;
-        }
-
-        /// <summary>
-        /// Add a Jid value to this form
-        /// </summary>
-        /// <param name="name">The name of the value</param>
-        /// <param name="value">The value to add</param>
-        /// <returns>This data form</returns>
-        public DataForm AddValue(string name, Jid value)
-        {
-            value.ThrowIfNull();
-
-            Element.Child(new JidField(name, value).ToXmlElement());
-
-            return this;
-        }
-
-        /// <summary>
-        /// Add a text value to this form
-        /// </summary>
-        /// <param name="name">The name of the value</param>
-        /// <param name="value">The value to add</param>
-        /// <returns>This data form</returns>
-        public DataForm AddValue(string name, string value)
-        {
-            value.ThrowIfNull();
-
-            Element.Child(new TextField(name, value).ToXmlElement());
-
-            return this;
-        }
-
-        /// <summary>
-        /// Add an untyped value to this form
-        /// </summary>
-        /// <param name="name">The name of the value</param>
-        /// <param name="value">The value to add</param>
-        /// <returns>This data form</returns>
-        public DataForm AddUntypedValue(string name, object value)
-        {
-            var valueNode = Xml.Element("value", xmlns);
-            if (value != null)
-            {
-                valueNode.Text(value.ToString());
-            }
-
-            Element.Child(Xml.Element("field", xmlns).Attr("var", name).Child(valueNode));
-
-            return this;
-        }
-
-        /// <summary>
-        /// Add a typed value to this form
-        /// </summary>
-        /// <param name="name">The name of the value</param>
-        /// <param name="type">The type of the value to add</param>
-        /// <param name="value">The value to add</param>
-        /// <returns>This data form</returns>
-        public DataForm AddValue(string name, DataFieldType type, object value)
-        {
-            var valueNode = Xml.Element("value", xmlns);
-            if (value != null)
-            {
-                valueNode.Text(value.ToString());
-            }
-
-            Element.Child(Xml.Element("field", xmlns).Attr("var", name).Attr("type", type.ToString()).Child(valueNode));
-
-            return this;
         }
     }
 }

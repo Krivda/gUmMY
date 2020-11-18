@@ -36,23 +36,23 @@ namespace Sharp.Xmpp.Extensions.Dataforms
         {
             get
             {
-                var v = Element["value"];
+                var v = element["value"];
                 return v != null ? v.InnerText : null;
             }
 
             private set
             {
-                if (Element["value"] != null)
+                if (element["value"] != null)
                 {
                     if (value == null)
-                        Element.RemoveChild(Element["value"]);
+                        element.RemoveChild(element["value"]);
                     else
-                        Element["value"].InnerText = value;
+                        element["value"].InnerText = value;
                 }
                 else
                 {
                     if (value != null)
-                        Element.Child(Xml.Element("value").Text(value));
+                        element.Child(Xml.Element("value").Text(value));
                 }
             }
         }
@@ -76,7 +76,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
             string description = null, IEnumerable<Option> options = null, string value = null)
             : base(DataFieldType.ListSingle, name, required, label, description)
         {
-            this.options = new XmlCollection<Option>(Element, "option", OptionFromElement);
+            this.options = new XmlCollection<Option>(element, "option", OptionFromElement);
             if (options != null)
             {
                 foreach (Option o in options)
@@ -116,7 +116,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
             : base(e)
         {
             AssertType(DataFieldType.ListSingle);
-            options = new XmlCollection<Option>(Element, "option", OptionFromElement);
+            options = new XmlCollection<Option>(element, "option", OptionFromElement);
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
         {
             element.ThrowIfNull("element");
             string label = element.GetAttribute("label");
-            if (label == string.Empty)
+            if (label == String.Empty)
                 label = null;
             if (element["value"] == null)
                 throw new ArgumentException("Missing 'value' child.");

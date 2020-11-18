@@ -327,7 +327,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
             name.ThrowIfNull("name");
             foreach (XmlElement e in GetFieldElements())
             {
-                string s = e.GetAttribute("var");
+                String s = e.GetAttribute("var");
                 if (s == name)
                     return e;
             }
@@ -354,7 +354,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
             for (int i = 0; i < s.Length; i++)
             {
                 if (s[i] == '-')
-                    b.Append(char.ToUpper(s[++i]));
+                    b.Append(Char.ToUpper(s[++i]));
                 else
                     b.Append(s[i]);
             }
@@ -375,7 +375,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
             try
             {
                 string t = element.GetAttribute("type");
-                if (string.IsNullOrEmpty(t))
+                if (String.IsNullOrEmpty(t))
                     return null;
                 return AttributeValueToType(t);
             }

@@ -2,4 +2,5 @@
 <Deckers>
   <Decker name="gr8b" jid="calvin@xmpp.co" pwd="fraudfraudfraud"/>
   <Decker name="witness" jid="witness@xabber.org" pwd="wintesspwd"/>
+  <Decker name="iddqd" jid="test1@parfenow.ru" pwd="123456"/>
 </Deckers>

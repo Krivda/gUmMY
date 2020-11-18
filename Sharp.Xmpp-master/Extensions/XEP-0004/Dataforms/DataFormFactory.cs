@@ -26,7 +26,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
             if (element.Name != "x" || element.NamespaceURI != "jabber:x:data")
                 throw new ArgumentException("Invalid root element: " + element.Name);
             string s = element.GetAttribute("type");
-            if (string.IsNullOrEmpty(s))
+            if (String.IsNullOrEmpty(s))
                 throw new ArgumentException("Missing 'type' attribute.");
             try
             {

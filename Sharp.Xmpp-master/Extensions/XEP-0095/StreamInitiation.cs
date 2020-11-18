@@ -54,7 +54,7 @@ namespace Sharp.Xmpp.Extensions
         /// </summary>
         public override void Initialize()
         {
-            ecapa = IM.GetExtension<EntityCapabilities>();
+            ecapa = im.GetExtension<EntityCapabilities>();
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Sharp.Xmpp.Extensions
             // If it's an unknown profile, send back an error response.
             if (profiles.ContainsKey(profile) == false)
             {
-                IM.IqError(stanza, ErrorType.Cancel, ErrorCondition.BadRequest,
+                im.IqError(stanza, ErrorType.Cancel, ErrorCondition.BadRequest,
                     "Unknown SI profile", Xml.Element("bad-profile",
                     "http://jabber.org/protocol/si"));
             }
@@ -85,14 +85,15 @@ namespace Sharp.Xmpp.Extensions
                     // Invoke the profile's callback.
                     var response = profiles[profile].Invoke(stanza.From, stanza.Data["si"]);
                     // If response is an error element, send back an error response.
-                    IM.IqResponse(response.Name == "error" ? IqType.Error : IqType.Result,
-                        stanza.Id, stanza.From, IM.Jid, response);
+                    im.IqResponse(response.Name == "error" ? IqType.Error : IqType.Result,
+                        stanza.Id, stanza.From, im.Jid, response);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    System.Diagnostics.Debug.WriteLine("Exception was raised during Stream Initiation " + ex.ToString());
                     // Send back an error response in case the callback method threw
                     // an exception.
-                    IM.IqError(stanza, ErrorType.Cancel, ErrorCondition.ServiceUnavailable);
+                    im.IqError(stanza, ErrorType.Cancel, ErrorCondition.ServiceUnavailable);
                 }
             }
             // We took care of this IQ request, so intercept it and don't pass it
@@ -150,7 +151,7 @@ namespace Sharp.Xmpp.Extensions
             string sid = GenerateSessionId();
             var si = CreateSiElement(sid, mimeType, profile, streamOptions, data);
             // Perform the actual request.
-            Iq iq = IM.IqRequest(IqType.Set, to, IM.Jid, si);
+            Iq iq = im.IqRequest(IqType.Set, to, im.Jid, si);
             if (iq.Type == IqType.Error)
                 throw Util.ExceptionFromError(iq, "Stream initiation failed.");
             // Result must contain a 'feature' element.
@@ -209,7 +210,7 @@ namespace Sharp.Xmpp.Extensions
             string sid = GenerateSessionId();
             var si = CreateSiElement(sid, mimeType, profile, streamOptions, data);
             // Perform the actual request.
-            IM.IqRequestAsync(IqType.Set, to, IM.Jid, si, null, (id, iq) =>
+            im.IqRequestAsync(IqType.Set, to, im.Jid, si, null, (id, iq) =>
             {
                 if (cb == null)
                     return;

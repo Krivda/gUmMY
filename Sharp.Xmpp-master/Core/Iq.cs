@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Xml;
-using System.Xml.Linq;
 
 namespace Sharp.Xmpp.Core
 {
@@ -18,13 +17,13 @@ namespace Sharp.Xmpp.Core
         {
             get
             {
-                return ParseType(Element.GetAttribute("type"));
+                return ParseType(element.GetAttribute("type"));
             }
 
             set
             {
                 var v = value.ToString().ToLowerInvariant();
-                Element.SetAttribute("type", v);
+                element.SetAttribute("type", v);
             }
         }
 
@@ -91,22 +90,13 @@ namespace Sharp.Xmpp.Core
         private IqType ParseType(string value)
         {
             value.ThrowIfNull("value");
-            var dict = new Dictionary<string, IqType>()
-            {
-                { "set", IqType.Set },
-                { "get", IqType.Get },
-                { "result", IqType.Result },
-                { "error", IqType.Error }
-            };
+            var dict = new Dictionary<string, IqType>() {
+				{ "set", IqType.Set },
+				{ "get", IqType.Get },
+				{ "result", IqType.Result },
+				{ "error", IqType.Error }
+			};
             return dict[value];
-        }
-
-        /// <summary>
-        /// Converts the IQ XML to an XDocument
-        /// </summary>
-        public XDocument ToXDocument()
-        {
-            return XDocument.Parse(ToString());
         }
     }
 }

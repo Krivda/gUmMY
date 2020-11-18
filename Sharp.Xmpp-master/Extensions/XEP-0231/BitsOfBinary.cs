@@ -50,7 +50,7 @@ namespace Sharp.Xmpp.Extensions
         /// </summary>
         public override void Initialize()
         {
-            ecapa = IM.GetExtension<EntityCapabilities>();
+            ecapa = im.GetExtension<EntityCapabilities>();
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace Sharp.Xmpp.Extensions
                     "the 'Bits of Binary' extension.");
             }
             // Request the data.
-            Iq iq = IM.IqRequest(IqType.Get, from, IM.Jid,
+            Iq iq = im.IqRequest(IqType.Get, from, im.Jid,
                 Xml.Element("data", "urn:xmpp:bob").Attr("cid", cid));
             if (iq.Type == IqType.Error)
                 throw Util.ExceptionFromError(iq, "The data-item with the specified " +
@@ -192,12 +192,12 @@ namespace Sharp.Xmpp.Extensions
                 var data = Xml.Element("data", "urn:xmpp:bob").Attr("cid", cid)
                     .Attr("type", b.Type)
                     .Text(Convert.ToBase64String(b.Data));
-                IM.IqResult(stanza, data);
+                im.IqResult(stanza, data);
             }
             else
             {
                 // If we don't have the item, return an 'item not found' error.
-                IM.IqError(stanza, ErrorType.Cancel, ErrorCondition.ItemNotFound);
+                im.IqError(stanza, ErrorType.Cancel, ErrorCondition.ItemNotFound);
             }
             // We took care of this IQ request, so intercept it and don't pass it
             // on to other handlers.

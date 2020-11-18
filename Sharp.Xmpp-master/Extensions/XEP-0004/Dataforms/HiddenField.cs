@@ -47,7 +47,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
             string description = null, params string[] values)
             : base(DataFieldType.Hidden, name, required, label, description)
         {
-            this.values = new XmlCollection<string>(Element, "value", elem => elem.InnerText);
+            this.values = new XmlCollection<string>(element, "value", elem => elem.InnerText);
             if (values != null)
             {
                 foreach (string s in values)

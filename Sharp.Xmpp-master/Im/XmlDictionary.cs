@@ -92,7 +92,7 @@ namespace Sharp.Xmpp.Im
                 foreach (XmlElement e in element.GetElementsByTagName(tag))
                 {
                     string k = e.GetAttribute(this.key);
-                    if (!string.IsNullOrEmpty(k))
+                    if (!String.IsNullOrEmpty(k))
                         set.Add(k);
                 }
                 return set;
@@ -146,7 +146,7 @@ namespace Sharp.Xmpp.Im
                 foreach (XmlElement e in element.GetElementsByTagName(tag))
                 {
                     string k = e.GetAttribute(this.key);
-                    if (!string.IsNullOrEmpty(k))
+                    if (!String.IsNullOrEmpty(k))
                         set.Add(e.InnerText);
                 }
                 return set;
@@ -215,7 +215,7 @@ namespace Sharp.Xmpp.Im
             foreach (XmlElement e in element.GetElementsByTagName(tag))
             {
                 string k = e.GetAttribute(key);
-                if (!string.IsNullOrEmpty(k))
+                if (!String.IsNullOrEmpty(k))
                     set.Add(e);
             }
             foreach (var e in set)

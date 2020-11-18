@@ -65,8 +65,8 @@ namespace Sharp.Xmpp.Extensions.Dataforms
             string description = null, IEnumerable<Option> options = null, params string[] values)
             : base(DataFieldType.ListMulti, name, required, label, description)
         {
-            this.values = new XmlCollection<string>(Element, "value", elem => elem.InnerText);
-            this.options = new XmlCollection<Option>(Element, "option", OptionFromElement);
+            this.values = new XmlCollection<string>(element, "value", elem => elem.InnerText);
+            this.options = new XmlCollection<Option>(element, "option", OptionFromElement);
             if (options != null)
             {
                 foreach (Option o in options)
@@ -113,8 +113,8 @@ namespace Sharp.Xmpp.Extensions.Dataforms
             : base(e)
         {
             AssertType(DataFieldType.ListMulti);
-            this.values = new XmlCollection<string>(Element, "value", elem => elem.InnerText);
-            options = new XmlCollection<Option>(Element, "option", OptionFromElement);
+            this.values = new XmlCollection<string>(element, "value", elem => elem.InnerText);
+            options = new XmlCollection<Option>(element, "option", OptionFromElement);
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
         private Option OptionFromElement(XmlElement element)
         {
             string label = element.GetAttribute("label");
-            if (label == string.Empty)
+            if (label == String.Empty)
                 label = null;
             if (element["value"] == null)
                 throw new ArgumentException("Missing 'value' child.");

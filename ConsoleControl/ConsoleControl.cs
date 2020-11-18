@@ -624,7 +624,7 @@ namespace ConsoleControl
             //recalculate prompt
             string prompt = GetPrompt();
             richTextBoxConsole.SelectionColor = Color.White;
-            richTextBoxConsole.SelectionLength = richTextBoxConsole.TextLength;
+            //richTextBoxConsole.SelectionLength = richTextBoxConsole.TextLength;
             richTextBoxConsole.SelectedText = prompt + savedInput;
             richTextBoxConsole.SelectionLength = 0;
 

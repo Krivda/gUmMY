@@ -6,16 +6,13 @@ namespace Sharp.Xmpp.Core.Sasl
     /// <summary>
     /// The exception is thrown when a Sasl-related error or unexpected condition occurs.
     /// </summary>
-    [Serializable]
+    [Serializable()]
     internal class SaslException : Exception
     {
         /// <summary>
         /// Initializes a new instance of the SaslException class
         /// </summary>
-        public SaslException()
-            : base()
-        {
-        }
+        public SaslException() : base() { }
 
         /// <summary>
         /// Initializes a new instance of the SaslException class with its message
@@ -23,10 +20,7 @@ namespace Sharp.Xmpp.Core.Sasl
         /// </summary>
         /// <param name="message">A description of the error. The content of message is intended
         /// to be understood by humans.</param>
-        public SaslException(string message)
-            : base(message)
-        {
-        }
+        public SaslException(string message) : base(message) { }
 
         /// <summary>
         /// Initializes a new instance of the SaslException class with its message
@@ -36,10 +30,7 @@ namespace Sharp.Xmpp.Core.Sasl
         /// <param name="message">A description of the error. The content of message is intended
         /// to be understood by humans.</param>
         /// <param name="inner">The exception that is the cause of the current exception.</param>
-        public SaslException(string message, Exception inner)
-            : base(message, inner)
-        {
-        }
+        public SaslException(string message, Exception inner) : base(message, inner) { }
 
         /// <summary>
         /// Initializes a new instance of the SaslException class with the specified
@@ -50,8 +41,6 @@ namespace Sharp.Xmpp.Core.Sasl
         /// <param name="context">An object that contains contextual information about the source
         /// or destination. </param>
         protected SaslException(System.Runtime.Serialization.SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
+            : base(info, context) { }
     }
 }

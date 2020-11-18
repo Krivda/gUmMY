@@ -22,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Sharp.Xmpp.xml</DocumentationFile>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,7 +31,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>false</RunCodeAnalysis>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -54,6 +52,13 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ARSoft.Tools.Net, Version=2.2.7.0, Culture=neutral, PublicKeyToken=1940454cd762ec57, processorArchitecture=MSIL">
+      <HintPath>..\packages\ARSoft.Tools.Net.2.2.7\lib\net45\ARSoft.Tools.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\..\..\..\..\Desktop\SharpXmppWpf\SharpXmppWpf\packages\BouncyCastle.1.8.1\lib\BouncyCastle.Crypto.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -93,14 +98,28 @@
     <Compile Include="Extensions\XEP-0004\Dataforms\XmlCollection.cs" />
     <Compile Include="Extensions\XEP-0020\FeatureNegotiation.cs" />
     <Compile Include="Extensions\XEP-0030\Item.cs" />
+    <Compile Include="Extensions\XEP-0045\GroupErrorEventArgs.cs" />
+    <Compile Include="Extensions\XEP-0045\GroupInviteDeclinedEventArgs.cs" />
+    <Compile Include="Extensions\XEP-0045\GroupInviteEventArgs.cs" />
+    <Compile Include="Extensions\XEP-0045\GroupPresenceEventArgs.cs" />
+    <Compile Include="Extensions\XEP-0045\History.cs" />
+    <Compile Include="Extensions\XEP-0045\InviteDeclined.cs" />
+    <Compile Include="Extensions\XEP-0045\Invite.cs" />
+    <Compile Include="Extensions\XEP-0045\MucError.cs" />
     <Compile Include="Extensions\XEP-0045\MultiUserChat.cs" />
-    <Compile Include="Extensions\XEP-0045\RoomAffiliation.cs" />
-    <Compile Include="Extensions\XEP-0045\JoinRoomResult.cs" />
-    <Compile Include="Extensions\XEP-0045\RoomRole.cs" />
-    <Compile Include="Extensions\XEP-0050\AdHocCommand.cs" />
-    <Compile Include="Extensions\XEP-0050\AdHocCommands.cs" />
-    <Compile Include="Extensions\XEP-0059\XmppPage.cs" />
-    <Compile Include="Extensions\XEP-0059\XmppPageRequest.cs" />
+    <Compile Include="Extensions\XEP-0045\MucNs.cs" />
+    <Compile Include="Extensions\XEP-0045\Occupant.cs" />
+    <Compile Include="Extensions\XEP-0045\Affiliation.cs" />
+    <Compile Include="Extensions\XEP-0045\Role.cs" />
+    <Compile Include="Extensions\XEP-0045\RoomAnonymity.cs" />
+    <Compile Include="Extensions\XEP-0045\RoomInfoBasic.cs" />
+    <Compile Include="Extensions\XEP-0045\RoomInfoExtended.cs" />
+    <Compile Include="Extensions\XEP-0045\RoomModeration.cs" />
+    <Compile Include="Extensions\XEP-0045\RoomPersistence.cs" />
+    <Compile Include="Extensions\XEP-0045\RoomPrivacy.cs" />
+    <Compile Include="Extensions\XEP-0045\RoomProtection.cs" />
+    <Compile Include="Extensions\XEP-0045\RoomVisibility.cs" />
+    <Compile Include="Extensions\XEP-0045\MucStatusType.cs" />
     <Compile Include="Extensions\XEP-0065\IPAddressExtensions.cs" />
     <Compile Include="Extensions\XEP-0065\Socks5Bytestreams.cs" />
     <Compile Include="Extensions\XEP-0065\Socks5\ATyp.cs" />
@@ -127,7 +146,6 @@
     <Compile Include="Extensions\XEP-0065\UPnP\UPnP.cs" />
     <Compile Include="Extensions\XEP-0077\InBandRegistration.cs" />
     <Compile Include="Extensions\XEP-0077\RegistrationCallback.cs" />
-    <Compile Include="Extensions\XEP-0082\DateTimeProfiles.cs" />
     <Compile Include="Extensions\XEP-0084\AvatarChangedEventArgs.cs" />
     <Compile Include="Extensions\XEP-0084\UserAvatar.cs" />
     <Compile Include="Extensions\XEP-0085\ChatState.cs" />
@@ -156,22 +174,12 @@
     <Compile Include="Extensions\XEP-0118\TuneEventArgs.cs" />
     <Compile Include="Extensions\XEP-0118\TuneInformation.cs" />
     <Compile Include="Extensions\XEP-0118\UserTune.cs" />
-    <Compile Include="Extensions\XEP-0133\ServiceAdministration.cs" />
-    <Compile Include="Extensions\XEP-0136\ArchivedChat.cs" />
-    <Compile Include="Extensions\XEP-0136\ArchivedChatId.cs" />
-    <Compile Include="Extensions\XEP-0136\ArchivedMessage.cs" />
-    <Compile Include="Extensions\XEP-0136\ArchivedMessageType.cs" />
-    <Compile Include="Extensions\XEP-0136\MessageArchiving.cs" />
     <Compile Include="Extensions\XEP-0153\vCardAvatars.cs" />
     <Compile Include="Extensions\XEP-0163\Pep.cs" />
-    <Compile Include="Extensions\XEP-0203\DelayedDelivery.cs" />
     <Compile Include="Extensions\XEP-0231\BitsOfBinary.cs" />
     <Compile Include="Extensions\XEP-0231\BobData.cs" />
-    <Compile Include="Extensions\XEP-0249\DirectMucInvitation.cs" />
-    <Compile Include="Extensions\XEP-0249\DirectMucInvitations.cs" />
     <Compile Include="Extensions\XEP-0279\ServerIpCheck.cs" />
     <Compile Include="Extensions\XEP-0280\MessageCarbons.cs" />
-    <Compile Include="Extensions\XEP-0313\MessageArchiveManagement.cs" />
     <Compile Include="Im\SubscriptionRequest.cs" />
     <Compile Include="XmppDisconnectionException.cs" />
     <Compile Include="XmppExceptions.cs" />
@@ -237,7 +245,6 @@
     <Compile Include="Util.cs" />
     <Compile Include="XmppError.cs" />
     <Compile Include="XmppErrorException.cs" />
-    <Compile Include="Im\MediaItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Client\Examples.xml">
@@ -249,6 +256,7 @@
     <None Include="packages.config" />
     <None Include="Readme.md" />
     <None Include="ReleaseNotes.md" />
+    <None Include="UPNPLib" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

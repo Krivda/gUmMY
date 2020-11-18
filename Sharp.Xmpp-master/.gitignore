@@ -218,5 +218,3 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 packages/
-Sharp.Xmpp.Start/
-nuget.config

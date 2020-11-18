@@ -1,4 +1,5 @@
-﻿using Sharp.Xmpp.Core.Sasl;
+﻿using ARSoft.Tools.Net.Dns;
+using Sharp.Xmpp.Core.Sasl;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -21,6 +22,21 @@ namespace Sharp.Xmpp.Core
     /// <remarks>For implementation details, refer to RFC 3920.</remarks>
     public class XmppCore : IDisposable
     {
+        /// <summary>
+        /// The DNS SRV name records
+        /// </summary>
+        private List<SrvRecord> dnsRecordList;
+
+        /// <summary>
+        /// The current SRV DNS record to use
+        /// </summary>
+        private SrvRecord dnsCurrent;
+
+        /// <summary>
+        /// Bool variable indicating whether DNS records are initialised
+        /// </summary>
+        private bool dnsIsInit = false;
+
         /// <summary>
         /// The TCP connection to the XMPP server.
         /// </summary>
@@ -80,6 +96,11 @@ namespace Sharp.Xmpp.Core
         /// The default Time Out for IQ Requests
         /// </summary>
         private int millisecondsDefaultTimeout = -1;
+
+        /// <summary>
+        /// The default value for debugging stanzas is false
+        /// </summary>
+        private bool debugStanzas = false;
 
         /// <summary>
         /// A thread-safe dictionary of wait handles for pending IQ requests.
@@ -177,8 +198,6 @@ namespace Sharp.Xmpp.Core
             }
         }
 
-        public string Domain { get; set; }
-
         /// <summary>
         /// The password with which to authenticate.
         /// </summary>
@@ -205,6 +224,15 @@ namespace Sharp.Xmpp.Core
         {
             get { return millisecondsDefaultTimeout; }
             set { millisecondsDefaultTimeout = value; }
+        }
+
+        /// <summary>
+        /// Print XML stanzas for debugging purposes
+        /// </summary>
+        public bool DebugStanzas
+        {
+            get { return debugStanzas; }
+            set { debugStanzas = value; }
         }
 
         /// <summary>
@@ -313,47 +341,22 @@ namespace Sharp.Xmpp.Core
         public XmppCore(string hostname, string username, string password,
             int port = 5222, bool tls = true, RemoteCertificateValidationCallback validate = null)
         {
-            Hostname = hostname;
-            Port = port;
+            moveNextSrvDNS(hostname);
+            if (dnsCurrent != null)
+            {
+                Hostname = dnsCurrent.Target.ToString();
+                Port = dnsCurrent.Port;
+            }
+            else
+            {
+                Hostname = hostname;
+                Port = port;
+            }
             Username = username;
             Password = password;
             Tls = tls;
             Validate = validate;
         }
-
-        /// <summary>
-        /// Initializes a new instance of the XmppCore class.
-        /// </summary>
-        /// <param name="hostname">The hostname of the XMPP server to connect to.</param>
-        /// <param name="username">The username with which to authenticate. In XMPP jargon
-        /// this is known as the 'node' part of the JID.</param>
-        /// <param name="domain">XMPP  user realm (part after @ in name)</param>
-        /// <param name="password">The password with which to authenticate.</param>
-        /// <param name="port">The port number of the XMPP service of the server.</param>
-        /// <param name="tls">If true the session will be TLS/SSL-encrypted if the server
-        /// supports TLS/SSL-encryption.</param>
-        /// <param name="validate">A delegate used for verifying the remote Secure Sockets
-        /// Layer (SSL) certificate which is used for authentication. Can be null if not
-        /// needed.</param>
-        /// <exception cref="ArgumentNullException">The hostname parameter or the
-        /// username parameter or the password parameter is null.</exception>
-        /// <exception cref="ArgumentException">The hostname parameter or the username
-        /// parameter is the empty string.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">The value of the port parameter
-        /// is not a valid port number.</exception>
-        public XmppCore(string hostname, string username, string domain, string password,
-            int port = 5222, bool tls = true, RemoteCertificateValidationCallback validate = null)
-        {
-            Hostname = hostname;
-            Port = port;
-            Username = username;
-            Password = password;
-            Tls = tls;
-            Validate = validate;
-            Domain = domain;
-        }
-
-
 
         /// <summary>
         /// Initializes a new instance of the XmppCore class.
@@ -374,10 +377,74 @@ namespace Sharp.Xmpp.Core
         public XmppCore(string hostname, int port = 5222, bool tls = true,
             RemoteCertificateValidationCallback validate = null)
         {
-            Hostname = hostname;
-            Port = port;
+            moveNextSrvDNS(hostname);
+            if (dnsCurrent != null)
+            {
+                Hostname = dnsCurrent.Target.ToString();
+                Port = dnsCurrent.Port;
+            }
+            else
+            {
+                Hostname = hostname;
+                Port = port;
+            }
             Tls = tls;
             Validate = validate;
+        }
+
+        /// <summary>
+        /// Initialises and resolves the DNS Domain, and set to dnsCurrent the next
+        /// SRV record to use
+        /// </summary>
+        /// <param name="domain">XMPP Domain</param>
+        /// <returns>XMPP server hostname for the Domain</returns>
+        private SrvRecord moveNextSrvDNS(string domain)
+        {
+            domain.ThrowIfNullOrEmpty("domain");
+            //If already a lookup has being made return
+            if (dnsIsInit)
+            {
+                //If it is already init we remove the current
+                if (dnsRecordList != null && dnsCurrent != null) dnsRecordList.Remove(dnsCurrent);
+                dnsCurrent = dnsRecordList.FirstOrDefault();
+                return dnsCurrent;
+            };
+            dnsIsInit = true;
+
+            var domainName = ARSoft.Tools.Net.DomainName.Parse(("_xmpp-client._tcp." + domain));
+            DnsMessage dnsMessage = DnsClient.Default.Resolve(domainName, RecordType.Srv);
+            if ((dnsMessage == null) || ((dnsMessage.ReturnCode != ReturnCode.NoError) && (dnsMessage.ReturnCode != ReturnCode.NxDomain)))
+            {
+                //If DNS SRV records lookup fails then continue with the host name
+#if DEBUG
+                System.Diagnostics.Debug.WriteLine("DNS Lookup Failed");
+#endif
+                return null;
+            }
+            else
+            {
+                var tempList = new List<SrvRecord>();
+
+                foreach (DnsRecordBase dnsRecord in dnsMessage.AnswerRecords)
+                {
+                    SrvRecord srvRecord = dnsRecord as SrvRecord;
+                    if (srvRecord != null)
+                    {
+                        tempList.Add(srvRecord);
+                        Console.WriteLine(srvRecord.ToString());
+                        Console.WriteLine("  |--- Name " + srvRecord.Name);
+                        Console.WriteLine("  |--- Port: " + srvRecord.Port);
+                        Console.WriteLine("  |--- Priority" + srvRecord.Priority);
+                        Console.WriteLine("  |--- Type " + srvRecord.RecordType);
+                        Console.WriteLine("  |--- Target: " + srvRecord.Target);
+                        Console.WriteLine();
+                    }
+                }
+                dnsRecordList = tempList.OrderBy(o => o.Priority).ThenBy(order => order.Weight).ToList();
+
+                dnsCurrent = dnsRecordList.FirstOrDefault();
+                return dnsCurrent;
+            }
         }
 
         /// <summary>
@@ -406,8 +473,6 @@ namespace Sharp.Xmpp.Core
             try
             {
                 client = new TcpClient(Hostname, Port);
-                client.NoDelay = true;
-                client.LingerState = new LingerOption(true, 1);
                 stream = client.GetStream();
                 // Sets up the connection which includes TLS and possibly SASL negotiation.
                 SetupConnection(this.resource);
@@ -903,17 +968,11 @@ namespace Sharp.Xmpp.Core
         /// network, or there was a failure while reading from the network.</exception>
         private XmlElement InitiateStream(string hostname)
         {
-            //<stream:stream xmlns='jabber:client' to='cyberspace' xmlns:stream='http://etherx.jabber.org/streams' version='1.0' from='calvin276@cyberspace' xml:lang='en'>
-            //<stream:stream xmlns='jabber:client' to='cyberspace' xmlns:stream='http://etherx.jabber.org/streams' version='1.0' xml:lang='ru-RU'>
-
             var xml = Xml.Element("stream:stream", "jabber:client")
-                .Attr("to", !string.IsNullOrEmpty(Domain) ? Domain : hostname)
+                .Attr("to", hostname)
                 .Attr("version", "1.0")
                 .Attr("xmlns:stream", "http://etherx.jabber.org/streams")
                 .Attr("xml:lang", CultureInfo.CurrentCulture.Name);
-
-            string xmlStr = xml.ToXmlString(xmlDeclaration: true, leaveOpen: true);
-
             Send(xml.ToXmlString(xmlDeclaration: true, leaveOpen: true));
             // Create a new parser instance.
             if (parser != null)
@@ -987,7 +1046,7 @@ namespace Sharp.Xmpp.Core
             m.Properties.Add("Password", password);
             var xml = Xml.Element("auth", "urn:ietf:params:xml:ns:xmpp-sasl")
                 .Attr("mechanism", name)
-                .Text(m.HasInitial ? m.GetResponse(string.Empty) : string.Empty);
+                .Text(m.HasInitial ? m.GetResponse(String.Empty) : String.Empty);
             Send(xml);
             while (true)
             {
@@ -1003,7 +1062,7 @@ namespace Sharp.Xmpp.Core
                 // verified.
                 if (ret.Name == "success")
                 {
-                    if (response == string.Empty)
+                    if (response == String.Empty)
                         break;
                     throw new SaslException("Could not verify server's signature.");
                 }
@@ -1100,6 +1159,7 @@ namespace Sharp.Xmpp.Core
                 try
                 {
                     stream.Write(buf, 0, buf.Length);
+                    if (debugStanzas) System.Diagnostics.Debug.WriteLine(xml);
                 }
                 catch (IOException e)
                 {
@@ -1219,6 +1279,7 @@ namespace Sharp.Xmpp.Core
                 try
                 {
                     Stanza stanza = stanzaQueue.Take(cancelDispatch.Token);
+                    if (debugStanzas) System.Diagnostics.Debug.WriteLine(stanza.ToString());
                     if (stanza is Iq)
                         Iq.Raise(this, new IqEventArgs(stanza as Iq));
                     else if (stanza is Message)

@@ -1,12 +1,10 @@
 ﻿using Sharp.Xmpp.Extensions;
-using Sharp.Xmpp.Extensions.Dataforms;
 using Sharp.Xmpp.Im;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net.Security;
-using System.Threading.Tasks;
 
 namespace Sharp.Xmpp.Client
 {
@@ -28,27 +26,9 @@ namespace Sharp.Xmpp.Client
 
         /// <summary>
         /// The instance of the XmppIm class used for implementing the basic messaging
-        /// and presence funcionality.
+        /// and presence functionality.
         /// </summary>
         private XmppIm im;
-
-        /// <summary>
-        /// Provices access to the 'Multi-User Chat' XMPP extension functionality
-        /// </summary>
-        private MultiUserChat multiUserChat;
-
-        private ServiceAdministration serviceAdministration;
-        private AdHocCommands adHocCommands;
-
-        /// <summary>
-        /// Provides access to the 'Message Archiving' XMPP extension functionality.
-        /// </summary>
-        private MessageArchiving messageArchiving;
-
-        /// <summary>
-        /// Provices access to the 'Message Archive management' XMPP extension functionality.
-        /// </summary>
-        private MessageArchiveManagement messageArchiveManagement;
 
         /// <summary>
         /// Provides access to the 'Software Version' XMPP extension functionality.
@@ -56,7 +36,7 @@ namespace Sharp.Xmpp.Client
         private SoftwareVersion version;
 
         /// <summary>
-        /// Provides access to the 'Service Discovery' XMPP extension funtionality.
+        /// Provides access to the 'Service Discovery' XMPP extension functionality.
         /// </summary>
         private ServiceDiscovery sdisco;
 
@@ -81,12 +61,12 @@ namespace Sharp.Xmpp.Client
         private Attention attention;
 
         /// <summary>
-        /// Provides access to the 'Entity Time' XMPP extension funcionality.
+        /// Provides access to the 'Entity Time' XMPP extension functionality.
         /// </summary>
         private EntityTime time;
 
         /// <summary>
-        /// Provides access to the 'Blocking Command' XMPP extension funcionality.
+        /// Provides access to the 'Blocking Command' XMPP extension functionality.
         /// </summary>
         private BlockingCommand block;
 
@@ -101,15 +81,15 @@ namespace Sharp.Xmpp.Client
         private UserTune userTune;
 
         /// <summary>
-        /// Provices access to the 'Direct MUC invitations' XMPP extension functionality;
+        /// Provides access to the "Multi-User Chat" XMPP extension functionality.
         /// </summary>
-        private DirectMucInvitations directMucInvitations;
+        private MultiUserChat groupChat;
 
 #if WINDOWSPLATFORM
-        /// <summary>
-        /// Provides access to the 'User Avatar' XMPP extension functionality.
-        /// </summary>
-        UserAvatar userAvatar;
+		/// <summary>
+		/// Provides access to the 'User Avatar' XMPP extension functionality.
+		/// </summary>
+		UserAvatar userAvatar;
 #endif
 
         /// <summary>
@@ -341,6 +321,15 @@ namespace Sharp.Xmpp.Client
         }
 
         /// <summary>
+        /// If true prints XML stanzas
+        /// </summary>
+        public bool DebugStanzas
+        {
+            get { return im.DebugStanzas; }
+            set { im.DebugStanzas = value; }
+        }
+
+        /// <summary>
         /// Contains settings for configuring file-transfer options.
         /// </summary>
         public FileTransferSettings FileTransferSettings
@@ -379,6 +368,23 @@ namespace Sharp.Xmpp.Client
         }
 
         /// <summary>
+        /// A callback method to invoke when a request for voice is received
+        /// from another XMPP user.
+        /// </summary>
+        public RegistrationCallback VoiceRequestedInGroupChat
+        {
+            get
+            {
+                return groupChat.VoiceRequested;
+            }
+
+            set
+            {
+                groupChat.VoiceRequested = value;
+            }
+        }
+
+        /// <summary>
         /// The event that is raised when a status notification has been received.
         /// </summary>
         public event EventHandler<StatusEventArgs> StatusChanged
@@ -390,21 +396,6 @@ namespace Sharp.Xmpp.Client
             remove
             {
                 im.Status -= value;
-            }
-        }
-
-        /// <summary>
-        /// The event that is raised when a direct muc invitation is received.
-        /// </summary>
-        public event EventHandler<DirectMucInvitation> DirectMucInvitationReceived
-        {
-            add
-            {
-                directMucInvitations.DirectMucInvitationReceived += value;
-            }
-            remove
-            {
-                directMucInvitations.DirectMucInvitationReceived -= value;
             }
         }
 
@@ -439,17 +430,17 @@ namespace Sharp.Xmpp.Client
         }
 
 #if WINDOWSPLATFORM
-        /// <summary>
-        /// The event that is raised when a contact has updated his or her avatar.
-        /// </summary>
-        public event EventHandler<AvatarChangedEventArgs> AvatarChanged {
-            add {
-                userAvatar.AvatarChanged += value;
-            }
-            remove {
-                userAvatar.AvatarChanged -= value;
-            }
-        }
+		/// <summary>
+		/// The event that is raised when a contact has updated his or her avatar.
+		/// </summary>
+		public event EventHandler<AvatarChangedEventArgs> AvatarChanged {
+			add {
+				userAvatar.AvatarChanged += value;
+			}
+			remove {
+				userAvatar.AvatarChanged -= value;
+			}
+		}
 #endif
 
         /// <summary>
@@ -483,17 +474,77 @@ namespace Sharp.Xmpp.Client
         }
 
         /// <summary>
-        /// The event that is raised when an error message is received.
+        /// The event that is raised when the subject is changed in a group chat.
         /// </summary>
-        public event EventHandler<MessageEventArgs> ErrorMessage
+        public event EventHandler<MessageEventArgs> GroupChatSubjectChanged
         {
             add
             {
-                im.ErrorMessage += value;
+                groupChat.SubjectChanged += value;
             }
             remove
             {
-                im.ErrorMessage -= value;
+                groupChat.SubjectChanged -= value;
+            }
+        }
+
+        /// <summary>
+        /// The event that is raised when a participant's presence is changed in a group chat.
+        /// </summary>
+        public event EventHandler<GroupPresenceEventArgs> GroupPresenceChanged
+        {
+            add
+            {
+                groupChat.PrescenceChanged += value;
+            }
+            remove
+            {
+                groupChat.PrescenceChanged -= value;
+            }
+        }
+
+        /// <summary>
+        /// The event that is raised when an invite to a group chat is received.
+        /// </summary>
+        public event EventHandler<GroupInviteEventArgs> GroupInviteReceived
+        {
+            add
+            {
+                groupChat.InviteReceived += value;
+            }
+            remove
+            {
+                groupChat.InviteReceived -= value;
+            }
+        }
+
+        /// <summary>
+        /// The event that is raised when an invite to a group chat is declined.
+        /// </summary>
+        public event EventHandler<GroupInviteDeclinedEventArgs> GroupInviteDeclined
+        {
+            add
+            {
+                groupChat.InviteWasDeclined += value;
+            }
+            remove
+            {
+                groupChat.InviteWasDeclined -= value;
+            }
+        }
+
+        /// <summary>
+        /// The event that is raised when the server responds with an error in relation to a group chat.
+        /// </summary>
+        public event EventHandler<GroupErrorEventArgs> GroupMucError
+        {
+            add
+            {
+                groupChat.MucErrorResponse += value;
+            }
+            remove
+            {
+                groupChat.MucErrorResponse -= value;
             }
         }
 
@@ -653,39 +704,6 @@ namespace Sharp.Xmpp.Client
             LoadExtensions();
         }
 
-
-        /// <summary>
-        /// Initializes a new instance of the XmppClient class.
-        /// </summary>
-        /// <param name="hostname">The hostname of the XMPP server to connect to.</param>
-        /// <param name="username">The username with which to authenticate. In XMPP jargon
-        /// this is known as the 'node' part of the JID.</param>
-        /// <param name="domain">XMPP user realm. </param>
-        /// <param name="password">The password with which to authenticate.</param>
-        /// <param name="port">The port number of the XMPP service of the server.</param>
-        /// <param name="tls">If true the session will be TLS/SSL-encrypted if the server
-        /// supports TLS/SSL-encryption.</param>
-        /// <param name="validate">A delegate used for verifying the remote Secure Sockets
-        /// Layer (SSL) certificate which is used for authentication. Can be null if not
-        /// needed.</param>
-        /// <exception cref="ArgumentNullException">The hostname parameter or the
-        /// username parameter or the password parameter is null.</exception>
-        /// <exception cref="ArgumentException">The hostname parameter or the username
-        /// parameter is the empty string.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">The value of the port parameter
-        /// is not a valid port number.</exception>
-        /// <remarks>Use this constructor if you wish to connect to an XMPP server using
-        /// an existing set of user credentials.</remarks>
-        public XmppClient(string hostname, string username, string domain, string password,
-            int port = 5222, bool tls = true, RemoteCertificateValidationCallback validate = null)
-        {
-            im = new XmppIm(hostname, username, domain, password, port, tls, validate);
-            // Initialize the various extension modules.
-            LoadExtensions();
-        }
-
-
-
         /// <summary>
         /// Initializes a new instance of the XmppClient class.
         /// </summary>
@@ -784,12 +802,12 @@ namespace Sharp.Xmpp.Client
         /// <include file='Examples.xml' path='S22/Xmpp/Client/XmppClient[@name="SendMessage-1"]/*'/>
         public void SendMessage(Jid to, string body, string subject = null,
             string thread = null, MessageType type = MessageType.Normal,
-            CultureInfo language = null, MediaItem mediaItem = null)
+            CultureInfo language = null)
         {
             AssertValid();
             to.ThrowIfNull("to");
             body.ThrowIfNullOrEmpty("body");
-			im.SendMessage(to, body, subject, thread, type, language, mediaItem);
+            im.SendMessage(to, body, subject, thread, type, language);
         }
 
         /// <summary>
@@ -824,12 +842,12 @@ namespace Sharp.Xmpp.Client
         /// <include file='Examples.xml' path='S22/Xmpp/Client/XmppClient[@name="SendMessage-2"]/*'/>
         public void SendMessage(Jid to, IDictionary<string, string> bodies,
             IDictionary<string, string> subjects = null, string thread = null,
-		                        MessageType type = MessageType.Normal, CultureInfo language = null, MediaItem mediaItem = null)
+            MessageType type = MessageType.Normal, CultureInfo language = null)
         {
             AssertValid();
             to.ThrowIfNull("to");
             bodies.ThrowIfNull("bodies");
-			im.SendMessage(to, bodies, subjects, thread, type, language, mediaItem);
+            im.SendMessage(to, bodies, subjects, thread, type, language);
         }
 
         /// <summary>
@@ -1072,11 +1090,11 @@ namespace Sharp.Xmpp.Client
         /// The following file types are supported:
         ///  BMP, GIF, JPEG, PNG and TIFF.
         /// </remarks>
-        public void SetAvatar(string filePath) {
-            AssertValid();
-            filePath.ThrowIfNull("filePath");
-            userAvatar.Publish(filePath);
-        }
+		public void SetAvatar(string filePath) {
+			AssertValid();
+			filePath.ThrowIfNull("filePath");
+			userAvatar.Publish(filePath);
+		}
 #endif
 
         /// <summary>
@@ -1119,10 +1137,14 @@ namespace Sharp.Xmpp.Client
         /// </summary>
         /// <param name="jid">The XMPP entity to request the custom IQ</param>
         /// <param name="str">The payload string to provide to the Request</param>
-        public void RequestCustomIq(Jid jid, string str)
+        /// <param name="callback">The callback method to call after the Request Result has being received. Included the serialised dat
+        /// of the answer to the request</param>
+        public void RequestCustomIq(Jid jid, string str, Action callback = null)
         {
             AssertValid();
-            cusiqextension.RequestCustomIqAsync(jid, str);
+            if (callback == null) cusiqextension.RequestCustomIq(jid, str);
+            else
+                cusiqextension.RequestCustomIqAsync(jid, str, callback);
         }
 
         /// <summary>
@@ -1620,71 +1642,6 @@ namespace Sharp.Xmpp.Client
         }
 
         /// <summary>
-        /// Fetch message history from the server.
-        ///
-        /// The 'start' and 'end' attributes MAY be specified to indicate a date range.
-        ///
-        /// If the 'with' attribute is omitted then collections with any JID are returned.
-        ///
-        /// If only 'start' is specified then all collections on or after that date should be returned.
-        ///
-        /// If only 'end' is specified then all collections prior to that date should be returned.
-        /// </summary>
-        /// <param name="pageRequest">Paging options</param>
-        /// <param name="start">Optional start date range to query</param>
-        /// <param name="end">Optional enddate range to query</param>
-        /// <param name="with">Optional JID to filter archive results by</param>
-        public XmppPage<ArchivedChatId> GetArchivedChatIds(XmppPageRequest pageRequest, DateTimeOffset? start = null, DateTimeOffset? end = null, Jid with = null)
-        {
-            return messageArchiving.GetArchivedChatIds(pageRequest, start, end, with);
-        }
-
-        /// <summary>
-        /// Fetch a page of archived messages from a chat
-        /// </summary>
-        /// <param name="pageRequest">Paging options</param>
-        /// <param name="with">The id of the entity that the chat was with</param>
-        /// <param name="start">The start time of the chat</param>
-        public ArchivedChatPage GetArchivedChat(XmppPageRequest pageRequest, Jid with, DateTimeOffset start)
-        {
-            return messageArchiving.GetArchivedChat(pageRequest, with, start);
-        }
-
-        /// <summary>
-        /// Fetch a page of archived messages
-        /// </summary>
-        /// <param name="pageRequest">Paging options</param>
-        /// <param name="with">Optional filter to only return messages if they match the supplied JID</param>
-        /// <param name="start">Optional filter to only return messages whose timestamp is equal to or later than the given timestamp.</param>
-        /// <param name="end">Optional filter to only return messages whose timestamp is equal to or earlier than the timestamp given in the 'end' field.</param>
-        public Task<XmppPage<Message>> GetArchivedMessages(XmppPageRequest pageRequest, Jid with = null, DateTimeOffset? start = null, DateTimeOffset? end = null)
-        {
-            return messageArchiveManagement.GetArchivedMessages(pageRequest, with, null, start, end);
-        }
-
-        /// <summary>
-        /// Fetch a page of archived messages from a multi-user chat room
-        /// </summary>
-        /// <param name="pageRequest">Paging options</param>
-        /// <param name="roomId">The JID of the room</param>
-        /// <param name="start">Optional filter to only return messages whose timestamp is equal to or later than the given timestamp.</param>
-        /// <param name="end">Optional filter to only return messages whose timestamp is equal to or earlier than the timestamp given in the 'end' field.</param>
-        public Task<XmppPage<Message>> GetArchivedMucMessages(XmppPageRequest pageRequest, Jid roomId, DateTimeOffset? start = null, DateTimeOffset? end = null)
-        {
-            return messageArchiveManagement.GetArchivedMessages(pageRequest, roomId, roomId, start, end);
-        }
-
-        /// <summary>
-        /// Fetch a page of archived messages from a chat
-        /// </summary>
-        /// <param name="pageRequest">Paging options</param>
-        /// <param name="chatId">The id of the chat</param>
-        public ArchivedChatPage GetArchivedChat(XmppPageRequest pageRequest, ArchivedChatId chatId)
-        {
-            return messageArchiving.GetArchivedChat(pageRequest, chatId);
-        }
-
-        /// <summary>
         /// Unblocks all communication to and from the XMPP entity with the specified
         /// JID.
         /// </summary>
@@ -1757,91 +1714,6 @@ namespace Sharp.Xmpp.Client
         }
 
         /// <summary>
-        /// Invite a user to a multi-user chat
-        /// </summary>
-        /// <param name="mucService">The MUC service which hosts the room</param>
-        /// <param name="roomName">The name of the room</param>
-        /// <param name="userId">The Jid of the user to invite</param>
-        /// <param name="reason">An optional reason for inviting the user to the room</param>
-        /// <param name="password">The password for the room</param>
-        public void InviteUserToMuc(Jid mucService, string roomName, Jid userId, string reason = null, string password = null)
-        {
-            directMucInvitations.InviteUserToMuc(mucService, roomName, userId, reason, password);
-        }
-
-        /// <summary>
-        /// Remove a user from a MUC
-        /// </summary>
-        /// <param name="mucService">The MUC service which hosts the room</param>
-        /// <param name="roomName">The name of the room</param>>
-        /// <param name="userName">The username of the user who should be removed</param>
-        /// <param name="reason">The (optional) reason that the user is being removed</param>
-        public bool RemoveUserFromMuc(Jid mucService, string roomName, string userName, string reason = null)
-        {
-            return multiUserChat.KickUser(mucService, roomName, userName, reason);
-        }
-
-        /// <summary>
-        /// Get a list of multi-user chat services that are hosted on the server
-        /// </summary>
-        public IList<Jid> GetMucServices()
-        {
-            return multiUserChat.GetMucServices();
-        }
-
-        /// <summary>
-        /// Create a multi-user chat room
-        /// </summary>
-        /// <param name="mucService">The MUC service which hosts the room</param>
-        /// <param name="roomName">The name of the room</param>
-        /// <param name="password">An optional password for the room</param>
-        public Task<JoinRoomResult> JoinRoom(Jid mucService, string roomName, string password = "")
-        {
-            return multiUserChat.JoinRoom(mucService, roomName, password);
-        }
-
-        /// <summary>
-        /// Leave a multi-user chat room
-        /// </summary>
-        /// <param name="mucService">The MUC service that is hosting the room</param>
-        /// <param name="roomName">The name of the room to leave</param>
-        /// <param name="status">An optional parting message</param>
-        public Task LeaveRoom(Jid mucService, string roomName, string status = "")
-        {
-            return multiUserChat.LeaveRoom(mucService, roomName, status);
-        }
-
-        /// <summary>
-        /// Get a list of multi-user chat rooms that are available on a service
-        /// </summary>
-        /// <param name="mucService">The Jid of the multi-user chat service to query</param>
-        public IList<XmppItem> GetRooms(Jid mucService)
-        {
-            return multiUserChat.GetRooms(mucService);
-        }
-
-        /// <summary>
-        /// Set the configuration of a multi-user chat room. Use GetRoomConfiguration first to discover configurable parameters.
-        /// </summary>
-        /// <param name="mucService">The MUC service that hosts the room</param>
-        /// <param name="roomName">The name of the room to configure</param>
-        /// <param name="form">Configuration values for the room</param>
-        public void SetRoomConfiguration(Jid mucService, string roomName, SubmitForm form)
-        {
-            multiUserChat.SetRoomConfiguration(mucService, roomName, form);
-        }
-
-        /// <summary>
-        /// Get the configuration of a multi-user chat room.
-        /// </summary>
-        /// <param name="mucService">The MUC service that hosts the room</param>
-        /// <param name="roomName">The name of the room to configure</param>
-        public RequestForm GetRoomConfiguration(Jid mucService, string roomName)
-        {
-            return multiUserChat.GetRoomConfiguration(mucService, roomName);
-        }
-
-        /// <summary>
         /// Returns an enumerable collection of blocked contacts.
         /// </summary>
         /// <returns>An enumerable collection of JIDs which are on the client's
@@ -1885,49 +1757,181 @@ namespace Sharp.Xmpp.Client
         }
 
         /// <summary>
-        /// Gets the list of commands the XMPP server supports for the current user
+        /// Returns a list of active public chat room messages.
         /// </summary>
-        /// <returns></returns>
-        public List<AdHocCommand> GetAdHocCommands()
+        /// <param name="chatService">JID of the chat service (depends on server)</param>
+        /// <returns>List of Room JIDs</returns>
+        public IEnumerable<RoomInfoBasic> DiscoverRooms(Jid chatService)
         {
             AssertValid();
-            return adHocCommands.GetAdHocCommands();
+            return groupChat.DiscoverRooms(chatService);
+        }
+
+
+        /// <summary>
+        /// Returns a list of active public chat room messages.
+        /// </summary>
+        /// <param name="chatRoom">Room Identifier</param>
+        /// <returns>Information about room</returns>
+        public RoomInfoExtended GetRoomInfo(Jid chatRoom)
+        {
+            AssertValid();
+            return groupChat.GetRoomInfo(chatRoom);
         }
 
         /// <summary>
-        /// Creates a new user
+        /// Joins or creates new room using the specified room.
         /// </summary>
-        public void AddUser(Jid userId, string password, string verifiedPassword, string email, string firstName, string lastName)
+        /// <param name="chatRoom">Chat room</param>
+        /// <param name="nickname">Desired nickname</param>
+        /// <param name="password">(Optional) Password</param>
+        public void JoinRoom(Jid chatRoom, string nickname, string password = null)
         {
             AssertValid();
-            serviceAdministration.AddUser(userId, password, verifiedPassword, email, firstName, lastName);
+            groupChat.JoinRoom(chatRoom, nickname, password);
         }
 
         /// <summary>
-        /// Deletes the user with the given ID
+        /// Leaves the specified room.
         /// </summary>
-        public void DeleteUser(Jid userId)
+        public void LeaveRoom(Jid chatRoom, string nickname)
         {
             AssertValid();
-            serviceAdministration.DeleteUser(userId);
+            groupChat.LeaveRoom(chatRoom, nickname);
         }
 
         /// <summary>
-        /// Enables the user with the given ID
+        /// Sends a request to get X previous messages.
         /// </summary>
-        public void EnableUser(Jid userId)
+        /// <param name="option">How long to look back</param>
+        public void GetGroupChatLog(History option)
         {
             AssertValid();
-            serviceAdministration.EnableUser(userId);
+            groupChat.GetMessageLog(option);
         }
 
         /// <summary>
-        /// Disables the user with the given ID
+        /// Requests a list of occupants within the specific room.
         /// </summary>
-        public void DisableUser(Jid userId)
+        public IEnumerable<Occupant> GetRoomAllOccupants(Jid chatRoom)
         {
             AssertValid();
-            serviceAdministration.DisableUser(userId);
+            return groupChat.GetMembers(chatRoom);
+        }
+
+        /// <summary>
+        /// Requests a list of non-members within the specified room.
+        /// </summary>
+        public IEnumerable<Occupant> GetRoomStrangers(Jid chatRoom)
+        {
+            AssertValid();
+            return groupChat.GetMembers(chatRoom, Affiliation.None);
+        }
+
+        /// <summary>
+        /// Requests a list of room members within the specified room.
+        /// </summary>
+        public IEnumerable<Occupant> GetRoomMembers(Jid chatRoom)
+        {
+            AssertValid();
+            return groupChat.GetMembers(chatRoom, Affiliation.Member);
+        }
+
+        /// <summary>
+        /// Requests a list of room owners within the specified room.
+        /// </summary>
+        public IEnumerable<Occupant> GetRoomOwners(Jid chatRoom)
+        {
+            AssertValid();
+            return groupChat.GetMembers(chatRoom, Affiliation.Owner);
+        }
+
+        /// <summary>
+        /// Requests a list of people banned within the specified room.
+        /// </summary>
+        public IEnumerable<Occupant> GetRoomBanList(Jid chatRoom)
+        {
+            AssertValid();
+            return groupChat.GetMembers(chatRoom, Affiliation.Outcast);
+        }
+
+        /// <summary>
+        /// Requests a list of visitors within the specified room.
+        /// </summary>
+        public IEnumerable<Occupant> GetRoomVisitors(Jid chatRoom)
+        {
+            AssertValid();
+            return groupChat.GetMembers(chatRoom, Role.Visitor);
+        }
+
+        /// <summary>
+        /// Requests a list of occupants with a voice privileges within the specified room.
+        /// </summary>
+        public IEnumerable<Occupant> GetRoomVoiceList(Jid chatRoom)
+        {
+            AssertValid();
+            return groupChat.GetMembers(chatRoom, Role.Participant);
+        }
+
+        /// <summary>
+        /// Requests a list of moderators within the specified room.
+        /// </summary>
+        public IEnumerable<Occupant> GetRoomModerators(Jid chatRoom)
+        {
+            AssertValid();
+            return groupChat.GetMembers(chatRoom, Role.Moderator);
+        }
+        
+        /// <summary>
+        /// Allows moderators to kick an occupant from the room.
+        /// </summary>
+        /// <param name="chatRoom">chat room</param>
+        /// <param name="nickname">user to kick</param>
+        /// <param name="reason">reason for kick</param>
+        public void KickGroupOccupant(Jid chatRoom, string nickname, string reason = null)
+        {
+            groupChat.KickOccupant(chatRoom, nickname, reason);
+        }
+
+        /// <summary>
+        /// Allows a user to modify the configuration of a specified room.
+        /// Only "Room Owners" may edit room config.
+        /// </summary>
+        /// <param name="room">JID of the room.</param>
+        /// <param name="callback">Room Configuration callback.</param>
+        public void ModifyRoomConfig(Jid room, RegistrationCallback callback)
+        {
+            groupChat.ModifyRoomConfig(room, callback);
+        }
+
+        /// <summary>
+        /// Asks the chat service to invite the specified user to the chat room you specify.
+        /// </summary>
+        /// <param name="to">user you intend to invite to chat room.</param>
+        /// <param name="message">message you want to send to the user.</param>
+        /// <param name="chatRoom">Jid of the chat room.</param>
+        /// <param name="password">Password if any.</param>
+        public void SendInvite(Jid to, Jid chatRoom, string message, string password = null)
+        {
+            groupChat.SendInvite(to, chatRoom, message, password);
+        }
+
+        /// <summary>
+        /// Responds to a group chat invitation with a decline message.
+        /// </summary>
+        /// <param name="invite">Original group chat invitation.</param>
+        /// <param name="reason">Reason for declining.</param>
+        public void DeclineInvite(Invite invite, string reason)
+        {
+            groupChat.DeclineInvite(invite, reason);
+        }
+
+        /// <summary>
+        /// Allows visitors to request membership to a room.
+        /// </summary>
+        public void RequestVoice(Jid chatRoom)
+        {
+            groupChat.RequestPrivilige(chatRoom, Role.Participant);
         }
 
         /// <summary>
@@ -2008,7 +2012,7 @@ namespace Sharp.Xmpp.Client
             pep = im.LoadExtension<Pep>();
             userTune = im.LoadExtension<UserTune>();
 #if WINDOWSPLATFORM
-            userAvatar = im.LoadExtension<UserAvatar>();
+			userAvatar = im.LoadExtension<UserAvatar>();
 #endif
             userMood = im.LoadExtension<UserMood>();
             dataForms = im.LoadExtension<DataForms>();
@@ -2027,12 +2031,7 @@ namespace Sharp.Xmpp.Client
             bitsOfBinary = im.LoadExtension<BitsOfBinary>();
             vcardAvatars = im.LoadExtension<VCardAvatars>();
             cusiqextension = im.LoadExtension<CustomIqExtension>();
-            messageArchiving = im.LoadExtension<MessageArchiving>();
-            messageArchiveManagement = im.LoadExtension<MessageArchiveManagement>();
-            multiUserChat = im.LoadExtension<MultiUserChat>();
-            serviceAdministration = im.LoadExtension<ServiceAdministration>();
-            adHocCommands = im.LoadExtension<AdHocCommands>();
-            directMucInvitations = im.LoadExtension<DirectMucInvitations>();
+            groupChat = im.LoadExtension<MultiUserChat>();
         }
     }
 }

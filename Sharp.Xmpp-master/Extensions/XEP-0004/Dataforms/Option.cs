@@ -21,7 +21,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
             get
             {
                 var v = element.GetAttribute("label");
-                return string.IsNullOrEmpty(v) ? null : v;
+                return String.IsNullOrEmpty(v) ? null : v;
             }
 
             private set

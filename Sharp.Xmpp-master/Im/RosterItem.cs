@@ -99,7 +99,7 @@ namespace Sharp.Xmpp.Im
             {
                 foreach (string s in groups)
                 {
-                    if (string.IsNullOrEmpty(s))
+                    if (String.IsNullOrEmpty(s))
                         continue;
                     this.groups.Add(s);
                 }

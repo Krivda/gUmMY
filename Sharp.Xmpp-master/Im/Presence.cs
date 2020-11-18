@@ -24,11 +24,11 @@ namespace Sharp.Xmpp.Im
                 type = value;
                 // Availability is indicated in XMPP by a missing 'type' attribute.
                 if (value == PresenceType.Available)
-                    Element.RemoveAttribute("type");
+                    element.RemoveAttribute("type");
                 else
                 {
                     var v = value.ToString().ToLowerInvariant();
-                    Element.SetAttribute("type", v);
+                    element.SetAttribute("type", v);
                 }
             }
         }
@@ -51,7 +51,7 @@ namespace Sharp.Xmpp.Im
         {
             presence.ThrowIfNull("presence");
             type = ParseType(presence.Data.GetAttribute("type"));
-            Element = presence.Data;
+            element = presence.Data;
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Sharp.Xmpp.Im
         {
             // The 'type' attribute of presence-stanzas is optional and if absent
             // availability is assumed.
-            if (string.IsNullOrEmpty(value))
+            if (String.IsNullOrEmpty(value))
                 return PresenceType.Available;
             return (PresenceType)Enum.Parse(typeof(PresenceType),
                 value.Capitalize());

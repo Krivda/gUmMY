@@ -47,7 +47,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
             string description = null, params Jid[] values)
             : base(DataFieldType.TextMulti, name, required, label, description)
         {
-            this.values = new XmlCollection<Jid>(Element, "value", e => new Jid(Element.InnerText));
+            this.values = new XmlCollection<Jid>(element, "value", e => new Jid(element.InnerText));
             if (values != null)
             {
                 foreach (Jid s in values)

@@ -33,7 +33,14 @@ namespace Sharp.Xmpp.Extensions
         /// The value of the 'node' attribute of the 'e' element, which should
         /// be an URI according to specification.
         /// </summary>
-        private const string nodeUri = "Sharp.Xmpp";
+        private string nodeUri
+        {
+            get
+            {
+                // FIXME: Move this to a resource file or to assembly metadata?
+                return "Sharp.Xmpp";
+            }
+        }
 
         /// <summary>
         /// An enumerable collection of XMPP namespaces the extension implements.
@@ -66,7 +73,7 @@ namespace Sharp.Xmpp.Extensions
         public override void Initialize()
         {
             // Get a reference to the SDisco extension.
-            sdisco = IM.GetExtension<ServiceDiscovery>();
+            sdisco = im.GetExtension<ServiceDiscovery>();
         }
 
         /// <summary>
@@ -82,7 +89,7 @@ namespace Sharp.Xmpp.Extensions
                 return false;
             string hash = c.GetAttribute("hash"), ver = c.GetAttribute("ver"),
                 node = c.GetAttribute("node");
-            if (string.IsNullOrEmpty(hash) || string.IsNullOrWhiteSpace(ver))
+            if (String.IsNullOrEmpty(hash) || String.IsNullOrWhiteSpace(ver))
                 return false;
             hashes[stanza.From] = ver;
             // Don't swallow the presence stanza.
@@ -165,7 +172,7 @@ namespace Sharp.Xmpp.Extensions
         public bool Supports<T>(Jid jid) where T : XmppExtension
         {
             jid.ThrowIfNull("jid");
-            T ext = IM.GetExtension<T>();
+            T ext = im.GetExtension<T>();
             return Supports(jid, ext.Xep);
         }
 
@@ -280,14 +287,14 @@ namespace Sharp.Xmpp.Extensions
         private HashAlgorithm ParseHashAlgorithm(string algorithm)
         {
             algorithm.ThrowIfNull("algorithm");
-            var dict = new Dictionary<string, Func<HashAlgorithm>>(StringComparer.InvariantCultureIgnoreCase)
-            {
-                { "sha-1",   () => new SHA1Managed() },
-                { "sha-256", () => new SHA256Managed() },
-                { "sha-384", () => new SHA384Managed() },
-                { "sha-512", () => new SHA512Managed() },
-                { "md5",     () => new MD5CryptoServiceProvider() },
-            };
+            var dict = new Dictionary<string, Func<HashAlgorithm>>
+                (StringComparer.InvariantCultureIgnoreCase) {
+				{ "sha-1",   () => new SHA1Managed() },
+				{ "sha-256", () => new SHA256Managed() },
+				{ "sha-384", () => new SHA384Managed() },
+				{ "sha-512", () => new SHA512Managed() },
+				{ "md5",     () => new MD5CryptoServiceProvider() },
+			};
             return dict.ContainsKey(algorithm) ? dict[algorithm].Invoke() : null;
         }
     }

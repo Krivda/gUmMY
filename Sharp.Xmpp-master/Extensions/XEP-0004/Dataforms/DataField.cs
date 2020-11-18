@@ -14,16 +14,10 @@ namespace Sharp.Xmpp.Extensions.Dataforms
     /// typed data-fields impossible.</remarks>
     public class DataField
     {
-        private const string xmlns = "jabber:x:data";
-
         /// <summary>
         /// The underlying XML element representing the data-field.
         /// </summary>
-        protected XmlElement Element
-        {
-            get;
-            set;
-        }
+        protected XmlElement element;
 
         /// <summary>
         /// A human-readable name for the field.
@@ -32,16 +26,16 @@ namespace Sharp.Xmpp.Extensions.Dataforms
         {
             get
             {
-                var v = Element.GetAttribute("label");
-                return string.IsNullOrEmpty(v) ? null : v;
+                var v = element.GetAttribute("label");
+                return String.IsNullOrEmpty(v) ? null : v;
             }
 
             private set
             {
                 if (value == null)
-                    Element.RemoveAttribute("label");
+                    element.RemoveAttribute("label");
                 else
-                    Element.SetAttribute("label", value);
+                    element.SetAttribute("label", value);
             }
         }
 
@@ -53,25 +47,25 @@ namespace Sharp.Xmpp.Extensions.Dataforms
         {
             get
             {
-                if (Element["desc"] != null)
-                    return Element["desc"].InnerText;
+                if (element["desc"] != null)
+                    return element["desc"].InnerText;
                 return null;
             }
 
             private set
             {
-                var e = Element["desc"];
+                var e = element["desc"];
                 if (e != null)
                 {
                     if (value == null)
-                        Element.RemoveChild(e);
+                        element.RemoveChild(e);
                     else
                         e.InnerText = value;
                 }
                 else
                 {
                     if (value != null)
-                        Element.Child(Xml.Element("desc", xmlns).Text(value));
+                        element.Child(Xml.Element("desc").Text(value));
                 }
             }
         }
@@ -83,20 +77,20 @@ namespace Sharp.Xmpp.Extensions.Dataforms
         {
             get
             {
-                return Element["required"] != null;
+                return element["required"] != null;
             }
 
             private set
             {
                 if (value == false)
                 {
-                    if (Element["required"] != null)
-                        Element.RemoveChild(Element["required"]);
+                    if (element["required"] != null)
+                        element.RemoveChild(element["required"]);
                 }
                 else
                 {
-                    if (Element["required"] == null)
-                        Element.Child(Xml.Element("required", xmlns));
+                    if (element["required"] == null)
+                        element.Child(Xml.Element("required"));
                 }
             }
         }
@@ -108,16 +102,16 @@ namespace Sharp.Xmpp.Extensions.Dataforms
         {
             get
             {
-                var v = Element.GetAttribute("var");
-                return string.IsNullOrEmpty(v) ? null : v;
+                var v = element.GetAttribute("var");
+                return String.IsNullOrEmpty(v) ? null : v;
             }
 
             private set
             {
                 if (value == null)
-                    Element.RemoveAttribute("var");
+                    element.RemoveAttribute("var");
                 else
-                    Element.SetAttribute("var", value);
+                    element.SetAttribute("var", value);
             }
         }
 
@@ -146,7 +140,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
         /// data-field.</returns>
         public override string ToString()
         {
-            return Element.ToXmlString();
+            return element.ToXmlString();
         }
 
         /// <summary>
@@ -155,7 +149,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
         /// <returns>An XmlElement representing the data-field.</returns>
         public XmlElement ToXmlElement()
         {
-            return Element;
+            return element;
         }
 
         /// <summary>
@@ -166,7 +160,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
             get
             {
                 ISet<string> set = new HashSet<string>();
-                foreach (XmlElement e in Element.GetElementsByTagName("value"))
+                foreach (XmlElement e in element.GetElementsByTagName("value"))
                     set.Add(e.InnerText);
                 return set;
             }
@@ -186,7 +180,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
         public DataField(DataFieldType type, string name = null, bool required = false,
             string label = null, string description = null)
         {
-            Element = Xml.Element("field", xmlns);
+            element = Xml.Element("field");
             Type = type;
             Name = name;
             Required = required;
@@ -207,7 +201,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
         internal DataField(XmlElement element)
         {
             element.ThrowIfNull("element");
-            this.Element = element;
+            this.element = element;
             try
             {
                 // Call GetDataFieldType method to verify the 'type' attribute.
@@ -243,11 +237,11 @@ namespace Sharp.Xmpp.Extensions.Dataforms
         private void SetType(DataFieldType? type)
         {
             if (!type.HasValue)
-                Element.RemoveAttribute("type");
+                element.RemoveAttribute("type");
             else
             {
                 string value = TypeToAttributeValue(type.Value);
-                Element.SetAttribute("type", value);
+                element.SetAttribute("type", value);
             }
         }
 
@@ -263,9 +257,9 @@ namespace Sharp.Xmpp.Extensions.Dataforms
             string s = type.ToString();
             for (int i = 0; i < s.Length; i++)
             {
-                if (char.IsUpper(s, i) && i > 0)
+                if (Char.IsUpper(s, i) && i > 0)
                     b.Append('-');
-                b.Append(char.ToLower(s[i]));
+                b.Append(Char.ToLower(s[i]));
             }
             return b.ToString();
         }
@@ -290,7 +284,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
             for (int i = 0; i < s.Length; i++)
             {
                 if (s[i] == '-')
-                    b.Append(char.ToUpper(s[++i]));
+                    b.Append(Char.ToUpper(s[++i]));
                 else
                     b.Append(s[i]);
             }
@@ -309,8 +303,8 @@ namespace Sharp.Xmpp.Extensions.Dataforms
         {
             try
             {
-                string t = Element.GetAttribute("type");
-                if (string.IsNullOrEmpty(t))
+                string t = element.GetAttribute("type");
+                if (String.IsNullOrEmpty(t))
                     return null;
                 return AttributeValueToType(t);
             }

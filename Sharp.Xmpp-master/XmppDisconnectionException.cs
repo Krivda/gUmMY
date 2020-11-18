@@ -6,16 +6,13 @@ namespace Sharp.Xmpp
     /// <summary>
     /// The exception that is thrown when a generic XMPP error condition has been encountered.
     /// </summary>
-    [Serializable]
+    [Serializable()]
     public class XmppDisconnectionException : Exception
     {
         /// <summary>
         /// Initializes a new instance of the XmppException class
         /// </summary>
-        public XmppDisconnectionException()
-            : base()
-        {
-        }
+        public XmppDisconnectionException() : base() { }
 
         /// <summary>
         /// Initializes a new instance of the XmppException class with its message
@@ -23,10 +20,7 @@ namespace Sharp.Xmpp
         /// </summary>
         /// <param name="message">A description of the error. The content of message is intended
         /// to be understood by humans.</param>
-        public XmppDisconnectionException(string message)
-            : base(message)
-        {
-        }
+        public XmppDisconnectionException(string message) : base(message) { }
 
         /// <summary>
         /// Initializes a new instance of the XmppException class with its message
@@ -36,10 +30,7 @@ namespace Sharp.Xmpp
         /// <param name="message">A description of the error. The content of message is intended
         /// to be understood by humans.</param>
         /// <param name="inner">The exception that is the cause of the current exception.</param>
-        public XmppDisconnectionException(string message, Exception inner)
-            : base(message, inner)
-        {
-        }
+        public XmppDisconnectionException(string message, Exception inner) : base(message, inner) { }
 
         /// <summary>
         /// Initializes a new instance of the XmppException class with the specified
@@ -50,8 +41,6 @@ namespace Sharp.Xmpp
         /// <param name="context">An object that contains contextual information about the source
         /// or destination. </param>
         protected XmppDisconnectionException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
+            : base(info, context) { }
     }
 }

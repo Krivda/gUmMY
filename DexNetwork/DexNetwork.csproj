@@ -188,7 +188,7 @@
       <Name>ConsoleStream</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sharp.Xmpp-master\Sharp.Xmpp.csproj">
-      <Project>{9EA99E39-8C5C-4F69-9F3F-8E3074C518FA}</Project>
+      <Project>{9ea99e39-8c5c-4f69-9f3f-8e3074c518fa}</Project>
       <Name>Sharp.Xmpp</Name>
     </ProjectReference>
   </ItemGroup>

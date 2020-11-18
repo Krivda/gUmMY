@@ -48,7 +48,7 @@ namespace Sharp.Xmpp.Extensions
         {
             get
             {
-                return ecapa.Supports(IM.Jid.Domain, Extension.BlockingCommand);
+                return ecapa.Supports(im.Jid.Domain, Extension.BlockingCommand);
             }
         }
 
@@ -57,7 +57,7 @@ namespace Sharp.Xmpp.Extensions
         /// </summary>
         public override void Initialize()
         {
-            ecapa = IM.GetExtension<EntityCapabilities>();
+            ecapa = im.GetExtension<EntityCapabilities>();
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Sharp.Xmpp.Extensions
             if (elem.NamespaceURI != "urn:xmpp:blocking")
                 return false;
             // Acknowledge the "push" request.
-            IM.IqResult(stanza);
+            im.IqResult(stanza);
             // Raise events for blocked/unblocked items.
             foreach (XmlElement item in elem.GetElementsByTagName("item"))
             {
@@ -120,12 +120,12 @@ namespace Sharp.Xmpp.Extensions
         public IEnumerable<Jid> GetBlocklist()
         {
             // Probe for server support.
-            if (!ecapa.Supports(IM.Jid.Domain, Extension.BlockingCommand))
+            if (!ecapa.Supports(im.Jid.Domain, Extension.BlockingCommand))
             {
                 throw new NotSupportedException("The server does not support " +
                     "the 'Blocking Command' extension.");
             }
-            Iq iq = IM.IqRequest(IqType.Get, null, IM.Jid,
+            Iq iq = im.IqRequest(IqType.Get, null, im.Jid,
                 Xml.Element("blocklist", "urn:xmpp:blocking"));
             if (iq.Type == IqType.Error)
                 throw Util.ExceptionFromError(iq, "The blocklist could not be retrieved.");
@@ -166,12 +166,12 @@ namespace Sharp.Xmpp.Extensions
         {
             jid.ThrowIfNull("jid");
             // Probe for server support.
-            if (!ecapa.Supports(IM.Jid.Domain, Extension.BlockingCommand))
+            if (!ecapa.Supports(im.Jid.Domain, Extension.BlockingCommand))
             {
                 throw new NotSupportedException("The server does not support " +
                     "the 'Blocking Command' extension.");
             }
-            Iq iq = IM.IqRequest(IqType.Set, null, IM.Jid,
+            Iq iq = im.IqRequest(IqType.Set, null, im.Jid,
                 Xml.Element("block", "urn:xmpp:blocking").Child(
                 Xml.Element("item").Attr("jid", jid.ToString())));
             if (iq.Type == IqType.Error)
@@ -197,12 +197,12 @@ namespace Sharp.Xmpp.Extensions
         {
             jid.ThrowIfNull("jid");
             // Probe for server support.
-            if (!ecapa.Supports(IM.Jid.Domain, Extension.BlockingCommand))
+            if (!ecapa.Supports(im.Jid.Domain, Extension.BlockingCommand))
             {
                 throw new NotSupportedException("The server does not support " +
                     "the 'Blocking Command' extension.");
             }
-            Iq iq = IM.IqRequest(IqType.Set, null, IM.Jid,
+            Iq iq = im.IqRequest(IqType.Set, null, im.Jid,
                 Xml.Element("unblock", "urn:xmpp:blocking").Child(
                 Xml.Element("item").Attr("jid", jid.ToString())));
             if (iq.Type == IqType.Error)

@@ -28,11 +28,11 @@
         /// <summary>
         /// The user or resource is busy.
         /// </summary>
-        DoNotDisturb,
+        Dnd,
 
         /// <summary>
         /// The user or resource is away for an extended period.
         /// </summary>
-        ExtendedAway
+        Xa
     }
 }

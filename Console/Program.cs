@@ -12,20 +12,54 @@ namespace Console
     class Program
     {
 
-        static string hostname = "xmpp.co";
-        static string username = "calvin"; //gr8b@cyberspace
-        static string password = "fraudfraudfraud"; //639924
+        //        static string hostname = "xmpp.co";
+        //        static string username = "calvin"; //gr8b@cyberspace
+        //        static string password = "fraudfraudfraud"; //639924
+
+
+//        static string hostname = "parfenow.ru";
+//        static string username = "test1"; //gr8b@cyberspace
+//        static string password = "123456"; //639924
+
+        static string hostname = "matrix.evarun.ru";
+        static string username = "gr8b"; //gr8b@cyberspace
+        static string password = "123456"; //639924
+
+
 
         // we will wait on this event until we're done sending
         static ManualResetEvent done = new ManualResetEvent(false);
 
         // if true, output protocol trace to stdout
         const bool VERBOSE = true;
-        const string TARGET = "backfire@xmpp.co";
+        const string TARGET = "backfire@xabber.org";
 
 
         static void Main(string[] args)
         {
+            if (args.Length > 0)
+            {
+                hostname = args[0];
+            }
+
+            if (args.Length > 1)
+            {
+                username = args[1];
+            }
+
+            if (args.Length > 2)
+            {
+                password = args[2];
+            }
+
+            bool sharpLib = true;
+            if (args.Length > 3)
+            {
+                if (args[3].Equals("jnet"))
+                {
+                    sharpLib = false;
+                }
+            }
 
             /*Адрес сервера: cyberspace.alice.digital
             Логин: calvin276 @cyberspace
@@ -37,7 +71,16 @@ namespace Console
             */
             //calvin@xmpp.co
 
-            SharpVar();
+            if (sharpLib)
+            {
+                SharpVar();
+            }
+            else;
+
+            {
+                Jnet();
+            }
+
             //Jnet();
 
         }
@@ -57,7 +100,7 @@ namespace Console
 
         private static void SharpVar()
         {
-            using (XmppClient client = new XmppClient(hostname, username, "xmpp.co", password, tls: true))
+            using (XmppClient client = new XmppClient(hostname, username, password, tls: true))
             {
                 // Setup any event handlers.
                 // ...
@@ -106,6 +149,9 @@ namespace Console
                 j.User = username;
                 j.Server = hostname; // use gmail.com for GoogleTalk
                 j.Password = password;
+                j.AutoStartTLS = true;
+                j.RequiresSASL = true;
+                j.SSL = true;
 
                 // don't do extra stuff, please.
                 j.AutoPresence = false;

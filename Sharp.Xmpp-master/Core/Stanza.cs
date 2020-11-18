@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.Xml;
-using System.Xml.Linq;
 
 namespace Sharp.Xmpp.Core
 {
@@ -14,10 +13,15 @@ namespace Sharp.Xmpp.Core
         /// <summary>
         /// The XmlElement containing the actual data.
         /// </summary>
-        protected XmlElement Element
+        protected XmlElement element;
+
+        /// <summary>
+        /// The tag name of the stanza's root element
+        /// Allows the element tag name to be overridden.
+        /// </summary>
+        protected virtual string RootElementName
         {
-            get;
-            set;
+            get { return GetType().Name.ToLowerInvariant(); }
         }
 
         /// <summary>
@@ -27,16 +31,16 @@ namespace Sharp.Xmpp.Core
         {
             get
             {
-                string v = Element.GetAttribute("to");
-                return string.IsNullOrEmpty(v) ? null : new Jid(v);
+                string v = element.GetAttribute("to");
+                return String.IsNullOrEmpty(v) ? null : new Jid(v);
             }
 
             set
             {
                 if (value == null)
-                    Element.RemoveAttribute("to");
+                    element.RemoveAttribute("to");
                 else
-                    Element.SetAttribute("to", value.ToString());
+                    element.SetAttribute("to", value.ToString());
             }
         }
 
@@ -48,16 +52,16 @@ namespace Sharp.Xmpp.Core
         {
             get
             {
-                string v = Element.GetAttribute("from");
-                return string.IsNullOrEmpty(v) ? null : new Jid(v);
+                string v = element.GetAttribute("from");
+                return String.IsNullOrEmpty(v) ? null : new Jid(v);
             }
 
             set
             {
                 if (value == null)
-                    Element.RemoveAttribute("from");
+                    element.RemoveAttribute("from");
                 else
-                    Element.SetAttribute("from", value.ToString());
+                    element.SetAttribute("from", value.ToString());
             }
         }
 
@@ -68,16 +72,16 @@ namespace Sharp.Xmpp.Core
         {
             get
             {
-                var v = Element.GetAttribute("id");
-                return string.IsNullOrEmpty(v) ? null : v;
+                var v = element.GetAttribute("id");
+                return String.IsNullOrEmpty(v) ? null : v;
             }
 
             set
             {
                 if (value == null)
-                    Element.RemoveAttribute("id");
+                    element.RemoveAttribute("id");
                 else
-                    Element.SetAttribute("id", value);
+                    element.SetAttribute("id", value);
             }
         }
 
@@ -89,16 +93,16 @@ namespace Sharp.Xmpp.Core
         {
             get
             {
-                string v = Element.GetAttribute("xml:lang");
-                return string.IsNullOrEmpty(v) ? null : new CultureInfo(v);
+                string v = element.GetAttribute("xml:lang");
+                return String.IsNullOrEmpty(v) ? null : new CultureInfo(v);
             }
 
             set
             {
                 if (value == null)
-                    Element.RemoveAttribute("xml:lang");
+                    element.RemoveAttribute("xml:lang");
                 else
-                    Element.SetAttribute("xml:lang", value.Name);
+                    element.SetAttribute("xml:lang", value.Name);
             }
         }
 
@@ -109,7 +113,7 @@ namespace Sharp.Xmpp.Core
         {
             get
             {
-                return Element;
+                return element;
             }
         }
 
@@ -138,8 +142,7 @@ namespace Sharp.Xmpp.Core
             Jid from = null, string id = null, CultureInfo language = null,
             params XmlElement[] data)
         {
-            string name = GetType().Name.ToLowerInvariant();
-            Element = Xml.Element(name, @namespace);
+            element = Xml.Element(RootElementName, @namespace);
             To = to;
             From = from;
             Id = id;
@@ -147,7 +150,7 @@ namespace Sharp.Xmpp.Core
             foreach (XmlElement e in data)
             {
                 if (e != null)
-                    Element.Child(e);
+                    element.Child(e);
             }
         }
 
@@ -161,16 +164,7 @@ namespace Sharp.Xmpp.Core
         protected Stanza(XmlElement element)
         {
             element.ThrowIfNull("element");
-            this.Element = element;
-        }
-
-        /// <summary>
-        /// Converts the data XmlElement to an XElement.
-        /// </summary>
-        /// <returns>The data of the stanza as an XElement.</returns>
-        public XElement DataXElememt()
-        {
-            return XElement.Parse(this.ToString());
+            this.element = element;
         }
 
         /// <summary>
@@ -179,7 +173,30 @@ namespace Sharp.Xmpp.Core
         /// <returns>A textual representation of this Stanza instance.</returns>
         public override string ToString()
         {
-            return Element.ToXmlString();
+            return element.ToXmlString();
+        }
+
+        /// <summary>
+        /// Recursively traverses the element using the given node list.
+        /// </summary>
+        /// <param name="nodeList">Tree of element name tags.</param>
+        /// <returns>null or with the requested xml element.</returns>
+        protected XmlElement GetNode(params string[] nodeList)
+        {
+            return GetNode(element, 0, nodeList);
+        }
+
+        /// <summary>
+        /// Recursively traverses the element using the given node list.
+        /// </summary>
+        /// <param name="node">Current node in the node list.</param>
+        /// <param name="depth">Current depth in the node list.</param>
+        /// <param name="nodeList">Tree of element name tags.</param>
+        /// <returns>null or with the requested xml element.</returns>
+        private XmlElement GetNode(XmlElement node, int depth, params string[] nodeList)
+        {
+            XmlElement child = node[nodeList[depth]];
+            return child == null || depth == nodeList.Length - 1 ? child : GetNode(child, depth + 1, nodeList);
         }
     }
 }

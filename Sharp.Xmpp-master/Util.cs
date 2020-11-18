@@ -1,7 +1,6 @@
 ﻿using Sharp.Xmpp.Core;
 using System;
 using System.Xml;
-using System.Xml.Linq;
 
 namespace Sharp.Xmpp
 {
@@ -11,7 +10,7 @@ namespace Sharp.Xmpp
     internal static class Util
     {
         /// <summary>
-        /// Creates an exception from the specified Iq stanza. 3
+        /// Creates an exception from the specified Iq stanza.
         /// </summary>
         /// <param name="errorIq">The Iq stanza to create the exception from. The
         /// stanza must be of type IqType.Error.</param>
@@ -167,7 +166,7 @@ namespace Sharp.Xmpp
         {
             if (s == null)
                 throw new ArgumentNullException();
-            if (s == string.Empty)
+            if (s == String.Empty)
                 throw new ArgumentException();
         }
 
@@ -182,7 +181,7 @@ namespace Sharp.Xmpp
         {
             if (s == null)
                 throw new ArgumentNullException(name);
-            if (s == string.Empty)
+            if (s == String.Empty)
                 throw new ArgumentException(name + " must not be empty.");
         }
 
@@ -220,53 +219,6 @@ namespace Sharp.Xmpp
             if (!typeof(T).IsEnum)
                 throw new ArgumentException("T must be an enumerated type.");
             return (T)Enum.Parse(typeof(T), value, ignoreCase);
-        }
-
-        public static XmlElement ToXmlElement(this XElement source)
-        {
-            if (source == null)
-            {
-                return null;
-            }
-
-            var xml = new XmlDocument();
-            xml.LoadXml(source.ToString());
-            return xml.DocumentElement;
-        }
-
-        public static void ThrowIfError(this Iq source)
-        {
-            // do not throw error if the IQ is good
-            if (source == null || source.Type != IqType.Error)
-            {
-                return;
-            }
-
-            // throw unspecified error if no error element exists
-            var errorElement = source.Data["error"];
-            if (errorElement == null)
-            {
-                throw new XmppException("An unspecified error occured");
-            }
-
-            // parse error
-            XmppError error;
-            try
-            {
-                error = new XmppError(errorElement);
-            }
-            catch
-            {
-                throw new XmppException("An unspecified error occured");
-            }
-
-            // throw error (using error text or error condition)
-            if (!string.IsNullOrEmpty(error.Text))
-            {
-                throw new XmppErrorException(error, error.Text);
-            }
-
-            throw new XmppErrorException(error, error.Condition.ToString());
         }
     }
 }

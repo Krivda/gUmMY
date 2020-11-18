@@ -26,17 +26,17 @@ namespace Sharp.Xmpp.Extensions.Dataforms
 
             private set
             {
-                if (Element["value"] != null)
+                if (element["value"] != null)
                 {
                     if (value == null)
-                        Element.RemoveChild(Element["value"]);
+                        element.RemoveChild(element["value"]);
                     else
-                        Element["value"].InnerText = value.ToString();
+                        element["value"].InnerText = value.ToString();
                 }
                 else
                 {
                     if (value != null)
-                        Element.Child(Xml.Element("value").Text(value.ToString()));
+                        element.Child(Xml.Element("value").Text(value.ToString()));
                 }
             }
         }
@@ -109,7 +109,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
         /// is not a valid JID.</exception>
         private Jid GetJid()
         {
-            XmlElement v = Element["value"];
+            XmlElement v = element["value"];
             try
             {
                 return v != null ? new Jid(v.InnerText) : null;

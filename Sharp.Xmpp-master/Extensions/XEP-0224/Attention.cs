@@ -44,7 +44,7 @@ namespace Sharp.Xmpp.Extensions
         /// </summary>
         public override void Initialize()
         {
-            ecapa = IM.GetExtension<EntityCapabilities>();
+            ecapa = im.GetExtension<EntityCapabilities>();
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Sharp.Xmpp.Extensions
             Im.Message m = new Im.Message(jid, message);
             // Add the 'attention' element to the message.
             m.Data.Child(Xml.Element("attention", "urn:xmpp:attention:0"));
-            IM.SendMessage(m);
+            im.SendMessage(m);
         }
     }
 }

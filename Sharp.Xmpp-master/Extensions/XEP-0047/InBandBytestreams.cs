@@ -38,10 +38,9 @@ namespace Sharp.Xmpp.Extensions
         {
             get
             {
-                return new string[]
-                {
-                    "http://jabber.org/protocol/ibb"
-                };
+                return new string[] {
+					"http://jabber.org/protocol/ibb"
+				};
             }
         }
 
@@ -73,8 +72,8 @@ namespace Sharp.Xmpp.Extensions
         /// </summary>
         public override void Initialize()
         {
-            siFileTransfer = IM.GetExtension<SIFileTransfer>();
-            ecapa = IM.GetExtension<EntityCapabilities>();
+            siFileTransfer = im.GetExtension<SIFileTransfer>();
+            ecapa = im.GetExtension<EntityCapabilities>();
         }
 
         /// <summary>
@@ -116,12 +115,12 @@ namespace Sharp.Xmpp.Extensions
                         throw new ArgumentException("Invalid stanza element.");
                 }
                 // Acknowledge the IQ request.
-                IM.IqResult(stanza);
+                im.IqResult(stanza);
             }
             catch (Exception ex)
             {
                 // Send an error response.
-                IM.IqError(stanza, ErrorType.Cancel, ErrorCondition.ServiceUnavailable,
+                im.IqError(stanza, ErrorType.Cancel, ErrorCondition.ServiceUnavailable,
                     ex.Message);
                 // If there is an open stream associated with the session id, we should
                 // dispose of it.
@@ -171,7 +170,7 @@ namespace Sharp.Xmpp.Extensions
                         .Attr("seq", seq.ToString())
                         .Text(b64);
                     seq++;
-                    Iq response = IM.IqRequest(IqType.Set, session.To, IM.Jid, data);
+                    Iq response = im.IqRequest(IqType.Set, session.To, im.Jid, data);
                     if (response.Type == IqType.Error)
                         throw Util.ExceptionFromError(response);
                     session.Count = session.Count + read;
@@ -238,10 +237,10 @@ namespace Sharp.Xmpp.Extensions
         {
             sessionId.ThrowIfNull("sessionId");
             stanza.ThrowIfNull("stanza");
-            if (siFileTransfer.GetSession(sessionId, stanza.From, IM.Jid) == null)
+            if (siFileTransfer.GetSession(sessionId, stanza.From, im.Jid) == null)
                 throw new XmppException("Invalid session-id.");
             string s = stanza.Data["open"].GetAttribute("stanza");
-            if (!string.IsNullOrEmpty(s) && s != "iq")
+            if (!String.IsNullOrEmpty(s) && s != "iq")
                 throw new XmppException("Only IQ stanzas are supported.");
         }
 
@@ -293,7 +292,7 @@ namespace Sharp.Xmpp.Extensions
             var data = stanza.Data["data"];
             if (data == null)
                 throw new ArgumentException("Invalid stanza, missing data element.");
-            SISession session = siFileTransfer.GetSession(sessionId, stanza.From, IM.Jid);
+            SISession session = siFileTransfer.GetSession(sessionId, stanza.From, im.Jid);
             if (session == null)
                 throw new ArgumentException("Invalid session-id.");
             string base64 = data.InnerText;
@@ -339,7 +338,7 @@ namespace Sharp.Xmpp.Extensions
                 .Attr("block-size", blockSize.ToString())
                 .Attr("sid", sessionId)
                 .Attr("stanza", "iq");
-            Iq response = IM.IqRequest(IqType.Set, to, IM.Jid, open);
+            Iq response = im.IqRequest(IqType.Set, to, im.Jid, open);
             if (response.Type == IqType.Error)
             {
                 throw Util.ExceptionFromError(response, "The in-band bytestream could " +
@@ -372,7 +371,7 @@ namespace Sharp.Xmpp.Extensions
             var close = Xml.Element("close", "http://jabber.org/protocol/ibb")
                 .Attr("sid", sessionId);
             // We don't care about the other site's response to this.
-            IM.IqRequestAsync(IqType.Set, to, IM.Jid, close);
+            im.IqRequestAsync(IqType.Set, to, im.Jid, close);
         }
     }
 }

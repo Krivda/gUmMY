@@ -18,7 +18,7 @@ namespace DexNetwork.Server
             string pwd = password;//"fraudfraudfraud";
 
 
-            _client = new XmppClient(hostname, username, hostname, pwd, tls: true);
+            _client = new XmppClient(hostname, username, pwd, tls: true);
             
                 // Setup any event handlers.
                 // ...

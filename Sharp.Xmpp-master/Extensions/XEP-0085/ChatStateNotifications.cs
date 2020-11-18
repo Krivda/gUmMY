@@ -79,7 +79,7 @@ namespace Sharp.Xmpp.Extensions
             m.Type = MessageType.Chat;
             m.Data.Child(Xml.Element(state.ToString().ToLowerInvariant(),
                 "http://jabber.org/protocol/chatstates"));
-            IM.SendMessage(m);
+            im.SendMessage(m);
         }
 
         /// <summary>

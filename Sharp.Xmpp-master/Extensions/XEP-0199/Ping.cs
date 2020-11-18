@@ -45,7 +45,7 @@ namespace Sharp.Xmpp.Extensions
         /// </summary>
         public override void Initialize()
         {
-            ecapa = IM.GetExtension<EntityCapabilities>();
+            ecapa = im.GetExtension<EntityCapabilities>();
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Sharp.Xmpp.Extensions
             var ping = stanza.Data["ping"];
             if (ping == null || ping.NamespaceURI != "urn:xmpp:ping")
                 return false;
-            IM.IqResult(stanza);
+            im.IqResult(stanza);
             // We took care of this IQ request, so intercept it and don't pass it
             // on to other handlers.
             return true;
@@ -91,7 +91,7 @@ namespace Sharp.Xmpp.Extensions
                     "'Ping' extension.");
             }
             DateTime start = DateTime.Now;
-            Iq iq = IM.IqRequest(IqType.Get, jid, IM.Jid,
+            Iq iq = im.IqRequest(IqType.Get, jid, im.Jid,
                 Xml.Element("ping", "urn:xmpp:ping"));
             if (iq.Type == IqType.Error)
                 throw Util.ExceptionFromError(iq, "Could not ping XMPP entity.");

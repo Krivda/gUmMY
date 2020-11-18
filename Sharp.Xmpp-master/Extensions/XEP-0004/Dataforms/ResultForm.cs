@@ -19,7 +19,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
         {
             get
             {
-                var e = Element["reported"];
+                var e = element["reported"];
                 if (e == null)
                     return new List<DataField>();
                 return new FieldList(e);
@@ -37,7 +37,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
             get
             {
                 var list = new List<IEnumerable<DataField>>();
-                foreach (XmlElement item in Element.GetElementsByTagName("item"))
+                foreach (XmlElement item in element.GetElementsByTagName("item"))
                 {
                     list.Add(new FieldList(item));
                 }
@@ -66,7 +66,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
                 var reported = Xml.Element("reported");
                 foreach (var field in header)
                     reported.Child(field.ToXmlElement());
-                Element.Child(reported);
+                element.Child(reported);
             }
             if (cells != null)
             {
@@ -75,7 +75,7 @@ namespace Sharp.Xmpp.Extensions.Dataforms
                     var item = Xml.Element("item");
                     foreach (var field in cell)
                         item.Child(field.ToXmlElement());
-                    Element.Child(item);
+                    element.Child(item);
                 }
             }
         }

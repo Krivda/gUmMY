@@ -12,11 +12,7 @@ namespace Sharp.Xmpp.Extensions
         /// <summary>
         /// A reference to the instance of the XmppIm class.
         /// </summary>
-        protected XmppIm IM
-        {
-            get;
-            set;
-        }
+        protected XmppIm im;
 
         /// <summary>
         /// An enumerable collection of XMPP namespaces the extension implements.
@@ -45,7 +41,7 @@ namespace Sharp.Xmpp.Extensions
         public XmppExtension(XmppIm im)
         {
             im.ThrowIfNull("im");
-            this.IM = im;
+            this.im = im;
         }
 
         /// <summary>

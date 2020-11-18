@@ -32,6 +32,7 @@
             ConsoleControl.DummyStream dummyStream1 = new ConsoleControl.DummyStream();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConsoleForm));
             this.pnlConsole = new System.Windows.Forms.Panel();
+            this.consConsole = new ConsoleControl.ConsoleControl();
             this.dbgStream = new System.Windows.Forms.Panel();
             this.cmdSoft = new System.Windows.Forms.Button();
             this.cmdDumpNet = new System.Windows.Forms.Button();
@@ -43,7 +44,6 @@
             this.cmdSendFromApp = new System.Windows.Forms.Button();
             this.txtStreamOutput = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.consConsole = new ConsoleControl.ConsoleControl();
             this.pnlConsole.SuspendLayout();
             this.dbgStream.SuspendLayout();
             this.SuspendLayout();
@@ -54,8 +54,25 @@
             this.pnlConsole.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlConsole.Location = new System.Drawing.Point(0, 135);
             this.pnlConsole.Name = "pnlConsole";
-            this.pnlConsole.Size = new System.Drawing.Size(1317, 559);
+            this.pnlConsole.Size = new System.Drawing.Size(1264, 594);
             this.pnlConsole.TabIndex = 1;
+            // 
+            // consConsole
+            // 
+            dummyStream1.IsProcessRunning = false;
+            dummyStream1.ProcessFileName = null;
+            this.consConsole.ConsoleStream = dummyStream1;
+            this.consConsole.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.consConsole.Echo = true;
+            this.consConsole.IsInputEnabled = false;
+            this.consConsole.Location = new System.Drawing.Point(0, 0);
+            this.consConsole.Name = "consConsole";
+            this.consConsole.Prompt = "";
+            this.consConsole.PromptSuffix = ">";
+            this.consConsole.SendKeyboardCommandsToProcess = false;
+            this.consConsole.ShowDiagnostics = true;
+            this.consConsole.Size = new System.Drawing.Size(1264, 594);
+            this.consConsole.TabIndex = 0;
             // 
             // dbgStream
             // 
@@ -71,8 +88,9 @@
             this.dbgStream.Dock = System.Windows.Forms.DockStyle.Top;
             this.dbgStream.Location = new System.Drawing.Point(0, 0);
             this.dbgStream.Name = "dbgStream";
-            this.dbgStream.Size = new System.Drawing.Size(1317, 135);
+            this.dbgStream.Size = new System.Drawing.Size(1264, 135);
             this.dbgStream.TabIndex = 5;
+            this.dbgStream.Visible = false;
             // 
             // cmdSoft
             // 
@@ -167,28 +185,11 @@
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
-            // consConsole
-            // 
-            dummyStream1.IsProcessRunning = false;
-            dummyStream1.ProcessFileName = null;
-            this.consConsole.ConsoleStream = dummyStream1;
-            this.consConsole.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.consConsole.Echo = true;
-            this.consConsole.IsInputEnabled = false;
-            this.consConsole.Location = new System.Drawing.Point(0, 0);
-            this.consConsole.Name = "consConsole";
-            this.consConsole.Prompt = "";
-            this.consConsole.PromptSuffix = ">";
-            this.consConsole.SendKeyboardCommandsToProcess = false;
-            this.consConsole.ShowDiagnostics = true;
-            this.consConsole.Size = new System.Drawing.Size(1317, 559);
-            this.consConsole.TabIndex = 0;
-            // 
             // ConsoleForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1317, 694);
+            this.ClientSize = new System.Drawing.Size(1264, 729);
             this.Controls.Add(this.pnlConsole);
             this.Controls.Add(this.dbgStream);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

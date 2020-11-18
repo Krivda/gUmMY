@@ -69,10 +69,10 @@ namespace Sharp.Xmpp.Extensions
             if (data.NamespaceURI != "urn:xmpp:bob")
                 throw new ArgumentException("Invalid namespace attribute.");
             string type = data.GetAttribute("type");
-            if (string.IsNullOrEmpty(type))
+            if (String.IsNullOrEmpty(type))
                 throw new ArgumentException("The type attribute is missing.");
             string cid = data.GetAttribute("cid");
-            if (string.IsNullOrEmpty(cid))
+            if (String.IsNullOrEmpty(cid))
                 throw new ArgumentException("The cid attribute is missing.");
             try
             {

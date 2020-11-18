@@ -10,14 +10,14 @@
               username = "myUsername",
               password = "myPassword";
             Jid juliet = "juliet@capulet.com/balcony";
-            
+
             using (var cl = new XmppClient(hostname, username, password)) {
               cl.Connect();
-              
+
               Console.WriteLine("Juliet's XMPP client supports: ");
               foreach (var feat in cl.GetFeatures(juliet))
                 Console.WriteLine(" - " + feat);
-            }                
+            }
           </code>
         </example>
       </XmppClient>
@@ -30,10 +30,10 @@
                 username = "myUsername",
                 password = "myPassword";
               Jid juliet = "juliet@capulet.com/balcony";
-              
+
               using (var cl = new XmppClient(hostname, username, password)) {
                 cl.Connect();
-                
+
                 while(true) {
                   Console.Write("Type a message or type 'quit' to exit: ");
                   string s = Console.ReadLine();
@@ -55,10 +55,10 @@
                 username = "myUsername",
                 password = "myPassword";
               Jid juliet = "juliet@capulet.com/balcony";
-              
+
               using (var cl = new XmppClient(hostname, username, password)) {
                 cl.Connect();
-                
+
                 cl.SendMessage(juliet, new Dictionary&lt;string, string&gt;() {
                   { "en", "Hi, how are you?" },
                   { "dk", "Hej, hvordan har du det?" },
@@ -77,10 +77,10 @@
               string hostname = "jabber.se",
                 username = "myUsername",
                 password = "myPassword";
-              
+
               using (var cl = new XmppClient(hostname, username, password)) {
                 cl.Connect();
-                
+
                 Console.WriteLine("Contacts on " + cl.Jid.Node + "'s contact-list:");
                 foreach (var item in cl.GetRoster())
                   Console.WriteLine(" - " + item.Jid);
@@ -96,13 +96,13 @@
               string hostname = "jabber.se",
                 username = "myUsername",
                 password = "myPassword";
-              
+
               using (var cl = new XmppClient(hostname, username, password)) {
                 cl.Connect();
-                
+
                 // Let your contacts know what you are currently listening to.
                 cl.SetTune(new TuneInformation("Every Breath You Take", "The Police"));
-                
+
                 Console.WriteLine("Type 'quit' to exit.");
                 while(Console.ReadLine() != "quit");
             }
@@ -117,13 +117,13 @@
               string hostname = "jabber.se",
                 username = "myUsername",
                 password = "myPassword";
-              
+
               using (var cl = new XmppClient(hostname, username, password)) {
                 cl.Connect();
-                
+
                 // Let your contacts know what you are currently doing.
                 cl.SetActivity(GeneralActivity.Eating, SpecificActivity.HavingBreakfast);
-                
+
                 Console.WriteLine("Type 'quit' to exit.");
                 while(Console.ReadLine() != "quit");
             }
@@ -139,16 +139,16 @@
               string hostname = "jabber.se",
                 username = "myUsername",
                 password = "myPassword";
-                
+
               using (var cl = new XmppClient(hostname, username, password)) {
                 cl.SubscriptionRequest = OnSubscriptionRequest;
                 cl.Connect();
-                
+
                 // Put the thread to sleep and wait for subscription requests.
                 Thread.Sleep(Timeout.Infinite);
               }
             }
-            
+
             /// &lt;summary&gt;
             /// A callback method that is invoked whenever a subscription request from
             /// another XMPP user is received.
@@ -159,7 +159,7 @@
             static bool OnSubscriptionRequest(Jid from) {
               Console.WriteLine(from + " wants to subscribe to your presence.");
               Console.Write("Type Y to approve the request, or any other key to refuse it: ");
-              
+
               // Return true to approve the request, or false to refuse it.
               return Console.ReadLine().ToLowerInvariant() == "y";
             }

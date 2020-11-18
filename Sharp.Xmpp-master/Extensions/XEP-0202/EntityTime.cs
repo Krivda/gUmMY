@@ -45,7 +45,7 @@ namespace Sharp.Xmpp.Extensions
         /// </summary>
         public override void Initialize()
         {
-            ecapa = IM.GetExtension<EntityCapabilities>();
+            ecapa = im.GetExtension<EntityCapabilities>();
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Sharp.Xmpp.Extensions
                 .Child(Xml.Element("tzo").Text(tzo))
                 .Child(Xml.Element("utc").Text(utc));
             // Send the IQ response.
-            IM.IqResult(stanza, time);
+            im.IqResult(stanza, time);
             return true;
         }
 
@@ -99,7 +99,7 @@ namespace Sharp.Xmpp.Extensions
                 throw new NotSupportedException("The XMPP entity does not support " +
                     "the 'Entity Time' extension.");
             }
-            Iq iq = IM.IqRequest(IqType.Get, jid, IM.Jid,
+            Iq iq = im.IqRequest(IqType.Get, jid, im.Jid,
                 Xml.Element("time", "urn:xmpp:time"));
             if (iq.Type == IqType.Error)
                 throw Util.ExceptionFromError(iq, "The time could not be retrieved.");
