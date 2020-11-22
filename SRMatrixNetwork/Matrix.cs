@@ -33,7 +33,7 @@ namespace SRMatrixNetwork
             {
                 _destination = MATRIX_RC_JID;
             }
-            else if ("dev".Equals(MATRIX_DEV_JID))
+            else if ("dev".Equals(realm))
             {
                 _destination = MATRIX_DEV_JID;
             }

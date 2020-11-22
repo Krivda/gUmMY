@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Deckers>
-  <Decker name="gr8b" jid="calvin@xmpp.co" pwd="fraudfraudfraud"/>
-  <Decker name="witness" jid="witness@xabber.org" pwd="wintesspwd"/>
-  <Decker name="iddqd" jid="test1@parfenow.ru" pwd="123456"/>
+  <!-- ЭТО НЕИГРОВОЙ ФАЙЛ ЕГО НЕЛЬЗЯ УКРАСТЬ, ПОСМОТРЕТЬ, ПОДМЕНИТЬ...-->
+  <!-- @name - ваше короткое имя хакера (используется только для логина, далее сервер все равно подствит известное ему) -->
+  <!-- @jid - jabber id, который я вам посылал -->
+  <!-- @pwd - пароль джаббер аккаунта -->
+  <Decker name="gr8b" jid="gr8b" pwd="123456"/>
+  <Decker name="hacker" jid="hacker-jid@matrix.evarun.ru" pwd="123456"/>
 </Deckers>
