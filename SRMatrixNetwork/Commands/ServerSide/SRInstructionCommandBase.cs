@@ -40,7 +40,7 @@ namespace SRMatrixNetwork.Commands.ServerSide
                 result = result = new CommandResult
                 {
                     State = CommandState.Finished
-                }; ;
+                };
             }
 
             return result;

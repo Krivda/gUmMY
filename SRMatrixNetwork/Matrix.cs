@@ -101,6 +101,7 @@ namespace SRMatrixNetwork
         {
             try
             {
+                Logger.Info($"\n\nsent: {message}\n");
                 _client.SendMessage(_destination, message);
             }
             catch (Exception ex)

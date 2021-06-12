@@ -99,6 +99,7 @@ namespace SRMatrixNetwork
                     if (ActiveCommand == null)
                     {
                         FireProcessErrorEvent($"Command {input.Split(' ')[0]} is not found!");
+                        Monitor.Exit(this);
                         return;
                     }
                 }
@@ -118,7 +119,6 @@ namespace SRMatrixNetwork
             finally
             {
                 Monitor.Exit(this);
-
             }
         }
 
@@ -130,7 +130,8 @@ namespace SRMatrixNetwork
         private void HandleResult(CommandResult result)
         {
             //FireBlockInput(false)
-            if (result.XmppConnected)
+            
+                if (result.XmppConnected)
             {
                 //this happens only after Login command runs.
                 if (XmppClient != null)
@@ -148,8 +149,8 @@ namespace SRMatrixNetwork
                     //subscribe to incoming messages
                     XmppClient.OnMessageReceived += OnXmppResponse;
 
-                    //process outgoing messages (once per 500 m sec will deque and send 1 message)
-                    PeriodicTaskFactory.Start(xmppTimerAction, 500, 1, -1, -1, true);
+                    //process outgoing messages (once per 300 m sec will deque and send 1 message)
+                    PeriodicTaskFactory.Start(xmppTimerAction, 300, 1, -1, -1, true);
                 }
             }
 
