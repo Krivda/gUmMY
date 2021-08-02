@@ -14,6 +14,9 @@ namespace SRMatrixNetwork
 
         public const string MATRIX_RC_JID = "rc-matrix@matrix.evarun.ru";
         public const string MATRIX_DEV_JID = "dev-matrix@matrix.evarun.ru";
+        public const string MATRIX_DEV2_JID = "dev2-matrix@matrix.evarun.ru";
+
+        public const string RESOURCE = "gUmMMy-f1";
 
         //private const string DEFAULT_HOST = "xmpp.co";
         private const string DEFAULT_HOST = "matrix.evarun.ru";
@@ -37,7 +40,11 @@ namespace SRMatrixNetwork
             {
                 _destination = MATRIX_DEV_JID;
             }
-            
+            else if ("dev2".Equals(realm))
+            {
+                _destination = MATRIX_DEV2_JID;
+            }
+
 
             if (username.Contains("@"))
             {
@@ -60,7 +67,7 @@ namespace SRMatrixNetwork
 
             try
             {
-                _client.Connect();
+                _client.Connect(RESOURCE);
                 Logger.Info($"Established connection for {username}@{hostname}.");
             }
             catch (System.Security.Authentication.AuthenticationException ex)
@@ -101,6 +108,12 @@ namespace SRMatrixNetwork
         {
             try
             {
+                if (!_client.Connected)
+                {
+                    Logger.Info($"Recconnected after network issue.");
+                    _client.Connect();
+                }
+
                 Logger.Info($"\n\nsent: {message}\n");
                 _client.SendMessage(_destination, message);
             }

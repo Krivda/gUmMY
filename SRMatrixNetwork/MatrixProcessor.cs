@@ -90,35 +90,43 @@ namespace SRMatrixNetwork
 
         public override void ExecuteCommand(string input)
         {
-            Monitor.Enter(this);
-            try
+            var timeout = TimeSpan.FromMilliseconds(1500);
+            if (Monitor.TryEnter(this, timeout))
             {
-                if (ActiveCommand == null)
+                try
                 {
-                    ActiveCommand = GetCommand(input);
                     if (ActiveCommand == null)
                     {
-                        FireProcessErrorEvent($"Command {input.Split(' ')[0]} is not found!");
-                        Monitor.Exit(this);
-                        return;
+                        ActiveCommand = GetCommand(input);
+                        if (ActiveCommand == null)
+                        {
+                            FireProcessErrorEvent($"Command {input.Split(' ')[0]} is not found!");
+                            Monitor.Exit(this);
+                            return;
+                        }
                     }
+
+                    CommandResult result = ActiveCommand.OnCommandInput(input);
+                    HandleResult(result);
                 }
+                catch (Exception e)
+                {
+                    string errorMsg = e.ToString();
+                    if (e.Message.StartsWith("XMPP Connection is not set up"))
+                        errorMsg = e.Message;
 
-                CommandResult result = ActiveCommand.OnCommandInput(input);
-                HandleResult(result);
-            }
-            catch (Exception e)
-            {
-                string errorMsg = e.ToString();
-                if (e.Message.StartsWith("XMPP Connection is not set up"))
-                    errorMsg = e.Message;
+                    FireProcessErrorEvent(errorMsg);
+                    ActiveCommand = null;
+                }
+                finally
+                {
+                    Monitor.Exit(this);
 
-                FireProcessErrorEvent(errorMsg);
-                ActiveCommand = null;
+                }
             }
-            finally
+            else
             {
-                Monitor.Exit(this);
+                FireProcessErrorEvent("too fast. input was dropped");
             }
         }
 
@@ -150,7 +158,7 @@ namespace SRMatrixNetwork
                     XmppClient.OnMessageReceived += OnXmppResponse;
 
                     //process outgoing messages (once per 300 m sec will deque and send 1 message)
-                    PeriodicTaskFactory.Start(xmppTimerAction, 300, 1, -1, -1, true);
+                    PeriodicTaskFactory.Start(xmppTimerAction, 200, 1, -1, -1, true);
                 }
             }
 
